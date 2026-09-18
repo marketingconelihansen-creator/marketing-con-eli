@@ -16,6 +16,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Tareas Diarias">
 
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
 <style>
 :root{--v:#2fa428;--vd:#237f1e;--vg:rgba(47,164,40,.10);--n:#F4763B;--nd:#d45e25;--ng:rgba(244,118,59,.10);--bg:#ffffff;--bg2:#f4f7f4;--card:#ffffff;--card2:#eef3ee;--border:#e3e9e3;--border2:#cbd8cb;--text:#16241a;--text2:#48594a;--text3:#8a9c8c;--shadow:0 1px 3px rgba(20,40,20,.06)}
@@ -96,6 +97,22 @@ label{font-size:10px;color:var(--text3);margin-bottom:3px;display:block;font-wei
       <button class="btn bp bsm" id="notifBtn" onclick="activarNotificaciones()">Activar notificaciones</button>
     </div>
     <div style="font-size:10px;color:var(--text3);margin-top:8px">Con las notificaciones activadas, te avisamos apenas llega la hora de cada tarea que tenga horario. Si instalaste la app en el teléfono, dejala abierta en segundo plano para recibirlas.</div>
+  </div>
+
+  <div class="card">
+    <div class="ct">📅 Google Calendar</div>
+    <div class="notifbar">
+      <div style="font-size:11px;color:var(--text2)" id="gcalStatus">Comprobando…</div>
+      <button class="btn bp bsm" id="gcalBtn" onclick="conectarGCal()">Conectar Google Calendar</button>
+    </div>
+    <div class="fg" style="margin-top:10px">
+      <label>Avisar con anticipación (minutos)</label>
+      <input id="gcalAviso" type="number" min="1" max="180" value="20" onchange="cambiarAvisoGCal()">
+    </div>
+    <label style="display:flex;align-items:center;gap:6px;text-transform:none;font-size:11px;color:var(--text2);cursor:pointer;font-weight:600">
+      <input type="checkbox" id="gcalAuto" style="width:auto" checked onchange="cambiarAutoSyncGCal()"> Sincronizar automáticamente las tareas con horario
+    </label>
+    <div style="font-size:10px;color:var(--text3);margin-top:8px">Cuando decís o escribís una tarea con hora (ej: "reunión a las 15:00"), se crea sola como evento de Google Calendar con el aviso que elijas arriba. Esa notificación es de Calendar, así que llega aunque esta app esté cerrada.</div>
   </div>
 
   <div class="card">
@@ -182,6 +199,7 @@ if(!esStandalone()){
 // ══════════════════════════════════════
 const LS_KEY="tareasDiarias_v1";
 let state=JSON.parse(localStorage.getItem(LS_KEY)||"null")||{porDia:{},lastSummary:null,nextId:1};
+if(!state.calendar)state.calendar={conectado:false,avisoMin:20,autoSync:true};
 let diaActual=todayStr();
 
 function guardar(){localStorage.setItem(LS_KEY,JSON.stringify(state));}
@@ -305,9 +323,116 @@ function detectarHora(linea){
 function limpiarLinea(l){return l.replace(/^[-•*\d.)\s]+/,"").trim();}
 
 function crearTarea(texto,hora,prioridad,dia){
-  const t={id:state.nextId++,texto,hora:hora||null,prioridad:prioridad||"media",hecha:false,notificada:false};
+  const t={id:state.nextId++,texto,hora:hora||null,prioridad:prioridad||"media",hecha:false,notificada:false,gcalId:null};
   tareasDelDia(dia).push(t);
+  if(t.hora&&state.calendar.autoSync&&state.calendar.conectado)crearEventoCalendar(t,dia);
   return t;
+}
+
+// ══════════════════════════════════════
+// GOOGLE CALENDAR
+// ══════════════════════════════════════
+const GOOGLE_CLIENT_ID="TU_GOOGLE_CLIENT_ID.apps.googleusercontent.com";
+const GCAL_SCOPE="https://www.googleapis.com/auth/calendar.events";
+const GCAL_TZ="America/Argentina/Buenos_Aires";
+let gcalTokenClient=null,gcalAccessToken=null,gcalTokenExpiry=0;
+
+function gcalConfigurado(){return !GOOGLE_CLIENT_ID.startsWith("TU_");}
+
+function initGCalClient(){
+  if(!gcalConfigurado())return;
+  if(typeof google==="undefined"||!google.accounts||!google.accounts.oauth2)return;
+  gcalTokenClient=google.accounts.oauth2.initTokenClient({client_id:GOOGLE_CLIENT_ID,scope:GCAL_SCOPE,callback:()=>{}});
+  if(state.calendar.conectado)asegurarTokenGCal();
+}
+
+function actualizarEstadoGCal(){
+  const s=document.getElementById("gcalStatus"),b=document.getElementById("gcalBtn");
+  if(!gcalConfigurado()){s.innerHTML=`<span class="dot doty"></span>Falta configurar (pedile a quien programó la app que complete GOOGLE_CLIENT_ID)`;b.style.display="none";return;}
+  if(state.calendar.conectado){s.innerHTML=`<span class="dot dotg"></span>Conectado`;b.textContent="Desconectar";b.onclick=desconectarGCal;b.style.display="inline-block";}
+  else{s.innerHTML=`<span class="dot doty"></span>No conectado`;b.textContent="Conectar Google Calendar";b.onclick=conectarGCal;b.style.display="inline-block";}
+}
+
+function conectarGCal(){
+  if(!gcalConfigurado()){alert("Google Calendar todavía no está configurado en esta app.");return;}
+  if(!gcalTokenClient)initGCalClient();
+  if(!gcalTokenClient){alert("No se pudo cargar Google. Probá de nuevo en unos segundos.");return;}
+  gcalTokenClient.callback=(resp)=>{
+    if(resp.error){alert("No se pudo conectar con Google Calendar.");return;}
+    gcalAccessToken=resp.access_token;
+    gcalTokenExpiry=Date.now()+resp.expires_in*1000;
+    state.calendar.conectado=true;guardar();actualizarEstadoGCal();
+    sincronizarPendientesGCal();
+  };
+  gcalTokenClient.requestAccessToken({prompt:"consent"});
+}
+
+function desconectarGCal(){
+  if(gcalAccessToken&&typeof google!=="undefined"&&google.accounts&&google.accounts.oauth2)google.accounts.oauth2.revoke(gcalAccessToken,()=>{});
+  gcalAccessToken=null;gcalTokenExpiry=0;
+  state.calendar.conectado=false;guardar();actualizarEstadoGCal();
+}
+
+function asegurarTokenGCal(){
+  return new Promise(resolve=>{
+    if(gcalAccessToken&&Date.now()<gcalTokenExpiry-30000){resolve(gcalAccessToken);return;}
+    if(!gcalTokenClient){resolve(null);return;}
+    gcalTokenClient.callback=(resp)=>{
+      if(resp.error){resolve(null);return;}
+      gcalAccessToken=resp.access_token;
+      gcalTokenExpiry=Date.now()+resp.expires_in*1000;
+      state.calendar.conectado=true;guardar();actualizarEstadoGCal();
+      resolve(gcalAccessToken);
+    };
+    gcalTokenClient.requestAccessToken({prompt:""});
+  });
+}
+
+function cambiarAvisoGCal(){const v=parseInt(document.getElementById("gcalAviso").value,10);state.calendar.avisoMin=v>0?v:20;guardar();}
+function cambiarAutoSyncGCal(){state.calendar.autoSync=document.getElementById("gcalAuto").checked;guardar();}
+
+function sumarMinutosADia(dia,hora,minutos){
+  const[y,m,d]=dia.split("-").map(Number);const[hh,mm]=hora.split(":").map(Number);
+  const dt=new Date(y,m-1,d,hh,mm);dt.setMinutes(dt.getMinutes()+minutos);
+  return{dia:dt.getFullYear()+"-"+String(dt.getMonth()+1).padStart(2,"0")+"-"+String(dt.getDate()).padStart(2,"0"),hora:String(dt.getHours()).padStart(2,"0")+":"+String(dt.getMinutes()).padStart(2,"0")};
+}
+
+async function crearEventoCalendar(tarea,dia){
+  if(!gcalConfigurado()||!state.calendar.conectado)return;
+  const token=await asegurarTokenGCal();
+  if(!token)return;
+  const fin=sumarMinutosADia(dia,tarea.hora,30);
+  const body={
+    summary:tarea.texto,
+    start:{dateTime:dia+"T"+tarea.hora+":00",timeZone:GCAL_TZ},
+    end:{dateTime:fin.dia+"T"+fin.hora+":00",timeZone:GCAL_TZ},
+    reminders:{useDefault:false,overrides:[{method:"popup",minutes:state.calendar.avisoMin||20}]}
+  };
+  try{
+    const r=await fetch("https://www.googleapis.com/calendar/v3/calendars/primary/events",{method:"POST",headers:{"Authorization":"Bearer "+token,"Content-Type":"application/json"},body:JSON.stringify(body)});
+    if(!r.ok)throw new Error("HTTP "+r.status);
+    const data=await r.json();
+    tarea.gcalId=data.id;
+    guardar();render();
+  }catch(err){console.error("Error al crear evento en Google Calendar",err);}
+}
+
+async function borrarEventoCalendar(eventId){
+  if(!gcalConfigurado()||!state.calendar.conectado)return;
+  try{
+    const token=await asegurarTokenGCal();
+    if(!token)return;
+    await fetch("https://www.googleapis.com/calendar/v3/calendars/primary/events/"+eventId,{method:"DELETE",headers:{"Authorization":"Bearer "+token}});
+  }catch(err){}
+}
+
+function sincronizarUnaGCal(id){const t=tareasDelDia(diaActual).find(x=>x.id===id);if(t)crearEventoCalendar(t,diaActual);}
+
+function sincronizarPendientesGCal(){
+  if(!state.calendar.autoSync)return;
+  Object.keys(state.porDia).forEach(dia=>{
+    tareasDelDia(dia).filter(t=>t.hora&&!t.hecha&&!t.gcalId).forEach(t=>crearEventoCalendar(t,dia));
+  });
 }
 
 function organizarBulk(){
@@ -336,7 +461,13 @@ function agregarUna(){
 // ACCIONES SOBRE TAREAS
 // ══════════════════════════════════════
 function toggleHecha(id){const t=tareasDelDia(diaActual).find(x=>x.id===id);if(t)t.hecha=!t.hecha;guardar();render();}
-function borrarTarea(id){if(!confirm("¿Eliminar esta tarea?"))return;state.porDia[diaActual]=tareasDelDia(diaActual).filter(x=>x.id!==id);guardar();render();}
+function borrarTarea(id){
+  if(!confirm("¿Eliminar esta tarea?"))return;
+  const t=tareasDelDia(diaActual).find(x=>x.id===id);
+  if(t&&t.gcalId)borrarEventoCalendar(t.gcalId);
+  state.porDia[diaActual]=tareasDelDia(diaActual).filter(x=>x.id!==id);
+  guardar();render();
+}
 function ciclarPrioridad(id){const t=tareasDelDia(diaActual).find(x=>x.id===id);if(!t)return;const orden=["baja","media","alta"];t.prioridad=orden[(orden.indexOf(t.prioridad)+1)%3];guardar();render();}
 
 // ══════════════════════════════════════
@@ -378,6 +509,7 @@ function render(){
           ${t.hora?`<span>🕐 ${t.hora}</span>`:""}
           <span class="badge ${t.prioridad==='alta'?'br':t.prioridad==='media'?'by':'bg'}" style="cursor:pointer" onclick="ciclarPrioridad(${t.id})">${PRIO_LABEL[t.prioridad]}</span>
           ${atrasada?`<span class="badge br">⚠️ ATRASADA</span>`:""}
+          ${t.gcalId?`<span class="badge bb">📅 Calendar</span>`:(t.hora&&state.calendar.conectado?`<button class="btn bsm bs" onclick="sincronizarUnaGCal(${t.id})">📅 Enviar</button>`:"")}
         </div>
       </div>
       <div class="tactions">
@@ -446,11 +578,21 @@ function resumenDelDia(){
 // INIT
 // ══════════════════════════════════════
 actualizarEstadoNotif();
+actualizarEstadoGCal();
 initDictado();
 render();
 resumenDelDia();
 setInterval(chequearNotificaciones,20000);
 setInterval(actualizarEstadoNotif,10000);
+window.addEventListener("load",()=>{
+  let intentos=0;
+  const t=setInterval(()=>{
+    intentos++;
+    if(typeof google!=="undefined"&&google.accounts&&google.accounts.oauth2){
+      clearInterval(t);initGCalClient();actualizarEstadoGCal();
+    } else if(intentos>20)clearInterval(t);
+  },250);
+});
 </script>
 </body>
 </html>
