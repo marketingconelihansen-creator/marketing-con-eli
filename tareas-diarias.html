@@ -2,34 +2,47 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Tareas Diarias — Marketing con Eli Hansen</title>
+<meta name="description" content="Tareas pendientes del día con notificaciones, organizadas por voz o texto.">
+
+<!-- PWA -->
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#ffffff">
+<link rel="icon" href="icons/icon-192.png" type="image/png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Tareas Diarias">
+
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
 <style>
-:root{--v:#6EE04A;--vd:#4ab82e;--vg:rgba(110,224,74,.12);--n:#F4763B;--nd:#d45e25;--ng:rgba(244,118,59,.12);--bg:#0f1a0f;--bg2:#141f14;--card:#192419;--card2:#1f2e1f;--border:#2a3d2a;--border2:#3a5a3a;--text:#e8f5e8;--text2:#a8c8a8;--text3:#6a9a6a}
+:root{--v:#2fa428;--vd:#237f1e;--vg:rgba(47,164,40,.10);--n:#F4763B;--nd:#d45e25;--ng:rgba(244,118,59,.10);--bg:#ffffff;--bg2:#f4f7f4;--card:#ffffff;--card2:#eef3ee;--border:#e3e9e3;--border2:#cbd8cb;--text:#16241a;--text2:#48594a;--text3:#8a9c8c;--shadow:0 1px 3px rgba(20,40,20,.06)}
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Montserrat',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:40px}
-.hdr{background:var(--card);border-bottom:1px solid var(--border);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;flex-wrap:wrap;gap:8px}
+.hdr{background:var(--card);border-bottom:1px solid var(--border);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;flex-wrap:wrap;gap:8px;box-shadow:var(--shadow)}
 .hn{font-size:14px;font-weight:800;color:var(--v)}
 .he{font-family:'Dancing Script',cursive;font-size:17px;color:var(--n)}
 .clock{font-size:11px;color:var(--text3)}
 .cnt{padding:14px;max-width:720px;margin:0 auto}
-.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:14px;margin-bottom:12px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:14px;margin-bottom:12px;box-shadow:var(--shadow)}
 .ct{font-size:11px;font-weight:800;margin-bottom:12px;color:var(--v);text-transform:uppercase;letter-spacing:1px}
 .sg{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px}
-.st{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:10px;border-left:3px solid;text-align:center}
+.st{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:10px;border-left:3px solid;text-align:center;box-shadow:var(--shadow)}
 .sv{font-size:17px;font-weight:900;margin:2px 0}
 .stl{font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px}
 .badge{padding:3px 9px;border-radius:20px;font-size:10px;font-weight:700;display:inline-block}
-.bg{background:rgba(110,224,74,.15);color:var(--v)}.br{background:rgba(244,118,59,.2);color:#f87171}.by{background:rgba(244,185,59,.15);color:#fbbf24}.bb{background:rgba(74,184,110,.1);color:var(--v)}
+.bg{background:rgba(47,164,40,.12);color:var(--vd)}.br{background:rgba(248,113,113,.15);color:#dc2626}.by{background:rgba(251,191,36,.18);color:#b45309}.bb{background:rgba(47,164,40,.08);color:var(--v)}
 .btn{padding:8px 14px;border-radius:10px;border:none;cursor:pointer;font-size:11px;font-weight:700;font-family:'Montserrat',sans-serif;transition:all .15s}
-.bp{background:linear-gradient(135deg,var(--v),var(--vd));color:#0f1a0f}
+.bp{background:linear-gradient(135deg,var(--v),var(--vd));color:#fff}
 .bo{background:linear-gradient(135deg,var(--n),var(--nd));color:#fff}
-.bs{background:rgba(110,224,74,.15);color:var(--v);border:1px solid var(--border2)}
-.bd{background:rgba(248,113,113,.12);color:#f87171;border:1px solid rgba(248,113,113,.2)}
-.bg2c{background:var(--card2);color:var(--text3);border:1px solid var(--border)}
+.bs{background:rgba(47,164,40,.10);color:var(--vd);border:1px solid var(--border2)}
+.bd{background:rgba(248,113,113,.10);color:#dc2626;border:1px solid rgba(248,113,113,.25)}
+.bg2c{background:var(--card2);color:var(--text2);border:1px solid var(--border)}
 .bsm{padding:5px 10px;font-size:10px}
-input,select,textarea{background:var(--bg);border:1px solid var(--border2);color:var(--text);border-radius:10px;padding:9px 12px;font-size:12px;width:100%;font-family:'Montserrat',sans-serif}
+.brec{background:linear-gradient(135deg,#f87171,#dc2626);color:#fff}
+input,select,textarea{background:#fff;border:1px solid var(--border2);color:var(--text);border-radius:10px;padding:9px 12px;font-size:12px;width:100%;font-family:'Montserrat',sans-serif}
 input:focus,select:focus,textarea:focus{outline:none;border-color:var(--v)}
 label{font-size:10px;color:var(--text3);margin-bottom:3px;display:block;font-weight:600;text-transform:uppercase;letter-spacing:.5px}
 .fg{margin-bottom:9px}
@@ -38,21 +51,27 @@ label{font-size:10px;color:var(--text3);margin-bottom:3px;display:block;font-wei
 .datebar .dl{font-size:12px;font-weight:800;text-transform:capitalize;flex:1;text-align:center}
 .wt{font-size:10px;font-weight:800;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin:14px 0 6px}
 .ti{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:10px;margin-bottom:7px;border-left:3px solid var(--border2);display:flex;align-items:flex-start;gap:8px}
-.ti.done{opacity:.4}
+.ti.done{opacity:.5}
 .ti.done .tt{text-decoration:line-through}
-.ti.alta{border-left-color:#f87171}
-.ti.media{border-left-color:#fbbf24}
+.ti.alta{border-left-color:#dc2626}
+.ti.media{border-left-color:#f59e0b}
 .ti.baja{border-left-color:var(--v)}
-.ti.atrasada{background:rgba(248,113,113,.06)}
-.chk{width:22px;height:22px;border-radius:7px;border:2px solid var(--border2);background:var(--bg);cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--v)}
-.ti.done .chk{background:var(--v);border-color:var(--v);color:#0f1a0f}
+.ti.atrasada{background:rgba(248,113,113,.07)}
+.chk{width:22px;height:22px;border-radius:7px;border:2px solid var(--border2);background:#fff;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--v)}
+.ti.done .chk{background:var(--v);border-color:var(--v);color:#fff}
 .tt{font-size:12px;font-weight:700;flex:1}
 .tmeta{font-size:10px;color:var(--text3);margin-top:3px;display:flex;gap:6px;flex-wrap:wrap;align-items:center}
 .tactions{display:flex;flex-direction:column;gap:4px}
 .empty{color:var(--text3);font-size:12px;padding:16px;text-align:center}
 .notifbar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
 .dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:5px}
-.dotg{background:var(--v)}.dotr{background:#f87171}.doty{background:#fbbf24}
+.dotg{background:var(--v)}.dotr{background:#dc2626}.doty{background:#f59e0b}
+.micwrap{display:flex;gap:8px;align-items:center;margin-top:8px}
+.micbtn{width:46px;height:46px;border-radius:50%;border:none;cursor:pointer;font-size:18px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--v),var(--vd));color:#fff;transition:all .15s}
+.micbtn.listening{background:linear-gradient(135deg,#f87171,#dc2626);animation:pulse 1.2s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(220,38,38,.4)}70%{box-shadow:0 0 0 12px rgba(220,38,38,0)}100%{box-shadow:0 0 0 0 rgba(220,38,38,0)}}
+.micstatus{font-size:11px;color:var(--text3);flex:1}
+.installcard{display:none}
 </style>
 </head>
 <body>
@@ -64,19 +83,29 @@ label{font-size:10px;color:var(--text3);margin-bottom:3px;display:block;font-wei
 
 <div class="cnt">
 
+  <div class="card installcard" id="installCard">
+    <div class="ct">📲 Instalar como app</div>
+    <div style="font-size:11px;color:var(--text2);margin-bottom:8px" id="installTxt">Instalá esta página en tu teléfono para abrirla como una app, con ícono propio.</div>
+    <button class="btn bp" style="width:100%" id="installBtn" onclick="instalarApp()">📲 Instalar en el teléfono</button>
+  </div>
+
   <div class="card">
     <div class="ct">🔔 Notificaciones</div>
     <div class="notifbar">
       <div style="font-size:11px;color:var(--text2)" id="notifStatus">Comprobando soporte…</div>
       <button class="btn bp bsm" id="notifBtn" onclick="activarNotificaciones()">Activar notificaciones</button>
     </div>
-    <div style="font-size:10px;color:var(--text3);margin-top:8px">Con las notificaciones activadas, te avisamos apenas llega la hora de cada tarea que tenga horario. Dejá esta pestaña abierta en el navegador para recibirlas.</div>
+    <div style="font-size:10px;color:var(--text3);margin-top:8px">Con las notificaciones activadas, te avisamos apenas llega la hora de cada tarea que tenga horario. Si instalaste la app en el teléfono, dejala abierta en segundo plano para recibirlas.</div>
   </div>
 
   <div class="card">
-    <div class="ct">📝 Contame qué tenés que hacer</div>
-    <div style="font-size:10px;color:var(--text3);margin-bottom:8px">Escribí o pegá tus tareas, una por renglón. Si mencionás una hora ("a las 10", "14:30", "10am") o palabras como "urgente" / "cuando pueda", la app la organiza sola.</div>
-    <textarea id="bulkInput" rows="4" placeholder="Ej:&#10;Llamar a Skin Lovers urgente&#10;Mandar reporte a las 15:30&#10;Revisar diseños cuando pueda"></textarea>
+    <div class="ct">🎤 Contame qué tenés que hacer</div>
+    <div style="font-size:10px;color:var(--text3);margin-bottom:8px">Tocá el micrófono y decí todas tus tareas como si me mandaras un audio (hacé una pausa entre una y otra, o decí "siguiente tarea"). También podés escribirlas, una por renglón. Si mencionás una hora ("a las 10", "14:30") o palabras como "urgente" / "cuando pueda", la app la organiza sola.</div>
+    <div class="micwrap">
+      <button class="micbtn" id="micBtn" onclick="toggleDictado()">🎤</button>
+      <div class="micstatus" id="micStatus">Comprobando soporte de dictado por voz…</div>
+    </div>
+    <textarea id="bulkInput" rows="4" style="margin-top:8px" placeholder="Ej:&#10;Llamar a Skin Lovers urgente&#10;Mandar reporte a las 15:30&#10;Revisar diseños cuando pueda"></textarea>
     <button class="btn bp" style="width:100%;margin-top:8px" onclick="organizarBulk()">🪄 Organizar tareas</button>
   </div>
 
@@ -99,8 +128,8 @@ label{font-size:10px;color:var(--text3);margin-bottom:3px;display:block;font-wei
 
   <div class="sg">
     <div class="st" style="border-color:var(--v)"><div class="stl">Total</div><div class="sv" style="color:var(--v)" id="sTotal">0</div></div>
-    <div class="st" style="border-color:#fbbf24"><div class="stl">Pendientes</div><div class="sv" style="color:#fbbf24" id="sPend">0</div></div>
-    <div class="st" style="border-color:#f87171"><div class="stl">Atrasadas</div><div class="sv" style="color:#f87171" id="sAtr">0</div></div>
+    <div class="st" style="border-color:#f59e0b"><div class="stl">Pendientes</div><div class="sv" style="color:#b45309" id="sPend">0</div></div>
+    <div class="st" style="border-color:#dc2626"><div class="stl">Atrasadas</div><div class="sv" style="color:#dc2626" id="sAtr">0</div></div>
     <div class="st" style="border-color:var(--n)"><div class="stl">Hechas</div><div class="sv" style="color:var(--n)" id="sHechas">0</div></div>
   </div>
 
@@ -113,6 +142,41 @@ label{font-size:10px;color:var(--text3);margin-bottom:3px;display:block;font-wei
 </div>
 
 <script>
+// ══════════════════════════════════════
+// PWA: SERVICE WORKER + INSTALACIÓN
+// ══════════════════════════════════════
+if("serviceWorker"in navigator){window.addEventListener("load",()=>{navigator.serviceWorker.register("sw.js").catch(()=>{});});}
+
+let deferredInstallPrompt=null;
+window.addEventListener("beforeinstallprompt",e=>{
+  e.preventDefault();
+  deferredInstallPrompt=e;
+  document.getElementById("installCard").style.display="block";
+});
+window.addEventListener("appinstalled",()=>{document.getElementById("installCard").style.display="none";});
+
+function esIOS(){return /iphone|ipad|ipod/i.test(navigator.userAgent);}
+function esStandalone(){return window.matchMedia("(display-mode: standalone)").matches||window.navigator.standalone===true;}
+
+function instalarApp(){
+  if(deferredInstallPrompt){
+    deferredInstallPrompt.prompt();
+    deferredInstallPrompt.userChoice.finally(()=>{deferredInstallPrompt=null;});
+  } else if(esIOS()){
+    alert("En iPhone/iPad: tocá el botón Compartir (el cuadradito con la flecha) y elegí 'Agregar a pantalla de inicio'.");
+  } else {
+    alert("Buscá la opción 'Instalar app' o 'Agregar a pantalla de inicio' en el menú de tu navegador (⋮).");
+  }
+}
+
+if(!esStandalone()){
+  if(esIOS()){
+    document.getElementById("installCard").style.display="block";
+    document.getElementById("installTxt").textContent="En iPhone/iPad: tocá Compartir (⬆️) y elegí 'Agregar a pantalla de inicio'.";
+    document.getElementById("installBtn").textContent="ℹ️ Ver instrucciones";
+  }
+}
+
 // ══════════════════════════════════════
 // ESTADO Y PERSISTENCIA
 // ══════════════════════════════════════
@@ -131,6 +195,86 @@ function tareasDelDia(dia){if(!state.porDia[dia])state.porDia[dia]=[];return sta
 // ══════════════════════════════════════
 function tickClock(){document.getElementById("clock").textContent=new Date().toLocaleString("es-AR",{weekday:"short",day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"});}
 tickClock();setInterval(tickClock,1000*30);
+
+// ══════════════════════════════════════
+// DICTADO POR VOZ
+// ══════════════════════════════════════
+const SpeechRec=window.SpeechRecognition||window.webkitSpeechRecognition;
+let recognizer=null,escuchando=false;
+
+function initDictado(){
+  const btn=document.getElementById("micBtn"),st=document.getElementById("micStatus");
+  if(!SpeechRec){
+    st.textContent="Tu navegador no soporta dictado por voz. Probá con Chrome en el celular o la compu.";
+    btn.disabled=true;btn.style.opacity=".4";
+    return;
+  }
+  st.textContent="Tocá el micrófono y empezá a hablar";
+  recognizer=new SpeechRec();
+  recognizer.lang="es-AR";
+  recognizer.continuous=true;
+  recognizer.interimResults=true;
+
+  let finalTexto="";
+
+  recognizer.onresult=e=>{
+    let interim="";
+    for(let i=e.resultIndex;i<e.results.length;i++){
+      const t=e.results[i][0].transcript;
+      if(e.results[i].isFinal)finalTexto+=t+" ";
+      else interim+=t;
+    }
+    st.textContent="🎙️ Escuchando… "+(finalTexto+interim).slice(-90);
+  };
+  recognizer.onerror=e=>{
+    if(e.error==="not-allowed"||e.error==="service-not-allowed")st.textContent="No pudimos acceder al micrófono. Revisá los permisos del navegador.";
+    else if(e.error==="no-speech")st.textContent="No se escuchó nada. Tocá el micrófono y probá de nuevo.";
+    else st.textContent="Hubo un problema con el dictado. Probá de nuevo.";
+    detenerDictado();
+  };
+  recognizer.onend=()=>{
+    escuchando=false;
+    btn.classList.remove("listening");
+    if(finalTexto.trim()){
+      procesarDictado(finalTexto.trim());
+      st.textContent="✅ Tareas agregadas. Tocá el micrófono para dictar más.";
+    } else {
+      st.textContent="Tocá el micrófono y empezá a hablar";
+    }
+    finalTexto="";
+  };
+  window.__iniciarReconocimiento=()=>{finalTexto="";recognizer.start();};
+}
+
+function toggleDictado(){
+  if(!recognizer)return;
+  if(escuchando){
+    recognizer.stop();
+  } else {
+    escuchando=true;
+    document.getElementById("micBtn").classList.add("listening");
+    document.getElementById("micStatus").textContent="🎙️ Escuchando…";
+    try{window.__iniciarReconocimiento();}catch(err){escuchando=false;document.getElementById("micBtn").classList.remove("listening");}
+  }
+}
+function detenerDictado(){
+  escuchando=false;
+  document.getElementById("micBtn").classList.remove("listening");
+}
+
+const CUES_CORTE=[/\bsiguiente tarea\b/gi,/\botra tarea\b/gi,/\bpr[oó]xima tarea\b/gi,/\btambi[ée]n tengo que\b/gi,/\by tambi[ée]n\b/gi,/\by adem[aá]s\b/gi];
+function procesarDictado(texto){
+  let t=texto;
+  CUES_CORTE.forEach(re=>{t=t.replace(re,". ");});
+  const lineas=t.split(/[.;\n]+/).map(l=>l.trim()).filter(Boolean);
+  if(!lineas.length)return;
+  lineas.forEach(linea=>{
+    const limpia=limpiarLinea(linea);
+    if(!limpia)return;
+    crearTarea(limpia,detectarHora(linea),detectarPrioridad(linea),diaActual);
+  });
+  guardar();render();
+}
 
 // ══════════════════════════════════════
 // PARSEO DE TEXTO LIBRE
@@ -247,7 +391,7 @@ function render(){
   if(programadas.length){h+=`<div class="wt">🕐 Con horario</div>`+programadas.map(t=>fila(t,false)).join("");}
   if(sinHorario.length){h+=`<div class="wt">📌 Sin horario</div>`+sinHorario.map(t=>fila(t,false)).join("");}
   if(hechas.length){h+=`<div class="wt">✅ Completadas</div>`+hechas.map(t=>fila(t,false)).join("");}
-  if(!tareas.length)h=`<div class="card empty">Sin tareas para este día. Agregá algunas arriba ✏️</div>`;
+  if(!tareas.length)h=`<div class="card empty">Sin tareas para este día. Dictalas o agregalas arriba ✏️</div>`;
 
   document.getElementById("listas").innerHTML=h;
   guardar();
@@ -302,6 +446,7 @@ function resumenDelDia(){
 // INIT
 // ══════════════════════════════════════
 actualizarEstadoNotif();
+initDictado();
 render();
 resumenDelDia();
 setInterval(chequearNotificaciones,20000);

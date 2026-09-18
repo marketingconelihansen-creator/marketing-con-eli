@@ -1,0 +1,17 @@
+{
+  "name": "Tareas Diarias — Marketing con Eli Hansen",
+  "short_name": "Tareas Diarias",
+  "description": "Tareas pendientes del día con notificaciones, organizadas por voz o texto.",
+  "start_url": "./tareas-diarias.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#ffffff",
+  "theme_color": "#4ab82e",
+  "lang": "es-AR",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512-maskable.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
