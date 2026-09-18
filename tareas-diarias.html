@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tareas Diarias — Marketing con Eli Hansen</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+<style>
+:root{--v:#6EE04A;--vd:#4ab82e;--vg:rgba(110,224,74,.12);--n:#F4763B;--nd:#d45e25;--ng:rgba(244,118,59,.12);--bg:#0f1a0f;--bg2:#141f14;--card:#192419;--card2:#1f2e1f;--border:#2a3d2a;--border2:#3a5a3a;--text:#e8f5e8;--text2:#a8c8a8;--text3:#6a9a6a}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Montserrat',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:40px}
+.hdr{background:var(--card);border-bottom:1px solid var(--border);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;flex-wrap:wrap;gap:8px}
+.hn{font-size:14px;font-weight:800;color:var(--v)}
+.he{font-family:'Dancing Script',cursive;font-size:17px;color:var(--n)}
+.clock{font-size:11px;color:var(--text3)}
+.cnt{padding:14px;max-width:720px;margin:0 auto}
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:14px;margin-bottom:12px}
+.ct{font-size:11px;font-weight:800;margin-bottom:12px;color:var(--v);text-transform:uppercase;letter-spacing:1px}
+.sg{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px}
+.st{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:10px;border-left:3px solid;text-align:center}
+.sv{font-size:17px;font-weight:900;margin:2px 0}
+.stl{font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px}
+.badge{padding:3px 9px;border-radius:20px;font-size:10px;font-weight:700;display:inline-block}
+.bg{background:rgba(110,224,74,.15);color:var(--v)}.br{background:rgba(244,118,59,.2);color:#f87171}.by{background:rgba(244,185,59,.15);color:#fbbf24}.bb{background:rgba(74,184,110,.1);color:var(--v)}
+.btn{padding:8px 14px;border-radius:10px;border:none;cursor:pointer;font-size:11px;font-weight:700;font-family:'Montserrat',sans-serif;transition:all .15s}
+.bp{background:linear-gradient(135deg,var(--v),var(--vd));color:#0f1a0f}
+.bo{background:linear-gradient(135deg,var(--n),var(--nd));color:#fff}
+.bs{background:rgba(110,224,74,.15);color:var(--v);border:1px solid var(--border2)}
+.bd{background:rgba(248,113,113,.12);color:#f87171;border:1px solid rgba(248,113,113,.2)}
+.bg2c{background:var(--card2);color:var(--text3);border:1px solid var(--border)}
+.bsm{padding:5px 10px;font-size:10px}
+input,select,textarea{background:var(--bg);border:1px solid var(--border2);color:var(--text);border-radius:10px;padding:9px 12px;font-size:12px;width:100%;font-family:'Montserrat',sans-serif}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--v)}
+label{font-size:10px;color:var(--text3);margin-bottom:3px;display:block;font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+.fg{margin-bottom:9px}
+.fr{display:grid;grid-template-columns:1fr 100px 110px;gap:8px}
+.datebar{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px}
+.datebar .dl{font-size:12px;font-weight:800;text-transform:capitalize;flex:1;text-align:center}
+.wt{font-size:10px;font-weight:800;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin:14px 0 6px}
+.ti{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:10px;margin-bottom:7px;border-left:3px solid var(--border2);display:flex;align-items:flex-start;gap:8px}
+.ti.done{opacity:.4}
+.ti.done .tt{text-decoration:line-through}
+.ti.alta{border-left-color:#f87171}
+.ti.media{border-left-color:#fbbf24}
+.ti.baja{border-left-color:var(--v)}
+.ti.atrasada{background:rgba(248,113,113,.06)}
+.chk{width:22px;height:22px;border-radius:7px;border:2px solid var(--border2);background:var(--bg);cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--v)}
+.ti.done .chk{background:var(--v);border-color:var(--v);color:#0f1a0f}
+.tt{font-size:12px;font-weight:700;flex:1}
+.tmeta{font-size:10px;color:var(--text3);margin-top:3px;display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.tactions{display:flex;flex-direction:column;gap:4px}
+.empty{color:var(--text3);font-size:12px;padding:16px;text-align:center}
+.notifbar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:5px}
+.dotg{background:var(--v)}.dotr{background:#f87171}.doty{background:#fbbf24}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div><div class="hn">Tareas Diarias — <span class="he">Marketing con Eli Hansen</span></div><div class="clock" id="clock"></div></div>
+  <button class="btn bg2c bsm" onclick="location.href='index.html'">← Volver al sistema</button>
+</div>
+
+<div class="cnt">
+
+  <div class="card">
+    <div class="ct">🔔 Notificaciones</div>
+    <div class="notifbar">
+      <div style="font-size:11px;color:var(--text2)" id="notifStatus">Comprobando soporte…</div>
+      <button class="btn bp bsm" id="notifBtn" onclick="activarNotificaciones()">Activar notificaciones</button>
+    </div>
+    <div style="font-size:10px;color:var(--text3);margin-top:8px">Con las notificaciones activadas, te avisamos apenas llega la hora de cada tarea que tenga horario. Dejá esta pestaña abierta en el navegador para recibirlas.</div>
+  </div>
+
+  <div class="card">
+    <div class="ct">📝 Contame qué tenés que hacer</div>
+    <div style="font-size:10px;color:var(--text3);margin-bottom:8px">Escribí o pegá tus tareas, una por renglón. Si mencionás una hora ("a las 10", "14:30", "10am") o palabras como "urgente" / "cuando pueda", la app la organiza sola.</div>
+    <textarea id="bulkInput" rows="4" placeholder="Ej:&#10;Llamar a Skin Lovers urgente&#10;Mandar reporte a las 15:30&#10;Revisar diseños cuando pueda"></textarea>
+    <button class="btn bp" style="width:100%;margin-top:8px" onclick="organizarBulk()">🪄 Organizar tareas</button>
+  </div>
+
+  <div class="card">
+    <div class="ct">➕ Agregar tarea puntual</div>
+    <div class="fr">
+      <div class="fg"><label>Tarea</label><input id="oneText" placeholder="Descripción" onkeydown="if(event.key==='Enter')agregarUna()"></div>
+      <div class="fg"><label>Hora</label><input id="oneHora" type="time"></div>
+      <div class="fg"><label>Prioridad</label><select id="onePrio"><option value="media">Media</option><option value="alta">Alta</option><option value="baja">Baja</option></select></div>
+    </div>
+    <button class="btn bp" style="width:100%;margin-top:4px" onclick="agregarUna()">✅ Agregar</button>
+  </div>
+
+  <div class="datebar">
+    <button class="btn bg2c bsm" onclick="cambiarDia(-1)">← Anterior</button>
+    <div class="dl" id="dLabel"></div>
+    <button class="btn bg2c bsm" onclick="cambiarDia(1)">Siguiente →</button>
+  </div>
+  <div style="text-align:center;margin-bottom:12px" id="hoyBtnWrap"><button class="btn bs bsm" onclick="irHoy()">📅 Ir a hoy</button></div>
+
+  <div class="sg">
+    <div class="st" style="border-color:var(--v)"><div class="stl">Total</div><div class="sv" style="color:var(--v)" id="sTotal">0</div></div>
+    <div class="st" style="border-color:#fbbf24"><div class="stl">Pendientes</div><div class="sv" style="color:#fbbf24" id="sPend">0</div></div>
+    <div class="st" style="border-color:#f87171"><div class="stl">Atrasadas</div><div class="sv" style="color:#f87171" id="sAtr">0</div></div>
+    <div class="st" style="border-color:var(--n)"><div class="stl">Hechas</div><div class="sv" style="color:var(--n)" id="sHechas">0</div></div>
+  </div>
+
+  <div id="listas"></div>
+
+  <div class="card">
+    <button class="btn bg2c bsm" style="width:100%" onclick="copiarDia()">📋 Copiar lista del día</button>
+  </div>
+
+</div>
+
+<script>
+// ══════════════════════════════════════
+// ESTADO Y PERSISTENCIA
+// ══════════════════════════════════════
+const LS_KEY="tareasDiarias_v1";
+let state=JSON.parse(localStorage.getItem(LS_KEY)||"null")||{porDia:{},lastSummary:null,nextId:1};
+let diaActual=todayStr();
+
+function guardar(){localStorage.setItem(LS_KEY,JSON.stringify(state));}
+function todayStr(){const d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
+function addDaysStr(str,n){const[y,m,d]=str.split("-").map(Number);const dt=new Date(y,m-1,d);dt.setDate(dt.getDate()+n);return dt.getFullYear()+"-"+String(dt.getMonth()+1).padStart(2,"0")+"-"+String(dt.getDate()).padStart(2,"0");}
+function fmtDateLong(str){const[y,m,d]=str.split("-").map(Number);const dt=new Date(y,m-1,d);return dt.toLocaleDateString("es-AR",{weekday:"long",day:"numeric",month:"long"});}
+function tareasDelDia(dia){if(!state.porDia[dia])state.porDia[dia]=[];return state.porDia[dia];}
+
+// ══════════════════════════════════════
+// RELOJ
+// ══════════════════════════════════════
+function tickClock(){document.getElementById("clock").textContent=new Date().toLocaleString("es-AR",{weekday:"short",day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"});}
+tickClock();setInterval(tickClock,1000*30);
+
+// ══════════════════════════════════════
+// PARSEO DE TEXTO LIBRE
+// ══════════════════════════════════════
+const PALABRAS_ALTA=["urgente","importante","ya","asap","prioridad alta","ahora mismo","hoy sí o sí","crítico"];
+const PALABRAS_BAJA=["cuando pueda","si hay tiempo","después","luego","baja prioridad","no urgente","algún día"];
+
+function detectarPrioridad(linea){
+  const l=linea.toLowerCase();
+  if(PALABRAS_ALTA.some(p=>l.includes(p)))return"alta";
+  if(PALABRAS_BAJA.some(p=>l.includes(p)))return"baja";
+  return"media";
+}
+function detectarHora(linea){
+  let m=linea.match(/a\s+las\s+(\d{1,2})(?::(\d{2}))?\s*(am|pm)?/i);
+  if(!m)m=linea.match(/\b(\d{1,2}):(\d{2})\s*(am|pm)?\b/);
+  if(!m)m=linea.match(/\b(\d{1,2})\s*(am|pm)\b/i);
+  if(!m)m=linea.match(/\b(\d{1,2})\s*hs\b/i);
+  if(!m)return null;
+  let h=parseInt(m[1],10);
+  let min=m[2]&&/^\d+$/.test(m[2])?parseInt(m[2],10):0;
+  const ap=(m[3]||m[2]||"").toString().toLowerCase();
+  if(ap==="pm"&&h<12)h+=12;
+  if(ap==="am"&&h===12)h=0;
+  if(h>23||min>59)return null;
+  return String(h).padStart(2,"0")+":"+String(min).padStart(2,"0");
+}
+function limpiarLinea(l){return l.replace(/^[-•*\d.)\s]+/,"").trim();}
+
+function crearTarea(texto,hora,prioridad,dia){
+  const t={id:state.nextId++,texto,hora:hora||null,prioridad:prioridad||"media",hecha:false,notificada:false};
+  tareasDelDia(dia).push(t);
+  return t;
+}
+
+function organizarBulk(){
+  const raw=document.getElementById("bulkInput").value;
+  const lineas=raw.split("\n").map(l=>l.trim()).filter(Boolean);
+  if(!lineas.length){alert("Escribí al menos una tarea");return;}
+  lineas.forEach(linea=>{
+    const limpia=limpiarLinea(linea);
+    if(!limpia)return;
+    crearTarea(limpia,detectarHora(linea),detectarPrioridad(linea),diaActual);
+  });
+  document.getElementById("bulkInput").value="";
+  guardar();render();
+}
+function agregarUna(){
+  const texto=document.getElementById("oneText").value.trim();
+  if(!texto){alert("Escribí la tarea");return;}
+  const hora=document.getElementById("oneHora").value||null;
+  const prioridad=document.getElementById("onePrio").value;
+  crearTarea(texto,hora,prioridad,diaActual);
+  document.getElementById("oneText").value="";document.getElementById("oneHora").value="";document.getElementById("onePrio").value="media";
+  guardar();render();
+}
+
+// ══════════════════════════════════════
+// ACCIONES SOBRE TAREAS
+// ══════════════════════════════════════
+function toggleHecha(id){const t=tareasDelDia(diaActual).find(x=>x.id===id);if(t)t.hecha=!t.hecha;guardar();render();}
+function borrarTarea(id){if(!confirm("¿Eliminar esta tarea?"))return;state.porDia[diaActual]=tareasDelDia(diaActual).filter(x=>x.id!==id);guardar();render();}
+function ciclarPrioridad(id){const t=tareasDelDia(diaActual).find(x=>x.id===id);if(!t)return;const orden=["baja","media","alta"];t.prioridad=orden[(orden.indexOf(t.prioridad)+1)%3];guardar();render();}
+
+// ══════════════════════════════════════
+// NAVEGACIÓN DE DÍA
+// ══════════════════════════════════════
+function cambiarDia(n){diaActual=addDaysStr(diaActual,n);render();}
+function irHoy(){diaActual=todayStr();render();}
+
+// ══════════════════════════════════════
+// RENDER
+// ══════════════════════════════════════
+const PRIO_LABEL={alta:"🔴 Alta",media:"🟡 Media",baja:"🟢 Baja"};
+function horaActualStr(){const d=new Date();return String(d.getHours()).padStart(2,"0")+":"+String(d.getMinutes()).padStart(2,"0");}
+
+function render(){
+  document.getElementById("dLabel").textContent=fmtDateLong(diaActual)+(diaActual===todayStr()?" (hoy)":"");
+  document.getElementById("hoyBtnWrap").style.display=diaActual===todayStr()?"none":"block";
+
+  const tareas=tareasDelDia(diaActual);
+  const esHoy=diaActual===todayStr();
+  const ahora=horaActualStr();
+
+  const atrasadas=tareas.filter(t=>!t.hecha&&t.hora&&esHoy&&t.hora<ahora);
+  const programadas=tareas.filter(t=>!t.hecha&&t.hora&&!(esHoy&&t.hora<ahora)).sort((a,b)=>a.hora.localeCompare(b.hora));
+  const sinHorario=tareas.filter(t=>!t.hecha&&!t.hora).sort((a,b)=>({alta:0,media:1,baja:2})[a.prioridad]-({alta:0,media:1,baja:2})[b.prioridad]);
+  const hechas=tareas.filter(t=>t.hecha);
+
+  document.getElementById("sTotal").textContent=tareas.length;
+  document.getElementById("sPend").textContent=tareas.length-hechas.length;
+  document.getElementById("sAtr").textContent=atrasadas.length;
+  document.getElementById("sHechas").textContent=hechas.length;
+
+  function fila(t,atrasada){
+    return `<div class="ti ${t.hecha?"done":""} ${t.prioridad} ${atrasada?"atrasada":""}">
+      <div class="chk" onclick="toggleHecha(${t.id})">${t.hecha?"✓":""}</div>
+      <div style="flex:1">
+        <div class="tt">${t.texto}</div>
+        <div class="tmeta">
+          ${t.hora?`<span>🕐 ${t.hora}</span>`:""}
+          <span class="badge ${t.prioridad==='alta'?'br':t.prioridad==='media'?'by':'bg'}" style="cursor:pointer" onclick="ciclarPrioridad(${t.id})">${PRIO_LABEL[t.prioridad]}</span>
+          ${atrasada?`<span class="badge br">⚠️ ATRASADA</span>`:""}
+        </div>
+      </div>
+      <div class="tactions">
+        <button class="btn bsm bd" onclick="borrarTarea(${t.id})">🗑</button>
+      </div>
+    </div>`;
+  }
+
+  let h="";
+  if(atrasadas.length){h+=`<div class="wt">⚠️ Atrasadas</div>`+atrasadas.map(t=>fila(t,true)).join("");}
+  if(programadas.length){h+=`<div class="wt">🕐 Con horario</div>`+programadas.map(t=>fila(t,false)).join("");}
+  if(sinHorario.length){h+=`<div class="wt">📌 Sin horario</div>`+sinHorario.map(t=>fila(t,false)).join("");}
+  if(hechas.length){h+=`<div class="wt">✅ Completadas</div>`+hechas.map(t=>fila(t,false)).join("");}
+  if(!tareas.length)h=`<div class="card empty">Sin tareas para este día. Agregá algunas arriba ✏️</div>`;
+
+  document.getElementById("listas").innerHTML=h;
+  guardar();
+}
+
+function copiarDia(){
+  const tareas=tareasDelDia(diaActual);
+  let txt=`📋 TAREAS — ${fmtDateLong(diaActual)}\n\n`;
+  tareas.forEach(t=>{txt+=`${t.hecha?"✅":"⬜"} ${t.hora?"["+t.hora+"] ":""}${t.texto} (${PRIO_LABEL[t.prioridad]})\n`;});
+  if(!tareas.length)txt+="Sin tareas.";
+  navigator.clipboard.writeText(txt).then(()=>alert("✅ Copiado")).catch(()=>alert("No se pudo copiar"));
+}
+
+// ══════════════════════════════════════
+// NOTIFICACIONES
+// ══════════════════════════════════════
+function actualizarEstadoNotif(){
+  const s=document.getElementById("notifStatus");
+  const b=document.getElementById("notifBtn");
+  if(!("Notification"in window)){s.innerHTML=`<span class="dot dotr"></span>No soportadas en este navegador`;b.style.display="none";return;}
+  if(Notification.permission==="granted"){s.innerHTML=`<span class="dot dotg"></span>Activadas`;b.style.display="none";}
+  else if(Notification.permission==="denied"){s.innerHTML=`<span class="dot dotr"></span>Bloqueadas — habilitalas desde la configuración del navegador`;b.style.display="none";}
+  else{s.innerHTML=`<span class="dot doty"></span>No activadas`;b.style.display="inline-block";}
+}
+function activarNotificaciones(){
+  if(!("Notification"in window))return;
+  Notification.requestPermission().then(()=>{actualizarEstadoNotif();if(Notification.permission==="granted")new Notification("🔔 Notificaciones activadas",{body:"Te avisaremos cuando llegue la hora de cada tarea."});});
+}
+function chequearNotificaciones(){
+  if(!("Notification"in window)||Notification.permission!=="granted")return;
+  const hoy=todayStr();const ahora=horaActualStr();
+  tareasDelDia(hoy).forEach(t=>{
+    if(!t.hecha&&t.hora&&!t.notificada&&t.hora<=ahora){
+      t.notificada=true;
+      const n=new Notification("🔔 "+t.texto,{body:"Hora programada: "+t.hora+(t.prioridad==="alta"?" · Prioridad alta 🔴":"")});
+      n.onclick=()=>{window.focus();};
+    }
+  });
+  guardar();
+  if(diaActual===hoy)render();
+}
+function resumenDelDia(){
+  if(!("Notification"in window)||Notification.permission!=="granted")return;
+  const hoy=todayStr();
+  if(state.lastSummary===hoy)return;
+  const pend=tareasDelDia(hoy).filter(t=>!t.hecha);
+  if(pend.length)new Notification("☀️ Buen día",{body:"Tenés "+pend.length+" tarea(s) pendiente(s) para hoy."});
+  state.lastSummary=hoy;guardar();
+}
+
+// ══════════════════════════════════════
+// INIT
+// ══════════════════════════════════════
+actualizarEstadoNotif();
+render();
+resumenDelDia();
+setInterval(chequearNotificaciones,20000);
+setInterval(actualizarEstadoNotif,10000);
+</script>
+</body>
+</html>
