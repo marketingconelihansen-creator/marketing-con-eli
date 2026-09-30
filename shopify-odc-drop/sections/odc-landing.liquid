@@ -26,14 +26,20 @@
   endfor
 
   # ---------- Link de compra ----------
-  # Si elegís un producto de Shopify, el botón va DIRECTO al checkout (sin pasar por el carrito).
-  assign cta_url = s.checkout_url
-  if s.product != blank
-    assign odc_variant = s.product.selected_or_first_available_variant
+  # Prioridad: 1) el producto elegido en el editor, 2) el primer producto activo de la tienda,
+  # 3) el link externo (solo si la tienda no tiene productos). Siempre va DIRECTO al checkout.
+  assign odc_product = s.product
+  if odc_product == blank
+    assign odc_product = collections.all.products.first
+  endif
+  if odc_product != blank
+    assign odc_variant = odc_product.selected_or_first_available_variant
     assign cta_url = routes.cart_url | append: '/' | append: odc_variant.id | append: ':1'
     if s.discount_code != blank
       assign cta_url = cta_url | append: '?discount=' | append: s.discount_code
     endif
+  else
+    assign cta_url = s.checkout_url
   endif
   if cta_url == blank
     assign cta_url = '#'
@@ -895,14 +901,13 @@
       "type": "product",
       "id": "product",
       "label": "Producto de Shopify",
-      "info": "Si elegís el producto, TODOS los botones llevan directo al checkout de Shopify (sin pasar por el carrito). Si lo dejás vacío, se usa el link externo de abajo."
+      "info": "TODOS los botones llevan directo al checkout de Shopify con este producto. Si lo dejás vacío, se usa el primer producto activo de tu tienda."
     },
     {
       "type": "text",
       "id": "checkout_url",
-      "label": "Link de pago externo (si no usás producto)",
-      "default": "https://marketingconelihansen.systeme.io/pago",
-      "info": "Ej.: tu checkout de Systeme, Hotmart o Mercado Pago."
+      "label": "Link de pago externo (opcional)",
+      "info": "Solo se usa si tu tienda no tiene ningún producto activo."
     },
     {
       "type": "text",

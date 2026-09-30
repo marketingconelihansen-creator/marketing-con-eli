@@ -50,7 +50,7 @@ Tu página de ODC Drop convertida en una **sección nativa de Shopify (Online St
 ### 6. Ajustá todo desde el editor visual
 **Tienda online → Temas → Personalizar →** arriba, en el selector, **Páginas → odc-drop**. Hacé clic en la sección **ODC Drop – Landing** y completá:
 
-1. **Compra**: elegí tu producto de Shopify (ver abajo) **o** dejá tu link externo de pago.
+1. **Compra**: elegí tu producto de Shopify. Si lo dejás vacío, los botones usan el primer producto activo de tu tienda.
 2. **Precios**: precio, precio tachado, cuotas y cotización del dólar. El % OFF, los pesos, el valor de cada cuota y la suma de los bonos se calculan solos.
 3. **Barra superior**: poné la **fecha real de cierre** de la oferta (ej. `2026-10-31`).
 4. Bloque **Historia de Eli → Foto**: subí `assets/eli-odc-drop.jpg`.
@@ -71,7 +71,7 @@ Si vendés con el checkout de Shopify, la experiencia es mejor: el botón lleva 
 7. **Configuración → Políticas**: completá Privacidad, Reembolso y Términos. Los links del pie de la landing salen de ahí automáticamente.
 8. En el editor de la landing, **Compra → Producto de Shopify**: elegí `ODC Drop`. Listo: los 6 botones van al checkout.
 
-> ¿Seguís con Systeme.io? No elijas producto y dejá el link en **Link de pago externo**. Funciona igual.
+> El **Link de pago externo** solo se usa si la tienda no tiene ningún producto activo.
 
 **Código de descuento automático:** si creás un descuento (ej. `LANZAMIENTO`) y lo ponés en el ajuste, se aplica solo en el checkout.
 
