@@ -6,19 +6,32 @@
       "blocks": {
         "hero": {
           "type": "hero",
-          "settings": {}
+          "settings": {
+            "hero_title": "Ganá tus primeros <strong>$3.850.000</strong> vendiendo productos digitales",
+            "cta_hero": "🔥 Quiero mis primeras ventas — [precio]",
+            "phone_amount": "+$77.000",
+            "toast2_text": "✓ hizo una venta de $77.000",
+            "toast3_name": "+$77.000"
+          }
         },
         "stats": {
           "type": "stats",
-          "settings": {}
+          "settings": {
+            "stat3_label": "Pago único o [cuotas]"
+          }
         },
         "calc": {
           "type": "calc",
-          "settings": {}
+          "settings": {
+            "calc_text": "Cada venta de ODC Drop son [precio]. Mové el número de ventas que te imaginás haciendo <strong>por mes</strong> y mirá cuánto es."
+          }
         },
         "story": {
           "type": "story",
-          "settings": {}
+          "settings": {
+            "photo": "shopify://shop_images/WhatsApp_Image_2026-09-30_at_01.47.59.jpg",
+            "cta_story": "🔥 Quiero empezar ahora — [precio]"
+          }
         },
         "pain_1": {
           "type": "pain",
@@ -95,7 +108,7 @@
         "module_7": {
           "type": "module",
           "settings": {
-            "title": "Tus primeros $3.000",
+            "title": "Tus primeros $3.850.000",
             "icon": "dollar"
           }
         },
@@ -282,7 +295,7 @@
           "type": "faq",
           "settings": {
             "question": "¿Es un pago único o mensual?",
-            "answer": "<p>ODC Drop es un pago único de [precio] USD (o [cuotas] con tarjeta de crédito). Sin sorpresas, sin cobros recurrentes, con acceso a actualizaciones futuras.</p>",
+            "answer": "<p>ODC Drop es un pago único de [precio], o [cuotas] con tarjeta de crédito. Sin sorpresas, sin cobros recurrentes, con acceso a actualizaciones futuras.</p>",
             "open": false
           }
         },
@@ -333,6 +346,14 @@
             "answer": "<p>No estás sola: entrás a la comunidad privada de Telegram donde preguntás lo que necesites y tenés soporte real, no un PDF que te dejan mirando. Las ventas son finales, por eso todo el material está pensado para que puedas implementarlo desde el primer día.</p>",
             "open": false
           }
+        },
+        "faq_10": {
+          "type": "faq",
+          "settings": {
+            "question": "¿Puedo pagar por transferencia?",
+            "answer": "<p>Sí. Tocá el botón \"Pagar por transferencia\" y pagás [transferencia]. En el checkout elegí \"Transferencia bancaria\" y te llegan los datos para pagar. Apenas se acredita, te enviamos el acceso por email.</p>",
+            "open": false
+          }
         }
       },
       "block_order": [
@@ -378,6 +399,7 @@
         "faq_1",
         "faq_2",
         "faq_3",
+        "faq_10",
         "faq_4",
         "faq_5",
         "faq_6",
@@ -385,7 +407,17 @@
         "faq_8",
         "faq_9"
       ],
-      "settings": {}
+      "settings": {
+        "currency": "ars",
+        "product": "odc-60dolares",
+        "checkout_url": "",
+        "transfer_price_ars": 70000,
+        "transfer_discount_code": "TRANSFERENCIA",
+        "installments": 3,
+        "final_text": "ODC Drop + los 9 módulos + los 8 bonos + derechos de reventa al 85% + comunidad privada. Acceso inmediato por <strong>[precio]</strong> o <strong>[cuotas]</strong>.",
+        "cta_final": "🔥 Sí, quiero acceso inmediato por [precio]",
+        "cta_mobile": "🔥 [precio] — [cuotas]"
+      }
     }
   },
   "order": [

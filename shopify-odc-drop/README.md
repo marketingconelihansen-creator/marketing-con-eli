@@ -8,7 +8,8 @@ Tu página de ODC Drop convertida en una **sección nativa de Shopify (Online St
 |---|---|---|
 | `layout/theme.odc-drop.liquid` | Layout limpio **sin menú ni footer del tema**: cero distracciones y carga más rápida | Carpeta **Layout** |
 | `sections/odc-landing.liquid` | La landing completa (diseño + animaciones + ajustes del editor) | Carpeta **Sections** |
-| `templates/page.odc-drop.json` | Plantilla de página que usa el layout limpio y trae todo tu contenido cargado | Carpeta **Templates** |
+| `templates/page.odc-drop.json` | Página en **pesos** (checkout de Shopify, cuotas y transferencia) | Carpeta **Templates** |
+| `templates/page.odc-drop-usd.json` | Página en **dólares** (link de pago en USD) | Carpeta **Templates** |
 | `assets/eli-odc-drop.jpg` | Tu foto, **ya enderezada** (en el HTML original se veía de costado) | Se sube desde el editor (paso 5) |
 
 ---
@@ -57,6 +58,20 @@ Tu página de ODC Drop convertida en una **sección nativa de Shopify (Online St
 5. **Guardar**.
 
 ---
+
+
+## Dos páginas: pesos y dólares
+
+| Página | Plantilla | Cobra con | Habla en |
+|---|---|---|---|
+| `/pages/odc-drop` | `page.odc-drop.json` | Checkout de Shopify (Mercado Pago, 3 cuotas, transferencia) | Pesos |
+| `/pages/odc-drop-usd` | `page.odc-drop-usd.json` | Link de pago en dólares (PayPal, Systeme o Hotmart) | Dólares |
+
+Las dos usan la misma sección. El ajuste **Moneda de esta página** define todo:
+- **Pesos:** el precio sale del producto de Shopify, las cuotas se calculan solas y el botón “Pagar por transferencia” aplica el código `TRANSFERENCIA`. Ese código es un descuento de monto fijo igual a la diferencia entre el precio y el precio por transferencia.
+- **Dólares:** todo en USD y los botones van al **Link de pago en dólares**.
+
+PayPal no opera en pesos argentinos, así que no aparece en el checkout de Shopify de una tienda en ARS. Para cobrar con PayPal, usá un link de pago de PayPal en la página en dólares.
 
 ## Cómo configurar el infoproducto en Shopify (recomendado)
 

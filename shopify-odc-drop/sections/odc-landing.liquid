@@ -25,59 +25,93 @@
     endcase
   endfor
 
-  # ---------- Link de compra ----------
-  # Prioridad: 1) el producto elegido en el editor, 2) el primer producto activo de la tienda,
-  # 3) el link externo (solo si la tienda no tiene productos). Siempre va DIRECTO al checkout.
+  # ---------- Moneda de esta página ----------
+  # ARS: cobra con el checkout de Shopify (pesos, cuotas, transferencia).
+  # USD: habla en dólares y cobra con un link externo en dólares (PayPal, Systeme, Hotmart).
+  assign is_ars = true
+  if s.currency == 'usd'
+    assign is_ars = false
+  endif
+
   assign odc_product = s.product
   if odc_product == blank
     assign odc_product = collections.all.products.first
   endif
-  if odc_product != blank
+
+  # ---------- Links de compra ----------
+  assign cta_url = ''
+  assign transfer_url = ''
+  if is_ars and odc_product != blank
     assign odc_variant = odc_product.selected_or_first_available_variant
-    assign cta_url = routes.cart_url | append: '/' | append: odc_variant.id | append: ':1'
-    if s.discount_code != blank
-      assign cta_url = cta_url | append: '?discount=' | append: s.discount_code
+    assign base_url = routes.cart_url | append: '/' | append: odc_variant.id | append: ':1'
+    assign cta_url = base_url
+    if s.transfer_discount_code != blank
+      assign transfer_url = base_url | append: '?discount=' | append: s.transfer_discount_code
     endif
   else
     assign cta_url = s.checkout_url
   endif
+  assign cta_missing = false
   if cta_url == blank
-    assign cta_url = '#'
+    assign cta_url = '#oferta'
+    assign cta_missing = true
   endif
 
-  # ---------- Precios ----------
-  assign price_str = '$' | append: s.price_usd
-  assign regular_str = '$' | append: s.regular_price_usd
+  # ---------- Precios en la moneda de la página ----------
+  if is_ars
+    assign cur = 'ARS'
+    assign price_num = s.price_usd
+    if odc_product != blank
+      assign price_num = odc_product.price | divided_by: 100
+    endif
+    assign factor = 1
+    if s.price_usd > 0
+      assign factor = price_num | times: 1.0 | divided_by: s.price_usd
+    endif
+    assign regular_num = s.regular_price_usd | times: factor | divided_by: 1000 | round | times: 1000
+  else
+    assign cur = 'USD'
+    assign price_num = s.price_usd
+    assign regular_num = s.regular_price_usd
+    assign factor = 1
+  endif
+  assign price_num = price_num | round
+  assign regular_num = regular_num | round
+
   assign pct_off = 0
-  if s.regular_price_usd > 0
-    assign pct_paid = s.price_usd | times: 100.0 | divided_by: s.regular_price_usd | round
+  if regular_num > 0
+    assign pct_paid = price_num | times: 100.0 | divided_by: regular_num | round
     assign pct_off = 100 | minus: pct_paid
   endif
 
-  assign cuotas_str = ''
-  if s.installments > 1
-    assign cuotas_str = s.installments | append: ' cuotas sin interés'
+  assign cuota_num = 0
+  if is_ars and s.installments > 1
+    assign cuota_num = price_num | times: 1.0 | divided_by: s.installments | round
+  endif
+  assign transfer_num = 0
+  if is_ars and s.transfer_price_ars > 0
+    assign transfer_num = s.transfer_price_ars
   endif
 
-  # Suma automática del valor de los bonos
+  # Suma automática del valor de los bonos (se cargan en USD; en la página en pesos se convierten)
   assign bonus_total = 0
   assign bonus_count = 0
+  assign bonus_vals = ''
   for block in section.blocks
     if block.type == 'bonus'
-      assign bonus_total = bonus_total | plus: block.settings.value
+      assign bv = block.settings.value | times: factor
+      if is_ars
+        assign bv = bv | divided_by: 1000 | round | times: 1000
+      endif
+      assign bv = bv | round
+      assign bonus_total = bonus_total | plus: bv
       assign bonus_count = bonus_count | plus: 1
+      assign bonus_vals = bonus_vals | append: ',' | append: bv
     endif
   endfor
 
-  # Conversión a ARS (0 = ocultar)
-  assign ars_price = s.price_usd | times: s.ars_rate
-  assign ars_cuota = 0
-  if s.installments > 1
-    assign ars_cuota = ars_price | times: 1.0 | divided_by: s.installments | round
-  endif
-
-  # Formato con punto de miles (93900 -> 93.900)
-  assign nums = ars_price | append: ',' | append: ars_cuota | append: ',' | append: bonus_total | split: ','
+  # Formato con punto de miles (77000 -> 77.000)
+  assign nums = price_num | append: ',' | append: regular_num | append: ',' | append: cuota_num | append: ',' | append: transfer_num | append: ',' | append: bonus_total | append: bonus_vals | split: ','
   assign fmt_list = ''
   for raw in nums
     assign n = raw | plus: 0 | floor
@@ -96,9 +130,25 @@
     assign fmt_list = fmt_list | append: fs | append: '|'
   endfor
   assign fmt = fmt_list | split: '|'
-  assign ars_price_str = fmt[0]
-  assign ars_cuota_str = fmt[1]
-  assign bonus_total_str = fmt[2]
+  assign price_str = '$' | append: fmt[0]
+  assign regular_str = '$' | append: fmt[1]
+  assign cuota_str = '$' | append: fmt[2]
+  assign transfer_str = '$' | append: fmt[3]
+  assign bonus_total_str = '$' | append: fmt[4]
+
+  # [precio] USD (textos viejos) -> en la página en pesos se muestra solo el precio en pesos
+  if is_ars
+    assign price_full = price_str
+  else
+    assign price_full = price_str | append: ' USD'
+  endif
+
+  assign cuotas_str = ''
+  assign cuotas_short = ''
+  if cuota_num > 0
+    assign cuotas_str = s.installments | append: ' cuotas sin interés de ' | append: cuota_str
+    assign cuotas_short = s.installments | append: ' × ' | append: cuota_str | append: ' sin interés'
+  endif
 
   # Reemplazos disponibles en los textos: [precio] [precio_regular] [descuento] [cuotas]
   assign pct_str = pct_off | append: '%'
@@ -351,6 +401,9 @@
   .odc .big-price sup{font-size:.4em;top:-1.4em;position:relative;vertical-align:baseline}
   .odc .price-note{font-size:.8rem;color:var(--muted-inverse);margin-top:6px}
   .odc .cuotas{font-size:.95rem;font-weight:700;color:var(--ink);margin-top:14px;background:var(--lime);border-radius:12px;padding:10px 18px;display:inline-block;box-shadow:0 10px 20px -8px rgba(215,255,63,0.5)}
+  .odc .btn-alt{margin-top:10px;background:transparent;color:var(--lime);border:1.5px solid var(--lime);box-shadow:none}
+  .odc .btn-alt:hover{background:rgba(215,255,63,0.1);box-shadow:none}
+  .odc .odc-warn{margin-top:14px;padding:10px 12px;border-radius:10px;background:#FFE0EE;color:#8A0A4A;font-size:.82rem;font-weight:700}
   .odc .secure{margin-top:14px;display:flex;flex-wrap:wrap;justify-content:center;gap:6px 14px;font-size:.74rem;color:var(--muted-inverse);font-family:"Space Mono",monospace}
   .odc .secure span{display:inline-flex;align-items:center;gap:6px}
   .odc .secure svg{width:13px;height:13px;color:var(--lime)}
@@ -466,14 +519,14 @@
 {%- capture icon_bolt -%}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8Z"/></svg>{%- endcapture -%}
 
 <div class="odc" id="odc-{{ section.id }}"
-  data-price="{{ s.price_usd }}"
-  data-ars-rate="{{ s.ars_rate }}"
+  data-price="{{ price_num }}"
+  data-cur="{{ cur }}"
   {% if s.countdown_date != blank %}data-deadline="{{ s.countdown_date | strip }}T{{ s.countdown_time | default: '23:59' | strip }}:00{{ s.countdown_utc_offset | default: '-03:00' | strip }}"{% endif %}>
 
   {%- if s.show_announce -%}
     <div class="announce{% if s.countdown_date == blank %} is-expired{% endif %}" role="region" aria-label="Oferta">
-      <span class="when-live">⏰ {{ s.announce_text | replace: '[descuento]', pct_str | replace: '[precio]', price_str }}</span>
-      <span class="when-expired">{{ s.announce_text_expired | replace: '[descuento]', pct_str | replace: '[precio]', price_str }}</span>
+      <span class="when-live">⏰ {{ s.announce_text | replace: '[descuento]', pct_str | replace: '[precio] USD', price_full | replace: '[precio]', price_str | replace: '[transferencia]', transfer_str }}</span>
+      <span class="when-expired">{{ s.announce_text_expired | replace: '[descuento]', pct_str | replace: '[precio] USD', price_full | replace: '[precio]', price_str | replace: '[transferencia]', transfer_str }}</span>
       {%- if s.countdown_date != blank -%}
         <span class="countdown mono when-live" aria-live="off">
           <span class="t" data-cd="d" hidden>00d</span><span class="sep" data-cd="dsep" hidden>:</span>
@@ -493,7 +546,7 @@
         <h1>{{ hero_b.settings.hero_title }}</h1>
         <p class="lede">{{ hero_b.settings.hero_text }}</p>
         <div class="hero-cta" data-odc-hero-cta>
-          <a class="btn" href="{{ cta_url }}">{{ hero_b.settings.cta_hero | replace: '[precio]', price_str }}</a>
+          <a class="btn" href="{{ cta_url }}">{{ hero_b.settings.cta_hero | replace: '[precio] USD', price_full | replace: '[precio]', price_str | replace: '[transferencia]', transfer_str }}</a>
           <span class="btn-sub">{{ hero_b.settings.cta_sub }}{% if cuotas_str != blank %} · <strong>{{ cuotas_str }}</strong>{% endif %}</span>
         </div>
         <div class="trust-row">
@@ -611,22 +664,21 @@
       <div class="calc-copy">
         <span class="eyebrow">{{ calc_b.settings.calc_eyebrow }}</span>
         <h2 class="headline">{{ calc_b.settings.calc_title }}</h2>
-        <p class="lede">{{ calc_b.settings.calc_text | replace: '[precio]', price_str }}</p>
+        <p class="lede">{{ calc_b.settings.calc_text | replace: '[precio] USD', price_full | replace: '[precio]', price_str | replace: '[transferencia]', transfer_str }}</p>
         <div class="calc-controls">
           <div class="calc-value"><span class="v mono" data-odc-sales>10</span><span class="calc-unit">ventas por mes</span></div>
           <input type="range" min="1" max="100" step="1" value="10" data-odc-range aria-label="Ventas por mes">
           <div class="calc-result" aria-live="polite">
-            <div class="res-row big"><span>Ingresos al mes</span><span class="mono" data-odc-usd>${{ s.price_usd | times: 10 }} USD</span></div>
-            {%- if s.ars_rate > 0 -%}<div class="res-row"><span></span><span class="mono" data-odc-ars></span></div>{%- endif -%}
+            <div class="res-row big"><span>Ingresos al mes</span><span class="mono" data-odc-total>{{ price_num | times: 10 }} {{ cur }}</span></div>
           </div>
-          <a class="btn btn-block" href="{{ cta_url }}">{{ calc_b.settings.cta_calc | replace: '[precio]', price_str }}</a>
+          <a class="btn btn-block" href="{{ cta_url }}">{{ calc_b.settings.cta_calc | replace: '[precio] USD', price_full | replace: '[precio]', price_str | replace: '[transferencia]', transfer_str }}</a>
           <p class="calc-note">{{ calc_b.settings.calc_disclaimer }}</p>
         </div>
       </div>
       <div class="calc-stage" aria-hidden="true">
         <div class="bill-stack">
           {%- for i in (0..9) -%}
-            <div class="bill{% if i == 0 %} active{% endif %}" style="--i:{{ i }}"><span>USD</span></div>
+            <div class="bill{% if i == 0 %} active{% endif %}" style="--i:{{ i }}"><span>{{ cur }}</span></div>
           {%- endfor -%}
         </div>
       </div>
@@ -647,7 +699,7 @@
             <div class="bonus" {{ block.shopify_attributes }}>
               <span class="bn">{% if bon_i < 10 %}0{% endif %}{{ bon_i }}</span>
               <div><h3>{{ block.settings.title }}</h3><p>{{ block.settings.text }}</p></div>
-              {%- if block.settings.value > 0 -%}<span class="val">${{ block.settings.value }}</span>{%- endif -%}
+              {%- assign bon_idx = bon_i | plus: 4 -%}{%- if block.settings.value > 0 -%}<span class="val">${{ fmt[bon_idx] }}</span>{%- endif -%}
             </div>
           {%- endif -%}
         {%- endfor -%}
@@ -658,20 +710,24 @@
           <span class="eyebrow">Resumen de tu acceso</span>
           <div class="price-lines">
             <div class="row"><span>{{ s.sum_line_1 }}</span><span>incluido</span></div>
-            <div class="row"><span>{{ bonus_count }} bonos de regalo</span><span>${{ bonus_total_str }}</span></div>
+            <div class="row"><span>{{ bonus_count }} bonos de regalo</span><span>{{ bonus_total_str }}</span></div>
             {%- if s.sum_line_2 != blank -%}<div class="row"><span>{{ s.sum_line_2 }}</span><span>incluido</span></div>{%- endif -%}
             {%- if s.sum_line_3 != blank -%}<div class="row"><span>{{ s.sum_line_3 }}</span><span>incluido</span></div>{%- endif -%}
             <div class="tot"><span>Precio regular</span><span>{{ regular_str }}</span></div>
           </div>
         </div>
         <div class="price-right">
-          <div class="strike">{{ regular_str }} usd</div>
-          <div class="big-price">{{ price_str }}<sup>usd</sup></div>
-          {%- if s.ars_rate > 0 -%}<div class="price-note">≈ ${{ ars_price_str }} ARS · {{ s.ars_label }}</div>{%- endif -%}
+          <div class="strike">{{ regular_str }} {{ cur | downcase }}</div>
+          <div class="big-price">{{ price_str }}<sup>{{ cur | downcase }}</sup></div>
+          <div class="price-note">{% if is_ars %}Precio final en pesos argentinos{% else %}Precio final en dólares estadounidenses{% endif %}</div>
           {%- if cuotas_str != blank -%}
-            <div class="cuotas mono">💳 {{ cuotas_str }}{% if s.ars_rate > 0 %} de ${{ ars_cuota_str }}{% endif %}</div>
+            <div class="cuotas mono">💳 {{ cuotas_str }}</div>
           {%- endif -%}
-          <a class="btn btn-block" style="margin-top:20px" href="{{ cta_url }}">{{ s.cta_offer | replace: '[precio]', price_str }}</a>
+          {%- if cta_missing and request.design_mode -%}<p class="odc-warn">Falta el link de pago en dólares: completalo en "1 · Compra → Link de pago en dólares".</p>{%- endif -%}
+          <a class="btn btn-block" style="margin-top:20px" href="{{ cta_url }}">{{ s.cta_offer | replace: '[precio] USD', price_full | replace: '[precio]', price_str | replace: '[transferencia]', transfer_str }}</a>
+          {%- if transfer_num > 0 -%}
+            <a class="btn btn-alt btn-block" href="{% if transfer_url != blank %}{{ transfer_url }}{% else %}{{ cta_url }}{% endif %}">🏦 Pagar por transferencia: {{ transfer_str }}</a>
+          {%- endif -%}
           <div class="secure">
             <span>{{ icon_lock }}Pago 100% seguro</span>
             <span>{{ icon_bolt }}Acceso inmediato por email</span>
@@ -698,9 +754,9 @@
         {%- if story_b.settings.story_problem != blank -%}<div class="problema">{{ story_b.settings.story_problem }}</div>{%- endif -%}
         <div class="story-text">{{ story_b.settings.story_text }}</div>
         {%- if story_b.settings.story_signature != blank -%}<cite>{{ story_b.settings.story_signature }}</cite>{%- endif -%}
-        {%- if story_b.settings.story_closer != blank -%}<div class="closer">{{ story_b.settings.story_closer | replace: '[precio]', price_str }}</div>{%- endif -%}
+        {%- if story_b.settings.story_closer != blank -%}<div class="closer">{{ story_b.settings.story_closer | replace: '[precio] USD', price_full | replace: '[precio]', price_str | replace: '[transferencia]', transfer_str }}</div>{%- endif -%}
         <div style="margin-top:26px">
-          <a class="btn" href="{{ cta_url }}">{{ story_b.settings.cta_story | replace: '[precio]', price_str }}</a>
+          <a class="btn" href="{{ cta_url }}">{{ story_b.settings.cta_story | replace: '[precio] USD', price_full | replace: '[precio]', price_str | replace: '[transferencia]', transfer_str }}</a>
         </div>
       </div>
     </div>
@@ -732,7 +788,7 @@
           {%- if block.type == 'faq' -%}
             <details {% if block.settings.open %}open{% endif %} {{ block.shopify_attributes }}>
               <summary>{{ block.settings.question }}<span class="chev" aria-hidden="true">{{ icon_plus }}</span></summary>
-              <div class="ans">{{ block.settings.answer | replace: '[precio]', price_str | replace: '[cuotas]', cuotas_str }}</div>
+              <div class="ans">{{ block.settings.answer | replace: '[precio] USD', price_full | replace: '[precio]', price_str | replace: '[transferencia]', transfer_str | replace: '[cuotas]', cuotas_str }}</div>
             </details>
           {%- endif -%}
         {%- endfor -%}
@@ -744,8 +800,8 @@
     <div class="wrap">
       <span class="eyebrow">{{ s.final_eyebrow }}</span>
       <h2>{{ s.final_title }}</h2>
-      <p class="lede">{{ s.final_text | replace: '[precio]', price_str | replace: '[cuotas]', cuotas_str }}{% if s.ars_rate > 0 %} <span class="mono" style="font-size:.85em">(≈ ${{ ars_price_str }} ARS)</span>{% endif %}</p>
-      <a class="btn" href="{{ cta_url }}">{{ s.cta_final | replace: '[precio]', price_str }}</a>
+      <p class="lede">{{ s.final_text | replace: '[precio] USD', price_full | replace: '[precio]', price_str | replace: '[transferencia]', transfer_str | replace: '[cuotas]', cuotas_str }}{% if transfer_num > 0 %} También podés pagar <strong>{{ transfer_str }} por transferencia</strong>.{% endif %}</p>
+      <a class="btn" href="{{ cta_url }}">{{ s.cta_final | replace: '[precio] USD', price_full | replace: '[precio]', price_str | replace: '[transferencia]', transfer_str }}</a>
     </div>
   </section>
 
@@ -764,7 +820,7 @@
   {%- endif -%}
 
   <div class="mcta" data-odc-mcta>
-    <a class="btn" href="{{ cta_url }}">{{ s.cta_mobile | replace: '[precio]', price_str | replace: '[cuotas]', cuotas_str }}</a>
+    <a class="btn" href="{{ cta_url }}">{{ s.cta_mobile | replace: '[precio] USD', price_full | replace: '[precio]', price_str | replace: '[transferencia]', transfer_str | replace: '[cuotas]', cuotas_short }}</a>
   </div>
 </div>
 
@@ -779,7 +835,7 @@
       {%- if block.type == 'faq' -%}
         {%- unless first -%},{%- endunless -%}
         {%- assign first = false -%}
-        {"@type":"Question","name":{{ block.settings.question | json }},"acceptedAnswer":{"@type":"Answer","text":{{ block.settings.answer | replace: '[precio]', price_str | replace: '[cuotas]', cuotas_str | strip_html | json }}}}
+        {"@type":"Question","name":{{ block.settings.question | json }},"acceptedAnswer":{"@type":"Answer","text":{{ block.settings.answer | replace: '[precio] USD', price_full | replace: '[precio]', price_str | replace: '[transferencia]', transfer_str | replace: '[cuotas]', cuotas_str | strip_html | json }}}}
       {%- endif -%}
     {%- endfor -%}
   ]
@@ -832,20 +888,17 @@
 
   /* ---- Calculadora ---- */
   var PRICE = parseFloat(root.getAttribute('data-price')) || 0;
-  var RATE = parseFloat(root.getAttribute('data-ars-rate')) || 0;
+  var CUR = root.getAttribute('data-cur') || 'USD';
   var range = root.querySelector('[data-odc-range]');
   if (range) {
     var salesVal = root.querySelector('[data-odc-sales]');
-    var resUsd = root.querySelector('[data-odc-usd]');
-    var resArs = root.querySelector('[data-odc-ars]');
+    var resTotal = root.querySelector('[data-odc-total]');
     var bills = root.querySelectorAll('.bill');
     var fmt = function(n){ return Math.round(n).toLocaleString('es-AR'); };
     var update = function(){
       var n = parseInt(range.value, 10);
-      var usd = n * PRICE;
       salesVal.textContent = n;
-      resUsd.textContent = '$' + fmt(usd) + ' USD';
-      if (resArs && RATE) resArs.textContent = '≈ $' + fmt(usd * RATE) + ' ARS';
+      resTotal.textContent = '$' + fmt(n * PRICE) + ' ' + CUR;
       var active = Math.min(bills.length, Math.max(1, Math.ceil(n / 10)));
       for (var i = 0; i < bills.length; i++) bills[i].classList.toggle('active', i < active);
     };
@@ -895,25 +948,36 @@
   "settings": [
     {
       "type": "header",
-      "content": "1 · Compra (lo más importante)"
+      "content": "1 · Moneda y compra (lo más importante)"
+    },
+    {
+      "type": "select",
+      "id": "currency",
+      "label": "Moneda de esta página",
+      "default": "ars",
+      "options": [
+        {
+          "value": "ars",
+          "label": "Pesos argentinos (checkout de Shopify)"
+        },
+        {
+          "value": "usd",
+          "label": "Dólares (link de pago externo)"
+        }
+      ],
+      "info": "Pesos: cobra con el checkout de Shopify, con cuotas y transferencia. Dólares: todo el texto en USD y el botón va a tu link de pago en dólares."
     },
     {
       "type": "product",
       "id": "product",
-      "label": "Producto de Shopify",
-      "info": "TODOS los botones llevan directo al checkout de Shopify con este producto. Si lo dejás vacío, se usa el primer producto activo de tu tienda."
+      "label": "Producto de Shopify (página en pesos)",
+      "info": "Los botones van directo al checkout con este producto. Si lo dejás vacío, se usa el primer producto activo de tu tienda."
     },
     {
       "type": "text",
       "id": "checkout_url",
-      "label": "Link de pago externo (opcional)",
-      "info": "Solo se usa si tu tienda no tiene ningún producto activo."
-    },
-    {
-      "type": "text",
-      "id": "discount_code",
-      "label": "Código de descuento automático (opcional)",
-      "info": "Solo funciona con producto de Shopify. Se aplica solo en el checkout."
+      "label": "Link de pago en dólares (página en dólares)",
+      "info": "Tu link de PayPal, Systeme o Hotmart que cobra en USD."
     },
     {
       "type": "header",
@@ -921,37 +985,38 @@
     },
     {
       "type": "number",
+      "id": "installments",
+      "label": "Cuotas sin interés (página en pesos)",
+      "default": 3,
+      "info": "0 o 1 = ocultar cuotas. El precio en pesos sale del producto de Shopify."
+    },
+    {
+      "type": "number",
+      "id": "transfer_price_ars",
+      "label": "Precio por transferencia (ARS)",
+      "default": 70000,
+      "info": "0 = ocultar el botón de transferencia."
+    },
+    {
+      "type": "text",
+      "id": "transfer_discount_code",
+      "label": "Código de descuento para transferencia",
+      "default": "TRANSFERENCIA",
+      "info": "Creá este código en Descuentos: monto fijo igual a la diferencia entre el precio y el precio por transferencia."
+    },
+    {
+      "type": "number",
       "id": "price_usd",
-      "label": "Precio (USD)",
+      "label": "Precio en dólares (USD)",
       "default": 60,
-      "info": "Usá números enteros."
+      "info": "Usá números enteros. También se usa para convertir el valor de los bonos a pesos."
     },
     {
       "type": "number",
       "id": "regular_price_usd",
-      "label": "Precio regular tachado (USD)",
+      "label": "Precio tachado en dólares (USD)",
       "default": 549,
       "info": "El % de descuento se calcula solo."
-    },
-    {
-      "type": "number",
-      "id": "installments",
-      "label": "Cantidad de cuotas sin interés",
-      "default": 3,
-      "info": "Poné 0 o 1 para ocultar las cuotas."
-    },
-    {
-      "type": "number",
-      "id": "ars_rate",
-      "label": "Cotización del dólar en ARS",
-      "default": 1565,
-      "info": "Poné 0 para ocultar los precios en pesos."
-    },
-    {
-      "type": "text",
-      "id": "ars_label",
-      "label": "Texto junto al precio en pesos",
-      "default": "dólar blue de hoy"
     },
     {
       "type": "header",

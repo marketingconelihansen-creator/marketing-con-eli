@@ -1,0 +1,408 @@
+{
+  "layout": "theme.odc-drop",
+  "sections": {
+    "main": {
+      "type": "odc-landing",
+      "blocks": {
+        "hero": {
+          "type": "hero",
+          "settings": {}
+        },
+        "stats": {
+          "type": "stats",
+          "settings": {
+            "stat3_label": "Pago único, sin mensualidades"
+          }
+        },
+        "calc": {
+          "type": "calc",
+          "settings": {}
+        },
+        "story": {
+          "type": "story",
+          "settings": {
+            "photo": "shopify://shop_images/WhatsApp_Image_2026-09-30_at_01.47.59.jpg"
+          }
+        },
+        "pain_1": {
+          "type": "pain",
+          "settings": {
+            "text": "Ves cómo otras generan dinero online y te preguntás cuándo te va a llegar a vos."
+          }
+        },
+        "pain_2": {
+          "type": "pain",
+          "settings": {
+            "text": "Querés tener algo tuyo, que genere ingresos sin depender de un jefe ni de si un reel se hace viral."
+          }
+        },
+        "pain_3": {
+          "type": "pain",
+          "settings": {
+            "text": "Pensás y pensás en empezar, pero el miedo a perder tiempo o plata te frena y lo dejás para \"después\"."
+          }
+        },
+        "pain_4": {
+          "type": "pain",
+          "settings": {
+            "text": "Te abruma la cantidad de opciones — cursos, dropshipping, afiliados, contenido — y terminás sin elegir nada."
+          }
+        },
+        "pain_5": {
+          "type": "pain",
+          "settings": {
+            "text": "Ya compraste algún curso que te pedía tener audiencia antes de poder vender."
+          }
+        },
+        "module_1": {
+          "type": "module",
+          "settings": {
+            "title": "Qué producto vender",
+            "icon": "layers"
+          }
+        },
+        "module_2": {
+          "type": "module",
+          "settings": {
+            "title": "Cómo crear tu primera oferta",
+            "icon": "plus"
+          }
+        },
+        "module_3": {
+          "type": "module",
+          "settings": {
+            "title": "Tu página de ventas",
+            "icon": "page"
+          }
+        },
+        "module_4": {
+          "type": "module",
+          "settings": {
+            "title": "Automatizá tu negocio",
+            "icon": "gear"
+          }
+        },
+        "module_5": {
+          "type": "module",
+          "settings": {
+            "title": "Contenido en Instagram",
+            "icon": "instagram"
+          }
+        },
+        "module_6": {
+          "type": "module",
+          "settings": {
+            "title": "Pinterest & Threads",
+            "icon": "heart"
+          }
+        },
+        "module_7": {
+          "type": "module",
+          "settings": {
+            "title": "Tus primeros $3.000",
+            "icon": "dollar"
+          }
+        },
+        "module_8": {
+          "type": "module",
+          "settings": {
+            "title": "Un lanzamiento ganador",
+            "icon": "trend"
+          }
+        },
+        "module_9": {
+          "type": "module",
+          "settings": {
+            "title": "Estrategia Jane Doe",
+            "icon": "star"
+          }
+        },
+        "extra_1": {
+          "type": "extra",
+          "settings": {
+            "title": "Guía de Storytelling",
+            "icon": "book"
+          }
+        },
+        "extra_2": {
+          "type": "extra",
+          "settings": {
+            "title": "Guía de Branding",
+            "icon": "sun"
+          }
+        },
+        "extra_3": {
+          "type": "extra",
+          "settings": {
+            "title": "Agenda de contenido",
+            "icon": "calendar"
+          }
+        },
+        "extra_4": {
+          "type": "extra",
+          "settings": {
+            "title": "Bot de ideas con IA",
+            "icon": "bulb"
+          }
+        },
+        "notneed_1": {
+          "type": "notneed",
+          "settings": {
+            "text": "Seguidores"
+          }
+        },
+        "notneed_2": {
+          "type": "notneed",
+          "settings": {
+            "text": "Experiencia previa"
+          }
+        },
+        "notneed_3": {
+          "type": "notneed",
+          "settings": {
+            "text": "Mostrar tu cara"
+          }
+        },
+        "notneed_4": {
+          "type": "notneed",
+          "settings": {
+            "text": "Saber de tecnología"
+          }
+        },
+        "notneed_5": {
+          "type": "notneed",
+          "settings": {
+            "text": "Mucho tiempo libre"
+          }
+        },
+        "notneed_6": {
+          "type": "notneed",
+          "settings": {
+            "text": "Haber vendido antes"
+          }
+        },
+        "bonus_1": {
+          "type": "bonus",
+          "settings": {
+            "title": "Comunidad privada de apoyo",
+            "text": "Grupo de Telegram para preguntar, compartir avances y no sentirte sola.",
+            "value": 597
+          }
+        },
+        "bonus_2": {
+          "type": "bonus",
+          "settings": {
+            "title": "Derechos de reventa 85%",
+            "text": "Revendé ODC Drop como si fuera tuyo y quedate el 85% de cada venta.",
+            "value": 997
+          }
+        },
+        "bonus_3": {
+          "type": "bonus",
+          "settings": {
+            "title": "La Estrategia Express",
+            "text": "De $0 a tu primera venta en menos de 1 hora.",
+            "value": 197
+          }
+        },
+        "bonus_4": {
+          "type": "bonus",
+          "settings": {
+            "title": "Plantilla de página de ventas",
+            "text": "La adaptás con tus datos y listo, sin diseñador.",
+            "value": 227
+          }
+        },
+        "bonus_5": {
+          "type": "bonus",
+          "settings": {
+            "title": "Plantilla de automatización",
+            "text": "Mensajes automáticos que cierran ventas mientras dormís.",
+            "value": 97
+          }
+        },
+        "bonus_6": {
+          "type": "bonus",
+          "settings": {
+            "title": "Bot de ideas infinitas con IA",
+            "text": "Ideas de contenido y ofertas en segundos.",
+            "value": 117
+          }
+        },
+        "bonus_7": {
+          "type": "bonus",
+          "settings": {
+            "title": "7 guías listas para vender",
+            "text": "Productos digitales ya creados, listos para adaptar.",
+            "value": 257
+          }
+        },
+        "bonus_8": {
+          "type": "bonus",
+          "settings": {
+            "title": "Agenda de contenido mensual",
+            "text": "Qué publicar cada día, sin improvisar.",
+            "value": 77
+          }
+        },
+        "step_1": {
+          "type": "step",
+          "settings": {
+            "title": "Accedé a ODC Drop hoy",
+            "text": "Entrás al sistema completo y en las primeras horas ya sabés qué crear y cómo venderlo."
+          }
+        },
+        "step_2": {
+          "type": "step",
+          "settings": {
+            "title": "Implementá el Sistema Express",
+            "text": "Seguís el proceso paso a paso para armar tu sistema de ingresos automatizado."
+          }
+        },
+        "step_3": {
+          "type": "step",
+          "settings": {
+            "title": "Tus primeras ventas reales",
+            "text": "Ves movimiento, ves pagos, ves que sí se puede. Y ahí no parás más."
+          }
+        },
+        "faq_1": {
+          "type": "faq",
+          "settings": {
+            "question": "¿Es para principiantes o para alguien con experiencia?",
+            "answer": "<p>Es para ambas. Si sos principiante vas a tener todo explicado desde cero. Si ya tenés experiencia, vas a encontrar estrategias concretas para acelerar lo que ya empezaste.</p>",
+            "open": true
+          }
+        },
+        "faq_2": {
+          "type": "faq",
+          "settings": {
+            "question": "¿Cómo recibo el acceso?",
+            "answer": "<p>Apenas se acredita el pago te llega un email con tu acceso. Revisá también la carpeta de spam o promociones. Si en 15 minutos no lo ves, escribinos y lo resolvemos.</p>",
+            "open": false
+          }
+        },
+        "faq_3": {
+          "type": "faq",
+          "settings": {
+            "question": "¿Es un pago único o mensual?",
+            "answer": "<p>ODC Drop es un pago único de [precio] USD. Sin sorpresas, sin cobros recurrentes, con acceso a actualizaciones futuras.</p>",
+            "open": false
+          }
+        },
+        "faq_4": {
+          "type": "faq",
+          "settings": {
+            "question": "¿Incluye derechos de reventa?",
+            "answer": "<p>Sí. Al unirte recibís la licencia para revender ODC Drop como si fuera tuyo y quedarte el 85% de cada venta.</p>",
+            "open": false
+          }
+        },
+        "faq_5": {
+          "type": "faq",
+          "settings": {
+            "question": "¿Necesito seguidores para que funcione?",
+            "answer": "<p>No. El sistema está diseñado específicamente para funcionar sin audiencia previa. Esa es nuestra diferencia principal.</p>",
+            "open": false
+          }
+        },
+        "faq_6": {
+          "type": "faq",
+          "settings": {
+            "question": "¿Funciona para cualquier país?",
+            "answer": "<p>Sí, 100%. Pagás en dólares desde cualquier país y tenemos alumnas en Argentina, México, Colombia, Chile, Perú, Uruguay y España.</p>",
+            "open": false
+          }
+        },
+        "faq_7": {
+          "type": "faq",
+          "settings": {
+            "question": "¿En qué formato está ODC Drop?",
+            "answer": "<p>Videos cortos y concretos, con ejercicios prácticos. Sin relleno, para que puedas implementar rápido.</p>",
+            "open": false
+          }
+        },
+        "faq_8": {
+          "type": "faq",
+          "settings": {
+            "question": "¿Cuánto tiempo necesito por día?",
+            "answer": "<p>Con 30 a 60 minutos diarios es suficiente para avanzar y ver resultados en la primera semana.</p>",
+            "open": false
+          }
+        },
+        "faq_9": {
+          "type": "faq",
+          "settings": {
+            "question": "¿Y si tengo dudas mientras avanzo?",
+            "answer": "<p>No estás sola: entrás a la comunidad privada de Telegram donde preguntás lo que necesites y tenés soporte real, no un PDF que te dejan mirando. Las ventas son finales, por eso todo el material está pensado para que puedas implementarlo desde el primer día.</p>",
+            "open": false
+          }
+        }
+      },
+      "block_order": [
+        "hero",
+        "stats",
+        "calc",
+        "story",
+        "pain_1",
+        "pain_2",
+        "pain_3",
+        "pain_4",
+        "pain_5",
+        "module_1",
+        "module_2",
+        "module_3",
+        "module_4",
+        "module_5",
+        "module_6",
+        "module_7",
+        "module_8",
+        "module_9",
+        "extra_1",
+        "extra_2",
+        "extra_3",
+        "extra_4",
+        "notneed_1",
+        "notneed_2",
+        "notneed_3",
+        "notneed_4",
+        "notneed_5",
+        "notneed_6",
+        "bonus_1",
+        "bonus_2",
+        "bonus_3",
+        "bonus_4",
+        "bonus_5",
+        "bonus_6",
+        "bonus_7",
+        "bonus_8",
+        "step_1",
+        "step_2",
+        "step_3",
+        "faq_1",
+        "faq_2",
+        "faq_3",
+        "faq_4",
+        "faq_5",
+        "faq_6",
+        "faq_7",
+        "faq_8",
+        "faq_9"
+      ],
+      "settings": {
+        "currency": "usd",
+        "product": "",
+        "checkout_url": "https://marketingconelihansen.systeme.io/pago",
+        "installments": 0,
+        "transfer_price_ars": 0,
+        "announce_text": "<strong>ESPECIAL DE LANZAMIENTO</strong> — [descuento] OFF termina en",
+        "final_text": "ODC Drop + los 9 módulos + los 8 bonos + derechos de reventa al 85% + comunidad privada. Acceso inmediato por <strong>[precio] USD</strong>, pago único.",
+        "cta_final": "🔥 Sí, quiero acceso inmediato por [precio] USD",
+        "cta_mobile": "🔥 Acceso inmediato — [precio] USD"
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}
