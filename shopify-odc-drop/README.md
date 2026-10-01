@@ -81,7 +81,7 @@ Entre "No necesitás" y la calculadora hay un carrusel con capturas reales de al
 - Al tocar una captura se amplía para leerla bien.
 - Abajo tiene un botón de compra y una aclaración legal ("los resultados no están garantizados"), que Meta Ads pide cuando mostrás ingresos.
 
-**Para cambiar o sumar capturas:** en el editor, hacé clic en el bloque **Resultados (título y botón)**. Tiene lugar para 8 capturas, cada una con un texto opcional debajo. Las vacías no se muestran.
+**Para cambiar o sumar capturas:** en el editor, hacé clic en el bloque **Resultados**. Tiene lugar para 8 capturas, cada una con un texto opcional debajo. Las vacías no se muestran.
 
 > Antes de subir una captura, tapá emails, teléfonos y nombres de compradores. Mostrar datos personales de clientes sin permiso puede traerte problemas legales y con Meta.
 
