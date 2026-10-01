@@ -20,6 +20,22 @@
             "stat3_label": "Pago único o [cuotas]"
           }
         },
+        "results": {
+          "type": "results",
+          "settings": {
+            "image_1": "shopify://shop_images/odc-testimonio-gabriela.jpg",
+            "caption_1": "Gabriela: tienda de Etsy con 2 ventas y 2 clientes de páginas web en su primer mes",
+            "image_2": "shopify://shop_images/odc-testimonio-pago-449.jpg",
+            "caption_2": "Un pago de $449 USD, generado desde casa",
+            "image_3": "shopify://shop_images/odc-testimonio-venta-47.jpg",
+            "caption_3": "Day: se fue a dormir y se despertó con una venta",
+            "image_4": "shopify://shop_images/odc-testimonio-guada.jpg",
+            "caption_4": "Guada: su primer afiliado vendió 3 de sus e-books",
+            "image_5": "shopify://shop_images/odc-testimonio-reel-200-seguidores.jpg",
+            "caption_5": "Un reel con muchísimo alcance en una cuenta de 200 seguidores",
+            "res_cta": "🔥 Quiero mis primeros resultados — [precio]"
+          }
+        },
         "calc": {
           "type": "calc",
           "settings": {
@@ -359,6 +375,7 @@
       "block_order": [
         "hero",
         "stats",
+        "results",
         "calc",
         "story",
         "pain_1",

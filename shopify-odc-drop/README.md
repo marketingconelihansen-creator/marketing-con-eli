@@ -11,6 +11,7 @@ Tu página de ODC Drop convertida en una **sección nativa de Shopify (Online St
 | `templates/page.odc-drop.json` | Página en **pesos** (checkout de Shopify, cuotas y transferencia) | Carpeta **Templates** |
 | `templates/page.odc-drop-usd.json` | Página en **dólares** (link de pago en USD) | Carpeta **Templates** |
 | `assets/eli-odc-drop.jpg` | Tu foto, **ya enderezada** (en el HTML original se veía de costado) | Se sube desde el editor (paso 5) |
+| `assets/testimonios/` | Las 5 capturas de resultados, con los emails de compradores tapados | Ya están en **Contenido → Archivos** de tu tienda |
 
 ---
 
@@ -72,6 +73,17 @@ Las dos usan la misma sección. El ajuste **Moneda de esta página** define todo
 - **Dólares:** todo en USD y los botones van al **Link de pago en dólares**.
 
 PayPal no opera en pesos argentinos, así que no aparece en el checkout de Shopify de una tienda en ARS. Para cobrar con PayPal, usá un link de pago de PayPal en la página en dólares.
+
+## Carrusel de resultados
+
+Entre "No necesitás" y la calculadora hay un carrusel con capturas reales de alumnas:
+- En celular se desliza con el dedo; en computadora tiene flechas. Los puntitos muestran en qué captura estás.
+- Al tocar una captura se amplía para leerla bien.
+- Abajo tiene un botón de compra y una aclaración legal ("los resultados no están garantizados"), que Meta Ads pide cuando mostrás ingresos.
+
+**Para cambiar o sumar capturas:** en el editor, hacé clic en el bloque **Resultados (título y botón)**. Tiene lugar para 8 capturas, cada una con un texto opcional debajo. Las vacías no se muestran.
+
+> Antes de subir una captura, tapá emails, teléfonos y nombres de compradores. Mostrar datos personales de clientes sin permiso puede traerte problemas legales y con Meta.
 
 ## Cómo configurar el infoproducto en Shopify (recomendado)
 
