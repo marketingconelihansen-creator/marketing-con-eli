@@ -1,0 +1,8 @@
+# Videos de entrada y salida: no se suben al repositorio
+inbox/*
+!inbox/.gitkeep
+outputs/*
+!outputs/.gitkeep
+assets/music/*
+!assets/music/.gitkeep
+__pycache__/
