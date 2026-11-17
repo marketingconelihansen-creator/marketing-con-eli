@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { formatCurrency } from '../utils/helpers';
+import PDFImporter from '../components/PDFImporter';
 import './DebtManager.css';
 
 export default function DebtManager({ debts: initialDebts, onUpdate }) {
@@ -85,6 +86,20 @@ export default function DebtManager({ debts: initialDebts, onUpdate }) {
     }
   };
 
+  const handleDebtFromPDF = (extractedDebt) => {
+    const newDebt = {
+      id: Date.now(),
+      ...extractedDebt,
+      status: 'active'
+    };
+    const updatedDebts = [...debts, newDebt];
+    setDebts(updatedDebts);
+    const data = JSON.parse(localStorage.getItem('financialData')) || {};
+    data.debts = updatedDebts;
+    localStorage.setItem('financialData', JSON.stringify(data));
+    onUpdate();
+  };
+
   const filteredDebts = debts.filter(d =>
     d.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -96,6 +111,9 @@ export default function DebtManager({ debts: initialDebts, onUpdate }) {
   return (
     <div className="debt-manager">
       <h2>💳 Gestión de Deudas</h2>
+
+      {/* PDF Importer Section */}
+      <PDFImporter onDebtExtracted={handleDebtFromPDF} />
 
       <div className="debt-summary">
         <div className="summary-card">
