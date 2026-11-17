@@ -225,7 +225,7 @@ export default function PDFImporter({ onDebtExtracted }) {
         <label className="pdf-upload-label">
           <input
             type="file"
-            accept=".pdf,image/jpeg,image/png,image/webp"
+            accept=".pdf,.jpg,.jpeg,.png,.webp,image/jpeg,image/png,image/webp"
             onChange={handleFileUpload}
             disabled={isLoading}
             style={{ display: 'none' }}
