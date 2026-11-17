@@ -2,6 +2,188 @@
   animation: fadeIn 0.3s ease-in;
 }
 
+/* Motivational Banner */
+.motivational-banner {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 1.5rem;
+  border-radius: 1rem;
+  margin-bottom: 2rem;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+.quote-text {
+  font-size: 1.3rem;
+  color: white;
+  margin: 0;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+/* Dashboard Title */
+.dashboard-title {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  margin-top: 0;
+}
+
+.dashboard-title .libertad {
+  color: #10b981;
+  font-weight: 700;
+}
+
+.dashboard-title .financiera {
+  font-style: italic;
+  color: #fbbf24;
+  font-weight: 300;
+  font-family: 'Brush Script MT', cursive;
+  font-size: 2.8rem;
+  letter-spacing: 2px;
+}
+
+/* Monthly Section */
+.monthly-section {
+  background: rgba(16, 185, 129, 0.05);
+  border: 2px solid #10b981;
+  border-radius: 1rem;
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+
+.monthly-section h3 {
+  color: #10b981;
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+}
+
+.monthly-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+.month-card {
+  background: white;
+  border: 2px solid #e5e7eb;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.month-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  border-color: #10b981;
+}
+
+.month-card h4 {
+  margin: 0 0 1rem 0;
+  color: #333;
+  font-size: 1rem;
+}
+
+.month-card .amount {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0.5rem 0;
+}
+
+.month-card .need-to-pay {
+  color: #dc2626;
+}
+
+.month-card .live-cost {
+  color: #fbbf24;
+}
+
+.month-card .total-needed {
+  color: #667eea;
+}
+
+.month-card small {
+  color: #9ca3af;
+  font-size: 0.85rem;
+}
+
+/* Savings Section */
+.savings-section {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(251, 191, 36, 0.1) 100%);
+  border: 2px solid #10b981;
+  border-radius: 1rem;
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+
+.savings-section h3 {
+  color: #10b981;
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.savings-grid {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.savings-info {
+  text-align: center;
+  color: #333;
+}
+
+.savings-info p {
+  margin: 0.5rem 0;
+  font-size: 1.1rem;
+}
+
+.savings-info strong {
+  color: #10b981;
+  font-size: 1.3rem;
+}
+
+.savings-percentage {
+  color: #fbbf24;
+  font-weight: 600;
+}
+
+/* Icon 3D */
+.icon-3d-container {
+  width: 150px;
+  height: 180px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.icon-3d {
+  width: 100%;
+  height: 120px;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+  animation: bounce 2s infinite ease-in-out;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.fill-percentage {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #10b981;
+}
+
+.icon-label {
+  font-size: 0.9rem;
+  color: #666;
+  font-weight: 600;
+}
+
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
