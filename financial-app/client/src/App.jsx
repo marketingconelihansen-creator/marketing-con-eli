@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import Dashboard from './pages/Dashboard';
 import DebtManager from './pages/DebtManager';
 import IncomeExpense from './pages/IncomeExpense';
@@ -18,39 +17,48 @@ export default function App() {
   });
   const [loading, setLoading] = useState(false);
 
-  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
-
-  const fetchData = async () => {
-    setLoading(true);
-    try {
-      const [debts, income, expenses, goals, dashboard] = await Promise.all([
-        axios.get(`${API_URL}/api/debts`),
-        axios.get(`${API_URL}/api/income`),
-        axios.get(`${API_URL}/api/expenses`),
-        axios.get(`${API_URL}/api/goals`),
-        axios.get(`${API_URL}/api/dashboard`)
-      ]);
-
-      setData({
-        debts: debts.data,
-        income: income.data,
-        expenses: expenses.data,
-        goals: goals.data,
-        dashboard: dashboard.data
-      });
-    } catch (error) {
-      console.error('Error fetching data:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
+  // Cargar datos de localStorage
   useEffect(() => {
-    fetchData();
+    const savedData = localStorage.getItem('financialData');
+    if (savedData) {
+      try {
+        setData(JSON.parse(savedData));
+      } catch (e) {
+        console.error('Error loading data:', e);
+      }
+    } else {
+      // Datos de ejemplo iniciales
+      const initialData = {
+        debts: [
+          { id: 1, name: 'Tarjeta Crédito', amount: 2500, interestRate: 18, minPayment: 100, status: 'active' },
+          { id: 2, name: 'Auto Préstamo', amount: 15000, interestRate: 6, minPayment: 300, status: 'active' }
+        ],
+        income: [
+          { id: 1, source: 'Salario', amount: 3000, frequency: 'monthly', date: new Date().toISOString() }
+        ],
+        expenses: [
+          { id: 1, category: 'Alimentación', amount: 500, date: new Date().toISOString() },
+          { id: 2, category: 'Transporte', amount: 200, date: new Date().toISOString() }
+        ],
+        goals: [
+          { id: 1, name: 'Fondo de Emergencia', target: 5000, current: 1200, deadline: '2025-12-31' },
+          { id: 2, name: 'Vacaciones', target: 2000, current: 800, deadline: '2025-06-30' }
+        ],
+        dashboard: { totalIncome: 3000, totalExpenses: 700, totalDebts: 17500 }
+      };
+      setData(initialData);
+      localStorage.setItem('financialData', JSON.stringify(initialData));
+    }
   }, []);
 
+  // Guardar datos cuando cambian
+  const saveData = (newData) => {
+    setData(newData);
+    localStorage.setItem('financialData', JSON.stringify(newData));
+  };
+
   const handleDataUpdate = () => {
-    fetchData();
+    // Los datos se actualizan directamente
   };
 
   const renderPage = () => {
