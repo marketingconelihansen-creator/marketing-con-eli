@@ -75,6 +75,21 @@ const initDb = () => {
       createdAt TEXT DEFAULT CURRENT_TIMESTAMP,
       FOREIGN KEY (debtId) REFERENCES debts(id)
     )`);
+
+    // Tabla de metas
+    db.run(`CREATE TABLE IF NOT EXISTS goals (
+      id TEXT PRIMARY KEY,
+      name TEXT NOT NULL,
+      targetAmount REAL NOT NULL,
+      currentAmount REAL DEFAULT 0,
+      category TEXT,
+      description TEXT,
+      icon TEXT,
+      color TEXT,
+      status TEXT DEFAULT 'active',
+      createdAt TEXT DEFAULT CURRENT_TIMESTAMP,
+      completedAt TEXT
+    )`);
   });
 };
 
@@ -200,6 +215,53 @@ app.post('/api/payments', (req, res) => {
       res.json({ id, debtId, amount, date, method, notes });
     }
   );
+});
+
+// METAS - Endpoints
+
+// Obtener todas las metas
+app.get('/api/goals', (req, res) => {
+  db.all(`SELECT * FROM goals ORDER BY createdAt DESC`, (err, rows) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json(rows);
+  });
+});
+
+// Crear meta
+app.post('/api/goals', (req, res) => {
+  const { name, targetAmount, category, description, icon, color } = req.body;
+  const id = uuid();
+
+  db.run(
+    `INSERT INTO goals (id, name, targetAmount, category, description, icon, color) VALUES (?, ?, ?, ?, ?, ?, ?)`,
+    [id, name, targetAmount, category, description, icon, color],
+    (err) => {
+      if (err) return res.status(500).json({ error: err.message });
+      res.json({ id, name, targetAmount, currentAmount: 0, category, description, icon, color, status: 'active' });
+    }
+  );
+});
+
+// Actualizar progreso de meta
+app.put('/api/goals/:id', (req, res) => {
+  const { currentAmount, status } = req.body;
+
+  db.run(
+    `UPDATE goals SET currentAmount = ?, status = ? WHERE id = ?`,
+    [currentAmount, status || 'active', req.params.id],
+    (err) => {
+      if (err) return res.status(500).json({ error: err.message });
+      res.json({ success: true });
+    }
+  );
+});
+
+// Eliminar meta
+app.delete('/api/goals/:id', (req, res) => {
+  db.run(`DELETE FROM goals WHERE id = ?`, [req.params.id], (err) => {
+    if (err) return res.status(500).json({ error: err.message });
+    res.json({ success: true });
+  });
 });
 
 // DASHBOARD - Estadísticas

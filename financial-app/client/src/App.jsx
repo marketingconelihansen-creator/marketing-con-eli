@@ -4,6 +4,7 @@ import Dashboard from './pages/Dashboard';
 import DebtManager from './pages/DebtManager';
 import IncomeExpense from './pages/IncomeExpense';
 import BusinessDashboard from './pages/BusinessDashboard';
+import Goals from './pages/Goals';
 import './App.css';
 
 export default function App() {
@@ -12,6 +13,7 @@ export default function App() {
     debts: [],
     income: [],
     expenses: [],
+    goals: [],
     dashboard: {}
   });
   const [loading, setLoading] = useState(false);
@@ -21,10 +23,11 @@ export default function App() {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const [debts, income, expenses, dashboard] = await Promise.all([
+      const [debts, income, expenses, goals, dashboard] = await Promise.all([
         axios.get(`${API_URL}/api/debts`),
         axios.get(`${API_URL}/api/income`),
         axios.get(`${API_URL}/api/expenses`),
+        axios.get(`${API_URL}/api/goals`),
         axios.get(`${API_URL}/api/dashboard`)
       ]);
 
@@ -32,6 +35,7 @@ export default function App() {
         debts: debts.data,
         income: income.data,
         expenses: expenses.data,
+        goals: goals.data,
         dashboard: dashboard.data
       });
     } catch (error) {
@@ -59,6 +63,8 @@ export default function App() {
         return <IncomeExpense income={data.income} expenses={data.expenses} onUpdate={handleDataUpdate} />;
       case 'business':
         return <BusinessDashboard income={data.income} expenses={data.expenses} />;
+      case 'goals':
+        return <Goals goals={data.goals} onUpdate={handleDataUpdate} />;
       default:
         return <Dashboard data={data} loading={loading} />;
     }
@@ -92,6 +98,12 @@ export default function App() {
             onClick={() => setCurrentPage('business')}
           >
             🏢 Negocios
+          </button>
+          <button
+            className={`nav-btn ${currentPage === 'goals' ? 'active' : ''}`}
+            onClick={() => setCurrentPage('goals')}
+          >
+            🎯 Metas
           </button>
         </nav>
       </header>
