@@ -73,7 +73,7 @@ export default function App() {
   return (
     <div className="app">
       <header className="navbar">
-        <h1 className="logo">💰 Mi Finanzas</h1>
+        <h1 className="logo">🎯 Libertad Financiera</h1>
         <nav className="nav-links">
           <button
             className={`nav-btn ${currentPage === 'dashboard' ? 'active' : ''}`}
