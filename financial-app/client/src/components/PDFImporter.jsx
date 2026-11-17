@@ -40,28 +40,49 @@ export default function PDFImporter({ onDebtExtracted }) {
   };
 
   const parseDebtData = (text, fileName) => {
-    // Busca números (posibles montos)
-    const amountMatch = text.match(/\$?\s*([\d,]+\.?\d{2})/);
-    const amount = amountMatch ? parseFloat(amountMatch[1].replace(/,/g, '')) : 0;
-
-    // Busca fechas (DD/MM/YYYY o DD-MM-YYYY)
-    const dateMatch = text.match(/(\d{1,2})[/-](\d{1,2})[/-](\d{4})/);
-    let dueDate = new Date().toISOString().split('T')[0];
-    if (dateMatch) {
-      const [, day, month, year] = dateMatch;
-      dueDate = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+    // Busca números grandes (posibles montos) - busca números de 2-10 dígitos
+    const amountMatches = text.match(/\$?\s*([\d,]+(?:\.?\d{1,2})?)/g) || [];
+    let amount = 0;
+    for (let match of amountMatches) {
+      const num = parseFloat(match.replace(/[^0-9.-]/g, ''));
+      if (num > 10 && num < 999999) {
+        amount = num;
+        break;
+      }
     }
 
-    // Busca creditor en palabras comunes
-    const creditorMatch = text.match(/(tarjeta|banco|prestamo|servicio|empresa|comercio|factura)/i);
-    const creditor = creditorMatch ? creditorMatch[0] : fileName.replace(/\.[^/.]+$/, '').substring(0, 30);
+    // Busca fechas (DD/MM/YYYY o DD-MM-YYYY o YYYY-MM-DD)
+    const dateMatch = text.match(/(\d{1,4})[/-](\d{1,2})[/-](\d{1,4})/);
+    let dueDate = new Date().toISOString().split('T')[0];
+    if (dateMatch) {
+      let [, part1, part2, part3] = dateMatch;
+      if (part1.length === 4) {
+        dueDate = `${part1}-${part2.padStart(2, '0')}-${part3.padStart(2, '0')}`;
+      } else {
+        dueDate = `${part3}-${part2.padStart(2, '0')}-${part1.padStart(2, '0')}`;
+      }
+    }
+
+    // Mejora búsqueda de acreedor - busca en las primeras líneas del PDF
+    let creditor = 'Deuda sin identificar';
+    const lines = text.split('\n').slice(0, 15);
+    for (let line of lines) {
+      line = line.trim();
+      if (line.length > 2 && line.length < 60 && !line.match(/^\d+/) && line.match(/[a-záéíóúñ]/i)) {
+        creditor = line.replace(/\s+/g, ' ');
+        break;
+      }
+    }
+    if (creditor === 'Deuda sin identificar') {
+      creditor = fileName.replace(/\.[^/.]+$/, '').substring(0, 40);
+    }
 
     return {
       name: creditor,
       amount: amount,
       dueDate: dueDate,
       interestRate: 0,
-      minPayment: amount * 0.1,
+      minPayment: Math.max(amount * 0.05, 10),
       pdfFile: fileName
     };
   };
