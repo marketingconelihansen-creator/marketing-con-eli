@@ -4,6 +4,7 @@ import DebtManager from './pages/DebtManager';
 import IncomeExpense from './pages/IncomeExpense';
 import BusinessDashboard from './pages/BusinessDashboard';
 import Goals from './pages/Goals';
+import { initFirebase, loadDataFromFirebase, saveDataToFirebase, isFirebaseReady } from './firebase';
 import './App.css';
 
 export default function App() {
@@ -15,46 +16,61 @@ export default function App() {
     goals: [],
     dashboard: {}
   });
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
-  // Cargar datos de localStorage
+  // Inicializar Firebase y cargar datos
   useEffect(() => {
-    const savedData = localStorage.getItem('financialData');
-    if (savedData) {
-      try {
-        setData(JSON.parse(savedData));
-      } catch (e) {
-        console.error('Error loading data:', e);
+    const initData = async () => {
+      setLoading(true);
+
+      // Inicializar Firebase
+      const firebaseReady = await initFirebase();
+
+      if (firebaseReady) {
+        // Cargar datos desde Firebase con sincronización en tiempo real
+        const unsubscribe = loadDataFromFirebase((remoteData) => {
+          setData(remoteData);
+          setLoading(false);
+        });
+
+        return () => unsubscribe();
+      } else {
+        // Fallback a localStorage si Firebase falla
+        console.log('Usando localStorage como fallback');
+        const savedData = localStorage.getItem('financialData');
+        if (savedData) {
+          try {
+            setData(JSON.parse(savedData));
+          } catch (e) {
+            console.error('Error loading data:', e);
+          }
+        } else {
+          const initialData = {
+            debts: [],
+            income: [],
+            expenses: [],
+            goals: [],
+            dashboard: {}
+          };
+          setData(initialData);
+          localStorage.setItem('financialData', JSON.stringify(initialData));
+        }
+        setLoading(false);
       }
-    } else {
-      // Datos de ejemplo iniciales
-      const initialData = {
-        debts: [
-          { id: 1, name: 'Tarjeta Crédito', amount: 2500, interestRate: 18, minPayment: 100, status: 'active' },
-          { id: 2, name: 'Auto Préstamo', amount: 15000, interestRate: 6, minPayment: 300, status: 'active' }
-        ],
-        income: [
-          { id: 1, source: 'Salario', amount: 3000, frequency: 'monthly', date: new Date().toISOString() }
-        ],
-        expenses: [
-          { id: 1, category: 'Alimentación', amount: 500, date: new Date().toISOString() },
-          { id: 2, category: 'Transporte', amount: 200, date: new Date().toISOString() }
-        ],
-        goals: [
-          { id: 1, name: 'Fondo de Emergencia', target: 5000, current: 1200, deadline: '2025-12-31' },
-          { id: 2, name: 'Vacaciones', target: 2000, current: 800, deadline: '2025-06-30' }
-        ],
-        dashboard: { totalIncome: 3000, totalExpenses: 700, totalDebts: 17500 }
-      };
-      setData(initialData);
-      localStorage.setItem('financialData', JSON.stringify(initialData));
-    }
+    };
+
+    initData();
   }, []);
 
-  // Guardar datos cuando cambian
+  // Guardar datos - sincroniza con Firebase si está disponible
   const saveData = (newData) => {
     setData(newData);
-    localStorage.setItem('financialData', JSON.stringify(newData));
+
+    if (isFirebaseReady()) {
+      saveDataToFirebase(newData);
+    } else {
+      localStorage.setItem('financialData', JSON.stringify(newData));
+    }
   };
 
   const handleDataUpdate = () => {
