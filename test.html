@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test</title>
+</head>
+<body>
+    <h1>✅ Si ves esto, GitHub Pages funciona correctamente</h1>
+    <p>Los assets en /assets/ existen: <span id="result">comprobando...</span></p>
+    <script>
+        fetch('/marketing-con-eli/assets/index-31909f9f.js', {method: 'HEAD'})
+            .then(r => document.getElementById('result').innerText = r.ok ? '✅ SÍ' : '❌ NO')
+            .catch(e => document.getElementById('result').innerText = '❌ Error: ' + e.message);
+    </script>
+</body>
+</html>
