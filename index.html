@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Marketing con Eli Hansen</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+<style>
+:root{--v:#6EE04A;--vd:#4ab82e;--vg:rgba(110,224,74,.12);--n:#F4763B;--nd:#d45e25;--ng:rgba(244,118,59,.12);--bg:#0f1a0f;--bg2:#141f14;--card:#192419;--card2:#1f2e1f;--border:#2a3d2a;--border2:#3a5a3a;--text:#e8f5e8;--text2:#a8c8a8;--text3:#6a9a6a}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Montserrat',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+#ls{position:fixed;inset:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:999}
+.lb{background:var(--card);border:1px solid var(--border2);border-radius:24px;padding:36px 28px;width:100%;max-width:380px;text-align:center}
+.lt{font-size:11px;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:20px}
+.lb input{background:var(--bg);border:1px solid var(--border2);color:var(--text);border-radius:10px;padding:10px 14px;font-size:13px;width:100%;margin-bottom:10px;font-family:'Montserrat',sans-serif}
+.lb input:focus{outline:none;border-color:var(--v)}
+.btn-l{background:linear-gradient(135deg,var(--v),var(--vd));color:#0f1a0f;border:none;border-radius:10px;padding:11px;width:100%;font-weight:800;font-size:13px;cursor:pointer;font-family:'Montserrat',sans-serif}
+.lerr{color:var(--n);font-size:11px;margin-top:8px;display:none}
+.hdr{background:var(--card);border-bottom:1px solid var(--border);padding:12px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
+.hn{font-size:13px;font-weight:800;color:var(--v)}
+.he{font-family:'Dancing Script',cursive;font-size:16px;color:var(--n)}
+.nav{display:flex;gap:4px;flex-wrap:wrap;padding:10px 14px;background:var(--bg2);border-bottom:1px solid var(--border);overflow-x:auto}
+.nav button{padding:7px 14px;border-radius:20px;border:none;cursor:pointer;font-size:11px;font-weight:700;font-family:'Montserrat',sans-serif;transition:all .2s;white-space:nowrap}
+.nav button.active{background:linear-gradient(135deg,var(--v),var(--vd));color:#0f1a0f}
+.nav button:not(.active){background:var(--card2);color:var(--text3)}
+.cnt{padding:14px;max-width:960px;margin:0 auto}
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:14px;margin-bottom:12px}
+.ct{font-size:11px;font-weight:800;margin-bottom:12px;color:var(--v);text-transform:uppercase;letter-spacing:1px}
+.sg{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:14px}
+.st{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:13px;border-left:3px solid}
+.sv{font-size:18px;font-weight:900;margin:4px 0}
+.badge{padding:3px 9px;border-radius:20px;font-size:10px;font-weight:700;display:inline-block}
+.bg{background:rgba(110,224,74,.15);color:var(--v)}.br{background:rgba(244,118,59,.2);color:#f87171}.by{background:rgba(244,185,59,.15);color:#fbbf24}.bb{background:rgba(74,184,110,.1);color:var(--v)}
+.btn{padding:7px 14px;border-radius:10px;border:none;cursor:pointer;font-size:11px;font-weight:700;font-family:'Montserrat',sans-serif;transition:all .2s}
+.bp{background:linear-gradient(135deg,var(--v),var(--vd));color:#0f1a0f}
+.bo{background:linear-gradient(135deg,var(--n),var(--nd));color:#fff}
+.bs{background:rgba(110,224,74,.15);color:var(--v);border:1px solid var(--border2)}
+.bd{background:rgba(248,113,113,.12);color:#f87171;border:1px solid rgba(248,113,113,.2)}
+.bg2c{background:var(--card2);color:var(--text3);border:1px solid var(--border)}
+.bsm{padding:4px 9px;font-size:10px}
+input,select,textarea{background:var(--bg);border:1px solid var(--border2);color:var(--text);border-radius:10px;padding:8px 12px;font-size:12px;width:100%;font-family:'Montserrat',sans-serif}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--v)}
+label{font-size:10px;color:var(--text3);margin-bottom:3px;display:block;font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+.fg{margin-bottom:9px}.fr{display:grid;grid-template-columns:1fr 1fr;gap:8px}.fr3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.tr{display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--border);gap:8px}
+.tr:last-child{border-bottom:none}
+.div{border:none;border-top:1px solid var(--border);margin:10px 0}
+.ab{border-radius:10px;padding:10px 12px;margin-bottom:8px;font-size:12px;border-left:3px solid}
+.aw{background:rgba(251,191,36,.06);border-color:#fbbf24;color:#fbbf24}
+.ad{background:rgba(248,113,113,.06);border-color:#f87171;color:#f87171}
+.ag{background:var(--vg);border-color:var(--v);color:var(--v)}
+.ao{background:var(--ng);border-color:var(--n);color:var(--n)}
+.ti{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:10px;margin-bottom:7px;border-left:3px solid var(--border2)}
+.ti.done{opacity:.4;border-left-color:var(--v)}
+.ti.late{border-left-color:#f87171;background:rgba(248,113,113,.04)}
+.wt{font-size:10px;font-weight:800;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin:12px 0 6px}
+.mo{display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:200;align-items:center;justify-content:center;padding:14px}
+.mo.open{display:flex}
+.md{background:var(--card);border:1px solid var(--border2);border-radius:20px;padding:20px;width:100%;max-width:500px;max-height:90vh;overflow-y:auto}
+.mdt{font-size:14px;font-weight:800;margin-bottom:14px;color:var(--v)}
+.gb{background:var(--border);border-radius:4px;height:6px;margin-top:3px;overflow:hidden}
+.gf{background:linear-gradient(90deg,var(--v),var(--n));height:100%;border-radius:4px}
+.ptb{padding:7px 14px;border-radius:20px;border:none;cursor:pointer;font-size:11px;font-weight:700;font-family:'Montserrat',sans-serif}
+.ptb.active{background:linear-gradient(135deg,var(--v),var(--vd));color:#0f1a0f}
+.ptb:not(.active){background:var(--card2);color:var(--text3)}
+.tbl{background:var(--bg);border-radius:10px;overflow:hidden;margin-bottom:10px}
+.tbl-h{display:grid;padding:7px 10px;font-size:9px;font-weight:800;color:var(--text3);text-transform:uppercase;border-bottom:1px solid var(--border)}
+.tbl-r{display:grid;padding:8px 10px;font-size:11px}
+.tbl-r:nth-child(even){background:var(--card2)}
+.total-row{background:var(--bg2)!important;font-weight:800;border-top:2px solid var(--border2)!important}
+</style>
+</head>
+<body>
+<!-- LOGIN -->
+<div id="ls">
+  <div class="lb">
+    <svg width="200" height="68" viewBox="0 0 200 68" xmlns="http://www.w3.org/2000/svg" style="margin-bottom:8px">
+      <circle cx="78" cy="15" r="10" fill="none" stroke="#6EE04A" stroke-width="2"/>
+      <text x="78" y="20" text-anchor="middle" font-size="9" fill="#6EE04A">♥</text>
+      <circle cx="60" cy="19" r="7" fill="none" stroke="#6EE04A" stroke-width="1.5"/>
+      <text x="60" y="24" text-anchor="middle" font-size="7" fill="#6EE04A">👍</text>
+      <circle cx="96" cy="19" r="7" fill="none" stroke="#6EE04A" stroke-width="1.5"/>
+      <text x="96" y="24" text-anchor="middle" font-size="7" fill="#6EE04A">★</text>
+      <text x="4" y="50" font-family="'Montserrat',sans-serif" font-weight="900" font-size="32" fill="#6EE04A">M</text>
+      <text x="30" y="50" font-family="'Montserrat',sans-serif" font-weight="900" font-size="18" fill="#F4763B">ark</text>
+      <text x="63" y="50" font-family="'Montserrat',sans-serif" font-weight="900" font-size="32" fill="#6EE04A">E</text>
+      <text x="82" y="50" font-family="'Montserrat',sans-serif" font-weight="900" font-size="18" fill="#F4763B">ting con</text>
+      <text x="4" y="66" font-family="'Dancing Script',cursive" font-size="18" fill="#6EE04A">Eli Hansen</text>
+    </svg>
+    <div class="lt">Sistema de gestión interna</div>
+    <label>Usuario</label><input id="lu" placeholder="tu nombre" onkeydown="if(event.key==='Enter')document.getElementById('lp').focus()">
+    <label style="margin-top:6px">Contraseña</label><input id="lp" type="password" placeholder="***" onkeydown="if(event.key==='Enter')doLogin()">
+    <button class="btn-l" style="margin-top:8px" onclick="doLogin()">✦ Ingresar</button>
+    <div class="lerr" id="lerr">❌ Usuario o contraseña incorrectos</div>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app" style="display:none">
+  <div class="hdr">
+    <div><div class="hn">Marketing con <span class="he">Eli Hansen</span></div><div style="font-size:9px;color:var(--text3)" id="fhdr"></div></div>
+    <div style="display:flex;align-items:center;gap:8px"><span style="font-size:10px;color:var(--text3)" id="ubadge"></span><button class="btn bs bsm" onclick="location.href='tareas-diarias.html'">🔔 Tareas Diarias</button><button class="btn bg2c bsm" onclick="logout()">Salir</button></div>
+  </div>
+  <div class="nav" id="mnav"></div>
+  <div class="cnt" id="mc"></div>
+</div>
+
+<!-- MODALES -->
+<div class="mo" id="mo-c"><div class="md"><div class="mdt" id="moc-t"></div><div id="moc-b"></div><button class="btn bg2c bsm" style="margin-top:14px;width:100%" onclick="closeMo('mo-c')">Cerrar</button></div></div>
+<div class="mo" id="mo-d"><div class="md"><div class="mdt" id="mod-t"></div><div id="mod-b"></div><button class="btn bg2c bsm" style="margin-top:14px;width:100%" onclick="closeMo('mo-d')">Cerrar</button></div></div>
+<div class="mo" id="mo-u"><div class="md"><div class="mdt">👤 Editar usuario</div><div id="mou-b"></div><button class="btn bg2c bsm" style="margin-top:14px;width:100%" onclick="closeMo('mo-u')">Cerrar</button></div></div>
+
+<script>
+// ══════════════════════════════════════
+// CONFIGURACIÓN
+// ══════════════════════════════════════
+const META_TOKEN="EAAPtZBR8usM8BRt0BmZC4eMavuhLWZCus0mVwBImUircKhZAGw93RkyQHQWUSFfhjcOrHsRyeHZCI0niqbDbicZASlY5VWnKZA4Utsrct3OufwJxlrG9VE0X6CpDs1OFzsWUspTFJhQfHR53ueT6aEroFVC5g99ZArV47WjSfrdneiVP10Jq37MWDyEXigeTDAP8AxjHkLX0jc1IrZAA2L83mTUbqi1HXZCx6ZAOYsUeN0O2ZBb5wi3xsZAR2fLQnl0Us2RUOHyBZCg23gJ8mCZCt58HwcZCBZCmx";
+const N8N_WEBHOOK="TU_WEBHOOK_N8N";
+const AD_ACCOUNTS=[
+  {id:"act_522466467358613",  marca:"Skin Lovers",          tipo:"ecommerce"},
+  {id:"act_1408336467260882", marca:"Convertite",           tipo:"whatsapp"},
+  {id:"act_252494924374934",  marca:"Eddis Catamarca",      tipo:"whatsapp"},
+  {id:"act_705302179336707",  marca:"Eddis Tandil",         tipo:"whatsapp"},
+  {id:"act_926690793239136",  marca:"Eddis General Pico",   tipo:"whatsapp"},
+  {id:"act_1352011332355952", marca:"Studio Beauty Tandil", tipo:"whatsapp"},
+  {id:"act_1452734726513266", marca:"Studio Beauty JC Paz", tipo:"whatsapp"},
+  {id:"act_1441704826902464", marca:"Agencia",              tipo:"whatsapp"},
+  {id:"act_1199179178686241", marca:"Infoproductos",        tipo:"ecommerce"},
+];
+
+// ══════════════════════════════════════
+// USUARIOS (editables desde la app)
+// ══════════════════════════════════════
+let USUARIOS={
+  eli:  {pass:"785",rol:"admin",      nombre:"Eli",    email:"marketingconelihansen@gmail.com",wa:"5491138699883"},
+  vicky:{pass:"113",rol:"secretaria", nombre:"Vicky",  email:"vbaigorria1@gmail.com",wa:"5491171200576"},
+  xavi: {pass:"062",rol:"editor",     nombre:"Xavi",   email:"",wa:""},
+  vale: {pass:"913",rol:"editor",     nombre:"Vale",   email:"",wa:""},
+};
+
+const PERMISOS={
+  admin:     ["resumen","clientes","alta","equipo","usuarios","tareas","publi","infoprod","finanzas","docs","alertas"],
+  secretaria:["clientes","alta","tareas","docs","publi"],
+  editor:    ["mis-tareas"],
+};
+const TABS={
+  resumen:"🏠 Resumen",clientes:"👥 Clientes",alta:"➕ Alta/Baja",equipo:"👤 Equipo",
+  usuarios:"🔐 Usuarios",tareas:"📋 Tareas",publi:"📣 Publicidad",infoprod:"🎓 Infoproductos",
+  finanzas:"💰 Finanzas",docs:"📎 Docs",alertas:"🔔 Alertas","mis-tareas":"📋 Mis Tareas",
+};
+
+let currentUser=null;
+const fmt=n=>"$"+Math.round(n).toLocaleString("es-AR");
+const hoyDia=new Date().getDate();
+const COLORES={Xavi:"#6EE04A",Vale:"#F4763B",Eli:"#fbbf24",Vicky:"#60a5fa"};
+const DESCUENTO=10000;
+
+function doLogin(){
+  const u=document.getElementById("lu").value.trim().toLowerCase();
+  const p=document.getElementById("lp").value.trim();
+  if(USUARIOS[u]&&USUARIOS[u].pass===p){
+    currentUser={...USUARIOS[u],key:u};
+    document.getElementById("ls").style.display="none";
+    document.getElementById("app").style.display="block";
+    document.getElementById("ubadge").textContent="👤 "+currentUser.nombre+" ("+currentUser.rol+")";
+    document.getElementById("fhdr").textContent=new Date().toLocaleDateString("es-AR",{weekday:"long",day:"numeric",month:"long",year:"numeric"});
+    buildNav();showTab(PERMISOS[currentUser.rol][0]);
+  } else document.getElementById("lerr").style.display="block";
+}
+function logout(){currentUser=null;document.getElementById("ls").style.display="flex";document.getElementById("app").style.display="none";document.getElementById("lu").value="";document.getElementById("lp").value="";}
+function buildNav(){document.getElementById("mnav").innerHTML=PERMISOS[currentUser.rol].map(t=>`<button id="nav-${t}" onclick="showTab('${t}')">${TABS[t]}</button>`).join("");}
+function showTab(t){
+  document.querySelectorAll(".nav button").forEach(b=>b.classList.remove("active"));
+  const b=document.getElementById("nav-"+t);if(b)b.classList.add("active");
+  const r={resumen:rResumen,clientes:rClientes,alta:rAlta,equipo:rEquipo,usuarios:rUsuarios,tareas:rTareas,publi:rPubli,infoprod:rInfoprod,finanzas:rFinanzas,docs:rDocs,alertas:rAlertas,"mis-tareas":()=>rMisTareas(currentUser.nombre)};
+  if(r[t])r[t]();
+}
+function closeMo(id){document.getElementById(id).classList.remove("open")}
+
+// ══════════════════════════════════════
+// DATOS
+// ══════════════════════════════════════
+let clientes=[
+  {id:1,marca:"Skin Lovers",dueno:"Paola Sainz",monto:1258730,diaPago:7,estado:"Activo",fechaAlta:"2025-03-12",baja:null,pagadoMes:false,servicio:"Redes + Web",wa:"5491157802297",email:"",notas:"",fechaUltimoAumento:"2025-03-12",docs:{contrato:null,comprobantePago:null,comprobanteNuestro:null}},
+  {id:2,marca:"Convertite",dueno:"Andrea Neme",monto:460000,diaPago:16,estado:"Activo",fechaAlta:"2026-02-16",baja:null,pagadoMes:false,servicio:"Plan Intermedio",wa:"5491159191179",email:"",notas:"",fechaUltimoAumento:"2026-02-16",docs:{contrato:null,comprobantePago:null,comprobanteNuestro:null}},
+  {id:3,marca:"Eddis Cursos",dueno:"Daniel y Natalia Gatti",monto:750000,diaPago:11,estado:"Activo",fechaAlta:"2026-03-11",baja:null,pagadoMes:false,servicio:"Cuentas Publicitarias (5 sedes)",wa:"5491160148251",email:"",notas:"5 sedes: Catamarca, Tandil, Gral Pico, Studio Beauty Tandil y JC Paz",fechaUltimoAumento:"2026-03-11",docs:{contrato:null,comprobantePago:null,comprobanteNuestro:null}},
+  {id:4,marca:"Dra. Luciana",dueno:"Luciana Irrazabal",monto:225000,diaPago:7,estado:"Baja próxima",fechaAlta:"2025-03-05",baja:"2026-06-05",pagadoMes:true,servicio:"Redes Plan Básico",wa:"5491158162057",email:"",notas:"Último mes pagado",fechaUltimoAumento:"2026-01-01",docs:{contrato:"Contrato_firmado.pdf (12/03/2025)",comprobantePago:null,comprobanteNuestro:null}},
+  {id:5,marca:"Spinella Bags",dueno:"Noelia Sánchez",monto:260000,diaPago:7,estado:"Baja próxima",fechaAlta:"2026-04-27",baja:"2026-06-16",pagadoMes:false,servicio:"Plan Básico",wa:"5492604332718",email:"",notas:"",fechaUltimoAumento:"2026-04-27",docs:{contrato:null,comprobantePago:null,comprobanteNuestro:null}},
+];
+
+let equipo=[
+  {id:1,nombre:"Xavi Herrera",rol:"Editor",inicio:"2025-09-01",sueldo:225000,alias:"xavi22.mp",descuentos:[]},
+  {id:2,nombre:"Vale Rebusque",rol:"Editor",inicio:"2026-02-01",sueldo:429000,alias:"valrebusque.mas",descuentos:[]},
+  {id:3,nombre:"Victoria Baigorria",rol:"Coordinadora",inicio:"2025-09-01",sueldo:264500,alias:"victoriabaigorria.mp",descuentos:[]},
+];
+
+// Publicidad por cuenta con campañas detalladas
+let publiCuentas=[
+  {id:1,marca:"Convertite",adAccount:"act_1408336467260882",tipo:"whatsapp",activa:true,
+   campanas:[
+    {nombre:"Captación DT Rugby",gasto:45200,conversaciones:18,fecha:"Semana 19-25 Mayo"},
+    {nombre:"Abogados Penalistas",gasto:38600,conversaciones:12,fecha:"Semana 19-25 Mayo"},
+    {nombre:"Arqueros",gasto:21000,conversaciones:7,fecha:"Semana 19-25 Mayo"},
+  ]},
+  {id:2,marca:"Eddis Catamarca",adAccount:"act_252494924374934",tipo:"whatsapp",activa:true,
+   campanas:[
+    {nombre:"Cursos Mayo — Masoterapia",gasto:32000,conversaciones:22,fecha:"Semana 19-25 Mayo"},
+    {nombre:"Técnico Refrigeración",gasto:18500,conversaciones:11,fecha:"Semana 19-25 Mayo"},
+  ]},
+  {id:3,marca:"Eddis Tandil",adAccount:"act_705302179336707",tipo:"whatsapp",activa:true,
+   campanas:[
+    {nombre:"Cursos Mayo — Lashista",gasto:28000,conversaciones:19,fecha:"Semana 19-25 Mayo"},
+    {nombre:"Aire Acondicionado",gasto:15000,conversaciones:8,fecha:"Semana 19-25 Mayo"},
+  ]},
+  {id:4,marca:"Eddis General Pico",adAccount:"act_926690793239136",tipo:"whatsapp",activa:true,
+   campanas:[
+    {nombre:"Cursos Junio — Preview",gasto:22000,conversaciones:14,fecha:"Semana 19-25 Mayo"},
+  ]},
+  {id:5,marca:"Studio Beauty Tandil",adAccount:"act_1352011332355952",tipo:"whatsapp",activa:true,
+   campanas:[
+    {nombre:"Tratamientos Faciales",gasto:19000,conversaciones:11,fecha:"Semana 19-25 Mayo"},
+  ]},
+  {id:6,marca:"Studio Beauty JC Paz",adAccount:"act_1452734726513266",tipo:"whatsapp",activa:true,
+   campanas:[
+    {nombre:"Tratamientos Corporales",gasto:17500,conversaciones:9,fecha:"Semana 19-25 Mayo"},
+  ]},
+  {id:7,marca:"Agencia — Marketing con Eli",adAccount:"act_1441704826902464",tipo:"whatsapp",activa:true,
+   campanas:[
+    {nombre:"Captación Ecommerce",gasto:14200,conversaciones:4,fecha:"Semana 19-25 Mayo"},
+    {nombre:"Agencias que buscan Delegar",gasto:9800,conversaciones:3,fecha:"Semana 19-25 Mayo"},
+  ]},
+  {id:8,marca:"Skin Lovers",adAccount:"act_522466467358613",tipo:"ecommerce",activa:true,
+   campanas:[
+    {nombre:"Hot Sale — Kits Coreanos",gasto:38000,ventas:24,ingresos:564000,fecha:"Semana 19-25 Mayo"},
+    {nombre:"Serum Anti-Arrugas",gasto:22000,ventas:11,ingresos:258500,fecha:"Semana 19-25 Mayo"},
+    {nombre:"Retargeting Carritos",gasto:12000,ventas:8,ingresos:188000,fecha:"Semana 19-25 Mayo"},
+  ]},
+  {id:9,marca:"Infoproductos Eli",adAccount:"act_1199179178686241",tipo:"ecommerce",activa:true,
+   campanas:[
+    {nombre:"Curso Ecommerce Escalar",gasto:18000,ventas:3,ingresos:150000,fecha:"Semana 19-25 Mayo"},
+    {nombre:"Cerebro NotebookLM",gasto:9000,ventas:5,ingresos:75000,fecha:"Semana 19-25 Mayo"},
+  ]},
+];
+
+let tareas=[
+  {id:1,persona:"Xavi",marca:"Skin Lovers",tipo:"Reel",semana:"Semana 3",desc:"Reel 19/5",fecha:"2026-05-19",notas:"Tiene texto en pantalla",entregada:false,tarde:false,fechaEntrega:null,mes:"2026-05"},
+  {id:2,persona:"Vale",marca:"Skin Lovers",tipo:"Carrusel",semana:"Semana 3",desc:"Carrusel Martes",fecha:"2026-05-20",notas:"",entregada:false,tarde:false,fechaEntrega:null,mes:"2026-05"},
+  {id:3,persona:"Xavi",marca:"Eddis Cursos",tipo:"Video Ads",semana:"Semana 3",desc:"Video Masoterapia",fecha:"2026-05-20",notas:"Subir al drive",entregada:true,tarde:false,fechaEntrega:"2026-05-20",mes:"2026-05"},
+  {id:4,persona:"Vale",marca:"Convertite",tipo:"Historia",semana:"Semana 3",desc:"Historias Andrea",fecha:"2026-05-20",notas:"",entregada:false,tarde:false,fechaEntrega:null,mes:"2026-05"},
+  {id:5,persona:"Xavi",marca:"Dra. Luciana",tipo:"Reel",semana:"Semana 4",desc:"Reel 29/5",fecha:"2026-05-29",notas:"Texto en pantalla",entregada:false,tarde:false,fechaEntrega:null,mes:"2026-05"},
+];
+
+let ventas=[];
+let cursos=[{id:1,nombre:"Curso Ecommerce Escalar"},{id:2,nombre:"Cerebro NotebookLM"},{id:3,nombre:"Mentoría 1:1"}];
+let nextId=20;
+const gAg=[{c:"Vicky (fijo)",m:264500},{c:"Claude",m:30200},{c:"AFIP",m:54000},{c:"Canva",m:10285},{c:"CapCut",m:2521},{c:"Google",m:7722},{c:"Obra Social",m:95000}];
+const gPer=[{c:"Alquiler",m:471239},{c:"Luz",m:25000},{c:"Gas",m:10000},{c:"Impuestos (c/2m)",m:27500},{c:"Internet",m:35000},{c:"Celular",m:12000},{c:"Cuota moto (3 rest.)",m:244000},{c:"Seguro moto",m:23000}];
+
+// ══════════════════════════════════════
+// ALERTAS
+// ══════════════════════════════════════
+function genAlertas(){
+  const hoy=new Date();const al=[];
+  clientes.forEach(c=>{
+    if(!c.docs.contrato){const d=Math.round((hoy-new Date(c.fechaAlta))/86400000);if(d>=3)al.push({u:"danger",msg:`📄 Sin contrato — ${c.marca} (${d} días desde alta)`,para:"ambos"});}
+    if(!c.docs.comprobantePago&&c.diaPago<hoyDia){const d=hoyDia-c.diaPago;if(d>=3)al.push({u:"danger",msg:`💳 Sin comprobante — ${c.marca} (${d} días post vencimiento)`,para:"ambos"});}
+    const dv=c.diaPago-hoyDia;if(!c.pagadoMes&&c.estado==="Activo"&&dv>=0&&dv<=2)al.push({u:"warn",msg:`🔔 Vence ${dv===0?"HOY":"en "+dv+" días"} — ${c.marca} · ${fmt(c.monto)}`,para:"ambos"});
+    if(c.baja){const d=Math.round((new Date(c.baja)-hoy)/86400000);if(d>=0&&d<=7)al.push({u:"warn",msg:`⚠️ Baja en ${d} días — ${c.marca}`,para:"ambos"});}
+    if(c.estado==="Activo"&&c.fechaUltimoAumento){const p=new Date(c.fechaUltimoAumento);p.setMonth(p.getMonth()+3);const d=Math.round((p-hoy)/86400000);if(d>=0&&d<=15)al.push({u:"orange",msg:`💚 Aumento en ${d} días — ${c.marca} → ${fmt(c.monto*1.15)}`,para:"eli"});}
+  });
+  tareas.filter(t=>t.persona==="Vicky"&&!t.entregada&&t.fecha).forEach(t=>{const d=Math.round((hoy-new Date(t.fecha))/86400000);if(d>=3)al.push({u:"danger",msg:`👩‍💼 Vicky atrasada: "${t.desc}" (${d} días)`,para:"eli"});});
+  tareas.filter(t=>t.persona!=="Vicky"&&!t.entregada&&t.fecha).forEach(t=>{const d=Math.round((hoy-new Date(t.fecha))/86400000);if(d>=3)al.push({u:"warn",msg:`⏰ ${t.persona} atrasado/a: "${t.desc}" (${d} días)`,para:"eli"});});
+  return al;
+}
+
+async function envN8N(payload){
+  if(N8N_WEBHOOK==="TU_WEBHOOK_N8N")return;
+  try{await fetch(N8N_WEBHOOK,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)});}catch(e){}
+}
+
+// ══════════════════════════════════════
+// RESUMEN
+// ══════════════════════════════════════
+function rResumen(){
+  const act=clientes.filter(c=>c.estado==="Activo");
+  const tot=act.reduce((s,c)=>s+c.monto,0);
+  const cob=act.filter(c=>c.pagadoMes).reduce((s,c)=>s+c.monto,0);
+  const al=genAlertas();
+  const pm={};clientes.forEach(c=>{const m=c.fechaAlta.substring(0,7);if(!pm[m])pm[m]={a:0,b:0};pm[m].a++;if(c.baja){const mb=c.baja.substring(0,7);if(!pm[mb])pm[mb]={a:0,b:0};pm[mb].b++;}});
+  let ac=0,gH="";Object.keys(pm).sort().forEach(m=>{ac+=pm[m].a-pm[m].b;gH+=`<div class="tr"><div style="font-size:11px;color:var(--text3);min-width:65px">${m}</div><div style="flex:1;padding:0 10px"><div class="gb"><div class="gf" style="width:${Math.min(ac/8*100,100)}%"></div></div></div><div style="font-size:12px;color:var(--v);font-weight:800">${ac}</div></div>`;});
+  let rt=`📊 RESUMEN SEMANAL — MARKETING CON ELI\n${new Date().toLocaleDateString("es-AR")}\n\nCLIENTES ACTIVOS (${act.length}):\n`;
+  act.forEach(c=>rt+=`• ${c.marca} — ${fmt(c.monto)} — Día ${c.diaPago}\n`);
+  rt+=`\nTOTAL: ${fmt(tot)} | COBRADO: ${fmt(cob)} | PENDIENTE: ${fmt(tot-cob)}`;
+  document.getElementById("mc").innerHTML=`
+  <div class="sg">
+    <div class="st" style="border-color:var(--v)"><div style="font-size:10px;color:var(--text3)">Total Mayo 2026</div><div class="sv" style="color:var(--v)">${fmt(tot)}</div><div style="font-size:10px;color:var(--text3)">${act.length} activos</div></div>
+    <div class="st" style="border-color:var(--n)"><div style="font-size:10px;color:var(--text3)">Cobrado</div><div class="sv" style="color:var(--n)">${fmt(cob)}</div></div>
+    <div class="st" style="border-color:#fbbf24"><div style="font-size:10px;color:var(--text3)">Pendiente</div><div class="sv" style="color:#fbbf24">${fmt(tot-cob)}</div></div>
+    <div class="st" style="border-color:var(--text3)"><div style="font-size:10px;color:var(--text3)">Con +15%</div><div class="sv" style="color:var(--text2)">${fmt(act.reduce((s,c)=>s+c.monto*1.15,0))}</div></div>
+  </div>
+  ${al.length?`<div class="card"><div class="ct">🔔 Alertas (${al.length})</div>${al.map(a=>`<div class="ab ${a.u==="danger"?"ad":a.u==="orange"?"ao":"aw"}">${a.msg}</div>`).join("")}</div>`:""}
+  <div class="card"><div class="ct">📈 Crecimiento</div>${gH}</div>
+  <div class="card"><div class="ct">📧 Resumen semanal</div>
+    <div style="font-size:11px;color:var(--text2);background:var(--bg);padding:10px;border-radius:10px;white-space:pre-wrap;line-height:1.7" id="rtxt">${rt}</div>
+    <button class="btn bp bsm" style="margin-top:8px" onclick="navigator.clipboard.writeText(document.getElementById('rtxt').textContent);alert('✅ Copiado')">📋 Copiar</button>
+  </div>`;
+}
+
+// ══════════════════════════════════════
+// CLIENTES
+// ══════════════════════════════════════
+function rClientes(){
+  let h=`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><div style="font-size:12px;color:var(--text3)">Clientes</div><select id="flt" onchange="rClientes()" style="width:auto;padding:5px 9px;font-size:11px"><option>todos</option><option>Activo</option><option>Baja próxima</option></select></div>`;
+  const f=document.getElementById("flt")?document.getElementById("flt").value:"todos";
+  (f==="todos"?clientes:clientes.filter(c=>c.estado===f)).forEach(c=>{
+    const d=c.diaPago-hoyDia;
+    const pb=c.pagadoMes?`<span class="badge bg">✅ PAGADO</span>`:d<0?`<span class="badge br">VENCIDO</span>`:d<=2?`<span class="badge by">🔔 PRONTO</span>`:`<span class="badge bb">Día ${c.diaPago}</span>`;
+    h+=`<div class="card" style="margin-bottom:9px"><div style="display:flex;justify-content:space-between;align-items:flex-start">
+      <div style="flex:1"><div style="font-weight:800;font-size:13px">${c.marca} ${c.estado==="Activo"?`<span class="badge bg">Activo</span>`:`<span class="badge br">Baja</span>`}${!c.docs.contrato?`<span class="badge br" style="margin-left:4px">📄 Sin contrato</span>`:""}</div>
+        <div style="font-size:11px;color:var(--text3);margin-top:2px">${c.dueno} · ${c.servicio}</div>
+        <div style="font-size:14px;color:var(--v);font-weight:900;margin-top:5px">${fmt(c.monto)}<span style="font-size:10px;font-weight:400;color:var(--text3)">/mes</span></div>
+        <div style="font-size:10px;color:var(--n)">Con +15%: ${fmt(c.monto*1.15)}</div>
+        ${c.baja?`<div style="font-size:10px;color:#f87171">Baja: ${c.baja}</div>`:""}
+      </div>
+      <div style="display:flex;flex-direction:column;gap:4px;align-items:flex-end;min-width:90px">
+        ${pb}
+        <button class="btn bsm ${c.pagadoMes?"bg2c":"bs"}" onclick="togglePago(${c.id})" style="width:100%">${c.pagadoMes?"↩":"✅ Pagó"}</button>
+        <button class="btn bsm bg2c" onclick="verCliente(${c.id})" style="width:100%">🔍 Ver</button>
+        <button class="btn bsm bo" onclick="abrirDocs(${c.id})" style="width:100%">📎 Docs</button>
+      </div></div></div>`;
+  });
+  document.getElementById("mc").innerHTML=h;
+}
+function togglePago(id){const c=clientes.find(x=>x.id===id);if(c)c.pagadoMes=!c.pagadoMes;rClientes();}
+function verCliente(id){
+  const c=clientes.find(x=>x.id===id);if(!c)return;
+  document.getElementById("moc-t").textContent="📋 "+c.marca;
+  document.getElementById("moc-b").innerHTML=`
+    <div class="tr"><span style="color:var(--text3);font-size:12px">Dueño/a</span><span>${c.dueno}</span></div>
+    <div class="tr"><span style="color:var(--text3);font-size:12px">Servicio</span><span>${c.servicio}</span></div>
+    <div class="tr"><span style="color:var(--text3);font-size:12px">Monto</span><span style="color:var(--v);font-weight:800">${fmt(c.monto)}</span></div>
+    <div class="tr"><span style="color:var(--text3);font-size:12px">Con +15%</span><span style="color:var(--n);font-weight:800">${fmt(c.monto*1.15)}</span></div>
+    <div class="tr"><span style="color:var(--text3);font-size:12px">Día de pago</span><span>Día ${c.diaPago}</span></div>
+    <div class="tr"><span style="color:var(--text3);font-size:12px">Alta</span><span>${c.fechaAlta}</span></div>
+    <div class="tr"><span style="color:var(--text3);font-size:12px">Contrato</span><span>${c.docs.contrato?`<span class="badge bg">✅</span>`:`<span class="badge br">❌</span>`}</span></div>
+    ${c.notas?`<div style="margin-top:8px;background:var(--bg);padding:8px;border-radius:8px;font-size:11px;color:var(--text3)">${c.notas}</div>`:""}`;
+  document.getElementById("mo-c").classList.add("open");
+}
+function abrirDocs(id){
+  const c=clientes.find(x=>x.id===id);if(!c)return;
+  document.getElementById("mod-t").textContent="📎 Docs — "+c.marca;
+  document.getElementById("mod-b").innerHTML=[{key:"contrato",label:"📄 CONTRATO"},{key:"comprobantePago",label:"💳 COMPROBANTE PAGO CLIENTE"},{key:"comprobanteNuestro",label:"🧾 PSEUDO-FACTURA"}].map(d=>`
+    <div style="margin-bottom:12px"><div style="font-size:10px;color:var(--text3);font-weight:800;margin-bottom:6px;text-transform:uppercase">${d.label}</div>
+    ${c.docs[d.key]?`<div style="font-size:11px;color:var(--v);margin-bottom:6px">✅ ${c.docs[d.key]}</div>`:`<div style="font-size:11px;color:var(--text3);margin-bottom:6px">Sin subir</div>`}
+    <div style="border:2px dashed var(--border2);border-radius:10px;padding:12px;text-align:center;cursor:pointer;font-size:12px;color:var(--text3)" onclick="simUpload(${id},'${d.key}')">${c.docs[d.key]?"🔄 Reemplazar":"📤 Subir"}</div>
+    </div>`).join("")+`<div style="padding:8px;background:var(--bg);border-radius:8px;font-size:10px;color:var(--text3)">💡 Los archivos se guardan en Google Drive</div>`;
+  document.getElementById("mo-d").classList.add("open");
+}
+function simUpload(id,tipo){const c=clientes.find(x=>x.id===id);if(!c)return;const n={contrato:"Contrato_firmado.pdf",comprobantePago:"Comprobante_pago.jpg",comprobanteNuestro:"Pseudo_factura.pdf"};c.docs[tipo]=n[tipo]+" ("+new Date().toLocaleDateString("es-AR")+")";closeMo("mo-d");abrirDocs(id);}
+
+// ══════════════════════════════════════
+// ALTA/BAJA
+// ══════════════════════════════════════
+function rAlta(){
+  const op=clientes.map(c=>`<option value="${c.id}">${c.marca}</option>`).join("");
+  document.getElementById("mc").innerHTML=`
+  <div class="card"><div class="ct">➕ Nuevo cliente</div>
+    <div class="fr"><div class="fg"><label>Marca</label><input id="nm"></div><div class="fg"><label>Dueño/a</label><input id="nd"></div></div>
+    <div class="fr3"><div class="fg"><label>Monto ($)</label><input id="nmo" type="number"></div><div class="fg"><label>Día de pago</label><input id="ndi" type="number" min="1" max="31"></div><div class="fg"><label>Fecha alta</label><input id="nf" type="date"></div></div>
+    <div class="fr"><div class="fg"><label>Servicio</label><input id="ns"></div><div class="fg"><label>WhatsApp</label><input id="nw"></div></div>
+    <div class="fg"><label>Notas</label><textarea id="nn" rows="2"></textarea></div>
+    <button class="btn bp" style="width:100%;margin-top:6px" onclick="altaCliente()">✅ Dar de alta</button>
+  </div>
+  <div class="card"><div class="ct">🚫 Dar de baja</div>
+    <div class="fr"><div class="fg"><label>Cliente</label><select id="bs2">${op}</select></div><div class="fg"><label>Fecha de baja</label><input id="bf" type="date"></div></div>
+    <div class="fg"><label>Motivo</label><input id="bm"></div>
+    <button class="btn bd" style="width:100%;margin-top:6px" onclick="bajaCliente()">🚫 Confirmar baja</button>
+  </div>
+  <div class="card"><div class="ct">✏️ Editar cliente</div>
+    <div class="fr"><div class="fg"><label>Cliente</label><select id="es" onchange="cargarEdit()">${op}</select></div><div class="fg"><label>Nuevo monto ($)</label><input id="em" type="number"></div></div>
+    <div class="fr"><div class="fg"><label>Nuevo día pago</label><input id="ed" type="number" min="1" max="31"></div><div class="fg"><label>Nuevo plan</label><input id="ep"></div></div>
+    <button class="btn bp" style="width:100%;margin-top:6px" onclick="editarCliente()">💾 Guardar</button>
+  </div>`;
+  cargarEdit();
+}
+function cargarEdit(){const s=document.getElementById("es");if(!s)return;const c=clientes.find(x=>x.id===parseInt(s.value));if(c){document.getElementById("em").value=c.monto;document.getElementById("ed").value=c.diaPago;document.getElementById("ep").value=c.servicio;}}
+function altaCliente(){const m=document.getElementById("nm").value.trim(),d=document.getElementById("nd").value.trim(),mo=parseFloat(document.getElementById("nmo").value),dia=parseInt(document.getElementById("ndi").value),f=document.getElementById("nf").value;if(!m||!d||!mo||!dia||!f){alert("Completá todos los campos");return;}clientes.push({id:nextId++,marca:m,dueno:d,monto:mo,diaPago:dia,estado:"Activo",fechaAlta:f,baja:null,pagadoMes:false,servicio:document.getElementById("ns").value,wa:document.getElementById("nw").value,email:"",notas:document.getElementById("nn").value,fechaUltimoAumento:f,docs:{contrato:null,comprobantePago:null,comprobanteNuestro:null}});alert("✅ Alta: "+m);rAlta();}
+function bajaCliente(){const id=parseInt(document.getElementById("bs2").value),f=document.getElementById("bf").value;if(!f){alert("Ingresá la fecha");return;}const c=clientes.find(x=>x.id===id);if(c){c.estado="Baja próxima";c.baja=f;const mo=document.getElementById("bm").value;if(mo)c.notas+=" | Baja: "+mo;}alert("🚫 Baja: "+c.marca);rAlta();}
+function editarCliente(){const id=parseInt(document.getElementById("es").value),c=clientes.find(x=>x.id===id);if(!c)return;const nm=parseFloat(document.getElementById("em").value);if(nm&&nm!==c.monto){c.monto=nm;c.fechaUltimoAumento=new Date().toISOString().split("T")[0];}const nd=parseInt(document.getElementById("ed").value);if(nd)c.diaPago=nd;const np=document.getElementById("ep").value;if(np)c.servicio=np;alert("💾 Actualizado: "+c.marca);}
+
+// ══════════════════════════════════════
+// EQUIPO
+// ══════════════════════════════════════
+function rEquipo(){
+  let h=`<div class="card"><div class="ct">👤 Equipo</div>`;
+  equipo.forEach(e=>{const m=Math.round((new Date()-new Date(e.inicio))/2592000000);const desc=e.descuentos.reduce((s,d)=>s+d.monto,0);
+    h+=`<div class="tr"><div><div style="font-weight:800;font-size:13px">${e.nombre}</div><div style="font-size:10px;color:var(--text3)">${e.rol} · ${m} meses · ${e.alias}</div>${desc>0?`<div style="font-size:10px;color:#f87171">Descuentos: ${fmt(desc)}</div>`:""}</div>
+    <div style="text-align:right"><div style="font-weight:800;color:var(--v)">${fmt(e.sueldo)}</div>${desc>0?`<div style="font-size:11px;color:var(--n)">Neto: ${fmt(e.sueldo-desc)}</div>`:""}<button class="btn bd bsm" style="margin-top:4px" onclick="delEq(${e.id})">🗑</button></div></div>`;});
+  h+=`</div><div class="card"><div class="ct">➕ Agregar miembro</div>
+    <div class="fr"><div class="fg"><label>Nombre</label><input id="eqn"></div><div class="fg"><label>Rol</label><select id="eqr"><option>Editor</option><option>Coordinadora</option><option>Secretaria</option><option>CM</option></select></div></div>
+    <div class="fr"><div class="fg"><label>Inicio</label><input id="eqi" type="date"></div><div class="fg"><label>Sueldo ($)</label><input id="eqs" type="number"></div></div>
+    <div class="fg"><label>Alias de pago</label><input id="eqa"></div>
+    <button class="btn bp" style="width:100%;margin-top:6px" onclick="addEq()">✅ Agregar</button>
+  </div>`;
+  document.getElementById("mc").innerHTML=h;
+}
+function addEq(){const n=document.getElementById("eqn").value.trim();if(!n)return;equipo.push({id:nextId++,nombre:n,rol:document.getElementById("eqr").value,inicio:document.getElementById("eqi").value,sueldo:parseFloat(document.getElementById("eqs").value)||0,alias:document.getElementById("eqa").value,descuentos:[]});rEquipo();}
+function delEq(id){if(confirm("¿Eliminar?"))equipo=equipo.filter(e=>e.id!==id);rEquipo();}
+
+// ══════════════════════════════════════
+// USUARIOS — NUEVA SECCIÓN
+// ══════════════════════════════════════
+function rUsuarios(){
+  const roles=["admin","secretaria","editor"];
+  let h=`<div class="card"><div class="ct">🔐 Gestión de usuarios</div>`;
+  Object.entries(USUARIOS).forEach(([key,u])=>{
+    h+=`<div style="background:var(--bg2);border-radius:12px;padding:12px;margin-bottom:10px">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div><div style="font-weight:800;font-size:13px">${u.nombre} <span class="badge ${u.rol==="admin"?"by":u.rol==="secretaria"?"bb":"bg"}">${u.rol}</span></div>
+        <div style="font-size:10px;color:var(--text3);margin-top:2px">Usuario: <b>${key}</b> · Contraseña: •••</div>
+        ${u.email?`<div style="font-size:10px;color:var(--text3)">${u.email}</div>`:""}
+        </div>
+        <div style="display:flex;gap:6px">
+          <button class="btn bp bsm" onclick="editarUsuario('${key}')">✏️ Editar</button>
+          ${key!=="eli"?`<button class="btn bd bsm" onclick="eliminarUsuario('${key}')">🗑</button>`:""}
+        </div>
+      </div></div>`;
+  });
+  h+=`</div>
+  <div class="card"><div class="ct">➕ Nuevo usuario</div>
+    <div class="fr"><div class="fg"><label>Nombre visible</label><input id="un"></div><div class="fg"><label>Usuario (login)</label><input id="uk" placeholder="minusculas sin espacios"></div></div>
+    <div class="fr"><div class="fg"><label>Contraseña (3 dígitos DNI)</label><input id="up" type="password" placeholder="***" maxlength="3"></div><div class="fg"><label>Rol</label><select id="ur"><option value="editor">Editor</option><option value="secretaria">Secretaria</option><option value="admin">Admin</option></select></div></div>
+    <div class="fr"><div class="fg"><label>Email</label><input id="ue" type="email"></div><div class="fg"><label>WhatsApp</label><input id="uw" placeholder="5491165432100"></div></div>
+    <button class="btn bp" style="width:100%;margin-top:6px" onclick="addUsuario()">✅ Crear usuario</button>
+  </div>`;
+  document.getElementById("mc").innerHTML=h;
+}
+
+function editarUsuario(key){
+  const u=USUARIOS[key];
+  document.getElementById("mou-b").innerHTML=`
+    <div class="fg"><label>Nombre visible</label><input id="eu-n" value="${u.nombre}"></div>
+    <div class="fg"><label>Nueva contraseña (3 dígitos)</label><input id="eu-p" type="password" placeholder="dejar vacío para no cambiar" maxlength="3"></div>
+    <div class="fg"><label>Rol</label><select id="eu-r">
+      <option value="admin" ${u.rol==="admin"?"selected":""}>Admin</option>
+      <option value="secretaria" ${u.rol==="secretaria"?"selected":""}>Secretaria</option>
+      <option value="editor" ${u.rol==="editor"?"selected":""}>Editor</option>
+    </select></div>
+    <div class="fg"><label>Email</label><input id="eu-e" value="${u.email||""}"></div>
+    <div class="fg"><label>WhatsApp</label><input id="eu-w" value="${u.wa||""}"></div>
+    <button class="btn bp" style="width:100%;margin-top:6px" onclick="guardarUsuario('${key}')">💾 Guardar cambios</button>`;
+  document.getElementById("mo-u").classList.add("open");
+}
+
+function guardarUsuario(key){
+  const n=document.getElementById("eu-n").value.trim();
+  const p=document.getElementById("eu-p").value.trim();
+  const r=document.getElementById("eu-r").value;
+  const e=document.getElementById("eu-e").value.trim();
+  const w=document.getElementById("eu-w").value.trim();
+  if(n)USUARIOS[key].nombre=n;
+  if(p&&p.length>=3)USUARIOS[key].pass=p;
+  USUARIOS[key].rol=r;
+  USUARIOS[key].email=e;
+  USUARIOS[key].wa=w;
+  closeMo("mo-u");
+  alert("✅ Usuario actualizado: "+n);
+  rUsuarios();
+}
+
+function addUsuario(){
+  const n=document.getElementById("un").value.trim();
+  const k=document.getElementById("uk").value.trim().toLowerCase();
+  const p=document.getElementById("up").value.trim();
+  const r=document.getElementById("ur").value;
+  const e=document.getElementById("ue").value.trim();
+  const w=document.getElementById("uw").value.trim();
+  if(!n||!k||!p){alert("Completá nombre, usuario y contraseña");return;}
+  if(USUARIOS[k]){alert("Ya existe un usuario con ese nombre");return;}
+  USUARIOS[k]={pass:p,rol:r,nombre:n,email:e,wa:w};
+  alert("✅ Usuario creado: "+n);
+  rUsuarios();
+}
+
+function eliminarUsuario(key){
+  if(!confirm("¿Eliminar usuario "+USUARIOS[key].nombre+"?"))return;
+  delete USUARIOS[key];
+  rUsuarios();
+}
+
+// ══════════════════════════════════════
+// TAREAS
+// ══════════════════════════════════════
+function rTareas(){
+  const mes="2026-05";const tm=tareas.filter(t=>t.mes===mes);
+  const semanas=[...new Set(tm.map(t=>t.semana))].sort();
+  let h=`<div class="card"><div class="ct">➕ Nueva tarea</div>
+    <div class="fr"><div class="fg"><label>Persona</label><select id="tp"><option>Xavi</option><option>Vale</option><option>Vicky</option><option>Eli</option></select></div>
+    <div class="fg"><label>Marca</label><select id="tm2">${clientes.map(c=>`<option>${c.marca}</option>`).join("")}<option>Sistema</option></select></div></div>
+    <div class="fr"><div class="fg"><label>Tipo</label><select id="tti"><option>Reel</option><option>Carrusel</option><option>Historia</option><option>Video Ads</option><option>Admin</option><option>Otro</option></select></div>
+    <div class="fg"><label>Semana</label><select id="ts2"><option>Semana 1</option><option>Semana 2</option><option>Semana 3</option><option>Semana 4</option><option>Semana 5</option></select></div></div>
+    <div class="fr"><div class="fg"><label>Descripción</label><input id="td"></div><div class="fg"><label>Fecha límite</label><input id="tf" type="date"></div></div>
+    <div class="fg"><label>Instrucciones</label><textarea id="tn2" rows="2"></textarea></div>
+    <button class="btn bp" style="width:100%;margin-top:6px" onclick="addTarea()">✅ Agregar</button>
+  </div>
+  <div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:10px">
+    ${["todos","Xavi","Vale","Vicky","Eli"].map(p=>`<button class="btn bsm bg2c" onclick="filtrarT('${p}')">${p==="todos"?"Todos":p}</button>`).join("")}
+  </div>`;
+  semanas.forEach(s=>{
+    h+=`<div class="wt">📅 ${s}</div>`;
+    tm.filter(t=>t.semana===s).forEach(t=>{
+      const col=COLORES[t.persona]||"#94a3b8";
+      h+=`<div class="ti ${t.entregada?"done":""} ${t.tarde?"late":""}" data-persona="${t.persona}">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start">
+          <div style="flex:1">
+            <div style="display:flex;gap:5px;flex-wrap:wrap;align-items:center">
+              <span style="font-weight:700;font-size:12px">${t.desc||t.tipo}</span>
+              <span style="background:${col}22;color:${col};padding:2px 7px;border-radius:10px;font-size:10px;font-weight:700">${t.persona}</span>
+              <span class="badge" style="background:var(--card2);color:var(--text3)">${t.tipo}</span>
+              ${t.tarde?`<span class="badge br">⚠️ TARDE -${fmt(DESCUENTO)}</span>`:""}
+              ${t.entregada&&t.fechaEntrega?`<span class="badge bg">✅ ${t.fechaEntrega}</span>`:""}
+            </div>
+            <div style="font-size:10px;color:var(--text3);margin-top:2px">${t.marca} · Límite: ${t.fecha||"Sin fecha"}</div>
+            ${t.notas?`<div style="font-size:10px;color:var(--text3);margin-top:4px;background:var(--bg);padding:5px;border-radius:6px">${t.notas}</div>`:""}
+          </div>
+          <div style="display:flex;flex-direction:column;gap:4px;margin-left:8px">
+            <button class="btn bsm ${t.entregada?"bg2c":"bs"}" onclick="toggleT(${t.id})">${t.entregada?"↩":"✅"}</button>
+            <button class="btn bsm ${t.tarde?"bg2c":"bd"}" onclick="marcarTarde(${t.id})">${t.tarde?"↩":"⚠️"}</button>
+            <button class="btn bsm bd" onclick="delTarea(${t.id})">🗑</button>
+          </div>
+        </div></div>`;
+    });
+  });
+  document.getElementById("mc").innerHTML=h;
+}
+function filtrarT(p){document.querySelectorAll(".ti").forEach(el=>{el.style.display=(p==="todos"||el.dataset.persona===p)?"block":"none";});}
+function addTarea(){tareas.push({id:nextId++,persona:document.getElementById("tp").value,marca:document.getElementById("tm2").value,tipo:document.getElementById("tti").value,semana:document.getElementById("ts2").value,desc:document.getElementById("td").value,fecha:document.getElementById("tf").value,notas:document.getElementById("tn2").value,entregada:false,tarde:false,fechaEntrega:null,mes:"2026-05"});rTareas();}
+function toggleT(id){const t=tareas.find(x=>x.id===id);if(t){t.entregada=!t.entregada;t.fechaEntrega=t.entregada?new Date().toLocaleDateString("es-AR"):null;if(!t.entregada)t.tarde=false;}rTareas();}
+function marcarTarde(id){
+  const t=tareas.find(x=>x.id===id);if(!t)return;t.tarde=!t.tarde;
+  if(t.tarde){t.entregada=true;t.fechaEntrega=new Date().toLocaleDateString("es-AR");
+    const e=equipo.find(m=>m.nombre.toLowerCase().startsWith(t.persona.toLowerCase()));
+    if(e)e.descuentos.push({monto:DESCUENTO,motivo:"Tarde: "+t.desc,fecha:new Date().toLocaleDateString("es-AR")});
+    envN8N({tipo:"tarea_tarde",persona:t.persona,tarea:t.desc,descuento:DESCUENTO});
+  } else {const e=equipo.find(m=>m.nombre.toLowerCase().startsWith(t.persona.toLowerCase()));if(e&&e.descuentos.length)e.descuentos.pop();}
+  rTareas();
+}
+function delTarea(id){if(confirm("¿Eliminar?")){tareas=tareas.filter(x=>x.id!==id);rTareas();}}
+
+// MIS TAREAS (editor)
+function rMisTareas(nombre){
+  const mis=tareas.filter(t=>t.persona===nombre&&t.mes==="2026-05");
+  const desc=mis.filter(t=>t.tarde).length*DESCUENTO;
+  let h=`<div class="sg">
+    <div class="st" style="border-color:var(--v)"><div style="font-size:10px;color:var(--text3)">Mis tareas</div><div class="sv" style="color:var(--v)">${mis.length}</div></div>
+    <div class="st" style="border-color:var(--n)"><div style="font-size:10px;color:var(--text3)">Entregadas</div><div class="sv" style="color:var(--n)">${mis.filter(t=>t.entregada).length}</div></div>
+    <div class="st" style="border-color:#f87171"><div style="font-size:10px;color:var(--text3)">Tarde</div><div class="sv" style="color:#f87171">${mis.filter(t=>t.tarde).length}</div></div>
+    <div class="st" style="border-color:#fbbf24"><div style="font-size:10px;color:var(--text3)">Descuentos</div><div class="sv" style="color:#fbbf24">${fmt(desc)}</div></div>
+  </div>`;
+  const sem=[...new Set(mis.map(t=>t.semana))].sort();
+  sem.forEach(s=>{
+    h+=`<div class="wt">📅 ${s}</div>`;
+    mis.filter(t=>t.semana===s).forEach(t=>{
+      h+=`<div class="ti ${t.entregada?"done":""} ${t.tarde?"late":""}">
+        <div style="font-weight:700;font-size:12px">${t.desc||t.tipo} ${t.tarde?`<span class="badge br">⚠️ TARDE</span>`:""} ${t.entregada&&t.fechaEntrega?`<span class="badge bg">✅ ${t.fechaEntrega}</span>`:""}</div>
+        <div style="font-size:10px;color:var(--text3);margin-top:2px">${t.marca} · Límite: ${t.fecha}</div>
+        ${t.notas?`<div style="font-size:10px;color:var(--text3);margin-top:4px;background:var(--bg);padding:5px;border-radius:6px">${t.notas}</div>`:""}
+        ${!t.entregada?`<button class="btn bsm bs" style="margin-top:6px" onclick="marcarRealizado(${t.id})">✅ Marcar como REALIZADO</button>`:`<div style="font-size:11px;color:var(--v);margin-top:6px">✅ Entregado el ${t.fechaEntrega}</div>`}
+      </div>`;
+    });
+  });
+  if(!mis.length)h+=`<div class="card" style="color:var(--text3)">Sin tareas asignadas ✅</div>`;
+  document.getElementById("mc").innerHTML=h;
+}
+function marcarRealizado(id){
+  const t=tareas.find(x=>x.id===id);if(!t)return;
+  t.entregada=true;t.fechaEntrega=new Date().toLocaleDateString("es-AR");
+  const hoy=new Date();const limite=new Date(t.fecha);
+  if(hoy>limite){t.tarde=true;const e=equipo.find(m=>m.nombre.toLowerCase().startsWith(t.persona.toLowerCase()));if(e)e.descuentos.push({monto:DESCUENTO,motivo:"Tarde: "+t.desc,fecha:t.fechaEntrega});alert("✅ Marcado como realizado — ⚠️ Llegó tarde, se descuentan "+fmt(DESCUENTO));}
+  else alert("✅ Tarea marcada como realizada el "+t.fechaEntrega);
+  rMisTareas(currentUser.nombre);
+}
+
+// ══════════════════════════════════════
+// PUBLICIDAD — REPORTES POR CUENTA
+// ══════════════════════════════════════
+function rPubli(){
+  const waC=publiCuentas.filter(c=>c.tipo==="whatsapp");
+  const ecC=publiCuentas.filter(c=>c.tipo==="ecommerce");
+  const totWaG=waC.reduce((s,c)=>s+c.campanas.reduce((a,cp)=>a+cp.gasto,0),0);
+  const totWaCv=waC.reduce((s,c)=>s+c.campanas.reduce((a,cp)=>a+cp.conversaciones,0),0);
+  const totEcG=ecC.reduce((s,c)=>s+c.campanas.reduce((a,cp)=>a+cp.gasto,0),0);
+  const totEcV=ecC.reduce((s,c)=>s+c.campanas.reduce((a,cp)=>a+(cp.ventas||0),0),0);
+  const totEcI=ecC.reduce((s,c)=>s+c.campanas.reduce((a,cp)=>a+(cp.ingresos||0),0),0);
+
+  let h=`<div class="sg">
+    <div class="st" style="border-color:var(--v)"><div style="font-size:10px;color:var(--text3)">Gasto total semana</div><div class="sv" style="color:var(--v)">${fmt(totWaG+totEcG)}</div></div>
+    <div class="st" style="border-color:#fbbf24"><div style="font-size:10px;color:var(--text3)">Conversaciones WA</div><div class="sv" style="color:#fbbf24">${totWaCv}</div></div>
+    <div class="st" style="border-color:var(--n)"><div style="font-size:10px;color:var(--text3)">Ventas Ecommerce</div><div class="sv" style="color:var(--n)">${totEcV}</div></div>
+    <div class="st" style="border-color:var(--text3)"><div style="font-size:10px;color:var(--text3)">Ingresos Ecommerce</div><div class="sv" style="color:var(--text2)">${fmt(totEcI)}</div></div>
+  </div>
+  <div style="display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap">
+    <button class="ptb active" id="pt-wa" onclick="switchPT('wa')">💬 WhatsApp</button>
+    <button class="ptb" id="pt-ec" onclick="switchPT('ec')">🛒 Ecommerce</button>
+    <button class="ptb" id="pt-rep" onclick="switchPT('rep')">📧 Reportes</button>
+    <button class="ptb" id="pt-carga" onclick="switchPT('carga')">➕ Cargar datos</button>
+  </div>
+
+  <!-- WHATSAPP -->
+  <div id="ps-wa">`;
+
+  waC.forEach(cuenta=>{
+    const totG=cuenta.campanas.reduce((s,cp)=>s+cp.gasto,0);
+    const totCv=cuenta.campanas.reduce((s,cp)=>s+cp.conversaciones,0);
+    const cpc=totCv>0?Math.round(totG/totCv):0;
+    h+=`<div class="card">
+      <div class="ct">💬 ${cuenta.marca} <span class="badge ${cuenta.activa?"bg":"br"}" style="margin-left:6px">${cuenta.activa?"● Activa":"● Pausada"}</span></div>
+      <div style="font-size:9px;color:var(--text3);margin-bottom:8px">${cuenta.adAccount}</div>
+      <div class="tbl">
+        <div class="tbl-h" style="grid-template-columns:2fr 1fr 1fr"><span>Campaña</span><span style="text-align:right">Gasto</span><span style="text-align:right">Conv.</span></div>
+        ${cuenta.campanas.map(cp=>`<div class="tbl-r" style="grid-template-columns:2fr 1fr 1fr">
+          <span style="color:var(--text2);font-size:10px">${cp.nombre}</span>
+          <span style="text-align:right;color:var(--n)">${fmt(cp.gasto)}</span>
+          <span style="text-align:right;color:var(--v);font-weight:700">${cp.conversaciones}</span>
+        </div>`).join("")}
+        <div class="tbl-r total-row" style="grid-template-columns:2fr 1fr 1fr">
+          <span style="color:var(--text3);font-size:10px">TOTAL</span>
+          <span style="text-align:right;color:var(--n);font-weight:800">${fmt(totG)}</span>
+          <span style="text-align:right;color:var(--v);font-weight:800">${totCv}</span>
+        </div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px">
+        <div style="background:var(--bg);padding:8px;border-radius:8px;text-align:center"><div style="font-size:9px;color:var(--text3)">Costo por conv.</div><div style="font-weight:800;color:#fbbf24">${fmt(cpc)}</div></div>
+        <div style="background:var(--bg);padding:8px;border-radius:8px;text-align:center"><div style="font-size:9px;color:var(--text3)">Total conversaciones</div><div style="font-weight:800;color:var(--v)">${totCv}</div></div>
+      </div>
+      <button class="btn bp bsm" style="margin-top:8px" onclick="copiarRepCuenta(${cuenta.id})">📋 Copiar reporte</button>
+    </div>`;
+  });
+
+  // TOTAL WA
+  h+=`<div class="card" style="border-left:3px solid var(--v)"><div class="ct">📊 TOTAL WHATSAPP — TODAS LAS CUENTAS</div>
+    <div class="tbl"><div class="tbl-h" style="grid-template-columns:2fr 1fr 1fr 1fr"><span>Marca</span><span style="text-align:right">Gasto</span><span style="text-align:right">Conv.</span><span style="text-align:right">$/Conv.</span></div>
+    ${waC.map(c=>{const g=c.campanas.reduce((s,cp)=>s+cp.gasto,0);const cv=c.campanas.reduce((s,cp)=>s+cp.conversaciones,0);return`<div class="tbl-r" style="grid-template-columns:2fr 1fr 1fr 1fr"><span>${c.marca}</span><span style="text-align:right;color:var(--n)">${fmt(g)}</span><span style="text-align:right;color:var(--v);font-weight:700">${cv}</span><span style="text-align:right;color:#fbbf24">${fmt(cv>0?Math.round(g/cv):0)}</span></div>`;}).join("")}
+    <div class="tbl-r total-row" style="grid-template-columns:2fr 1fr 1fr 1fr"><span>TOTAL</span><span style="text-align:right;color:var(--n);font-weight:800">${fmt(totWaG)}</span><span style="text-align:right;color:var(--v);font-weight:800">${totWaCv}</span><span style="text-align:right;color:#fbbf24;font-weight:800">${fmt(totWaCv>0?Math.round(totWaG/totWaCv):0)}</span></div>
+    </div></div>
+  </div>
+
+  <!-- ECOMMERCE -->
+  <div id="ps-ec" style="display:none">`;
+
+  ecC.forEach(cuenta=>{
+    const totG=cuenta.campanas.reduce((s,cp)=>s+cp.gasto,0);
+    const totV=cuenta.campanas.reduce((s,cp)=>s+(cp.ventas||0),0);
+    const totI=cuenta.campanas.reduce((s,cp)=>s+(cp.ingresos||0),0);
+    const roasV=totG>0?(totI/totG).toFixed(2):"—";
+    h+=`<div class="card">
+      <div class="ct">🛒 ${cuenta.marca} <span class="badge ${cuenta.activa?"bg":"br"}" style="margin-left:6px">${cuenta.activa?"● Activa":"● Pausada"}</span></div>
+      <div style="font-size:9px;color:var(--text3);margin-bottom:8px">${cuenta.adAccount}</div>
+      <div class="tbl">
+        <div class="tbl-h" style="grid-template-columns:2fr 1fr 1fr 1fr 1fr"><span>Campaña</span><span style="text-align:right">Gasto</span><span style="text-align:right">Ventas</span><span style="text-align:right">Ingresos</span><span style="text-align:right">ROAS</span></div>
+        ${cuenta.campanas.map(cp=>`<div class="tbl-r" style="grid-template-columns:2fr 1fr 1fr 1fr 1fr">
+          <span style="color:var(--text2);font-size:10px">${cp.nombre}</span>
+          <span style="text-align:right;color:var(--n)">${fmt(cp.gasto)}</span>
+          <span style="text-align:right;color:var(--v);font-weight:700">${cp.ventas||0}</span>
+          <span style="text-align:right">${fmt(cp.ingresos||0)}</span>
+          <span style="text-align:right;color:${cp.gasto>0&&(cp.ingresos/cp.gasto)>=3?"var(--v)":(cp.ingresos/cp.gasto)>=1.5?"#fbbf24":"#f87171"};font-weight:700">×${cp.gasto>0?(cp.ingresos/cp.gasto).toFixed(2):"—"}</span>
+        </div>`).join("")}
+        <div class="tbl-r total-row" style="grid-template-columns:2fr 1fr 1fr 1fr 1fr">
+          <span style="color:var(--text3);font-size:10px">TOTAL</span>
+          <span style="text-align:right;color:var(--n);font-weight:800">${fmt(totG)}</span>
+          <span style="text-align:right;color:var(--v);font-weight:800">${totV}</span>
+          <span style="text-align:right;font-weight:800">${fmt(totI)}</span>
+          <span style="text-align:right;color:var(--v);font-weight:800">×${roasV}</span>
+        </div>
+      </div>
+      <button class="btn bp bsm" style="margin-top:8px" onclick="copiarRepCuenta(${cuenta.id})">📋 Copiar reporte</button>
+    </div>`;
+  });
+  h+=`</div>
+
+  <!-- REPORTES -->
+  <div id="ps-rep" style="display:none">
+    <div class="card"><div class="ct">📧 Reportes individuales por cuenta</div>
+      <div style="font-size:11px;color:var(--text3);margin-bottom:10px">Cada reporte se copia individualmente — va para vos y Vicky</div>
+      ${publiCuentas.map(c=>`<div style="background:var(--bg2);border-radius:10px;padding:10px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center">
+        <div><div style="font-weight:700;font-size:12px">${c.tipo==="ecommerce"?"🛒":"💬"} ${c.marca}</div><div style="font-size:10px;color:var(--text3)">${c.campanas.length} campañas activas</div></div>
+        <button class="btn bp bsm" onclick="copiarRepCuenta(${c.id})">📋 Copiar</button>
+      </div>`).join("")}
+    </div>
+    <div class="card"><div class="ct">📊 Reporte semanal completo — todos los martes</div>
+      <div style="font-size:11px;color:var(--text2);background:var(--bg);padding:12px;border-radius:10px;white-space:pre-wrap;line-height:1.7" id="rep-completo">${genRepCompleto()}</div>
+      <button class="btn bp bsm" style="margin-top:8px" onclick="navigator.clipboard.writeText(document.getElementById('rep-completo').textContent);alert('✅ Copiado')">📋 Copiar reporte completo</button>
+    </div>
+    <div class="card" style="border-left:3px solid var(--n)"><div class="ct">🔔 Notificaciones configuradas</div>
+      <div style="font-size:12px;color:var(--text2);line-height:2">
+        📱 <b style="color:var(--v)">Diarias:</b> Resumen de campañas activas → tu WhatsApp + email<br>
+        📊 <b style="color:var(--n)">Martes:</b> Reporte semanal por marca para análisis de estrategia<br>
+        ⚠️ <b style="color:#fbbf24">Alertas:</b> Si una campaña no tiene actividad o gasta de más
+      </div>
+    </div>
+  </div>
+
+  <!-- CARGA DATOS -->
+  <div id="ps-carga" style="display:none">
+    <div class="card"><div class="ct">➕ Cargar datos de campaña</div>
+      <div class="fg"><label>Cuenta publicitaria</label>
+        <select id="cc-sel" onchange="toggleCC()">
+          ${publiCuentas.map((c,i)=>`<option value="${i}">${c.tipo==="ecommerce"?"🛒":"💬"} ${c.marca}</option>`).join("")}
+        </select>
+      </div>
+      <div class="fg"><label>Nombre de campaña</label><input id="cc-nombre" placeholder="Ej: Captación DT Mayo"></div>
+      <div id="cc-wa-f">
+        <div class="fr"><div class="fg"><label>Gasto ($)</label><input id="cc-g" type="number"></div><div class="fg"><label>Conversaciones</label><input id="cc-cv" type="number"></div></div>
+      </div>
+      <div id="cc-ec-f" style="display:none">
+        <div class="fr3"><div class="fg"><label>Gasto ($)</label><input id="cc-eg" type="number"></div><div class="fg"><label>Ventas</label><input id="cc-ev" type="number"></div><div class="fg"><label>Ingresos ($)</label><input id="cc-ei" type="number"></div></div>
+      </div>
+      <div class="fg"><label>Período</label><input id="cc-f" placeholder="Ej: Semana 26 Mayo - 1 Junio"></div>
+      <button class="btn bp" style="width:100%;margin-top:6px" onclick="cargarCampana()">✅ Agregar campaña</button>
+    </div>
+    <div class="card" style="border-left:3px solid var(--n)"><div class="ct">🔗 Conectar Shopify (Etapa 2)</div>
+      <div style="font-size:12px;color:var(--text2);line-height:1.8">Para conectar Shopify automáticamente necesitás:<br>
+      1. Ir a <b style="color:var(--v)">tu-tienda.myshopify.com/admin/apps/development</b><br>
+      2. Crear una app privada con permisos de <b style="color:var(--v)">orders → read_all_orders</b><br>
+      3. Copiar el API Key y Password<br>
+      4. Configurarlo en N8N para que traiga ventas diarias automático</div>
+    </div>
+  </div>`;
+
+  document.getElementById("mc").innerHTML=h;
+}
+
+function switchPT(t){
+  ["wa","ec","rep","carga"].forEach(s=>{
+    const el=document.getElementById("ps-"+s);if(el)el.style.display=s===t?"block":"none";
+    const btn=document.getElementById("pt-"+s);if(btn)btn.className=s===t?"ptb active":"ptb";
+  });
+}
+
+function toggleCC(){
+  const i=parseInt(document.getElementById("cc-sel").value);
+  const esEc=publiCuentas[i].tipo==="ecommerce";
+  document.getElementById("cc-wa-f").style.display=esEc?"none":"block";
+  document.getElementById("cc-ec-f").style.display=esEc?"block":"none";
+}
+
+function cargarCampana(){
+  const i=parseInt(document.getElementById("cc-sel").value);
+  const c=publiCuentas[i];const nombre=document.getElementById("cc-nombre").value;const f=document.getElementById("cc-f").value;
+  if(!nombre){alert("Ingresá el nombre de la campaña");return;}
+  if(c.tipo==="whatsapp"){c.campanas.push({nombre,gasto:parseFloat(document.getElementById("cc-g").value)||0,conversaciones:parseInt(document.getElementById("cc-cv").value)||0,fecha:f});}
+  else{c.campanas.push({nombre,gasto:parseFloat(document.getElementById("cc-eg").value)||0,ventas:parseInt(document.getElementById("cc-ev").value)||0,ingresos:parseFloat(document.getElementById("cc-ei").value)||0,fecha:f});}
+  alert("✅ Campaña agregada: "+nombre);rPubli();
+}
+
+function copiarRepCuenta(id){
+  const c=publiCuentas.find(x=>x.id===id);if(!c)return;
+  let t=`📣 REPORTE — ${c.marca.toUpperCase()}\nMarketing con Eli Hansen\nSemana: 19-25 Mayo 2026\n\n`;
+  if(c.tipo==="whatsapp"){
+    t+=`💬 CAMPAÑAS DE CAPTACIÓN (WhatsApp)\n\n`;
+    c.campanas.forEach(cp=>{t+=`▸ ${cp.nombre}\n  Gasto: ${fmt(cp.gasto)}\n  Conversaciones: ${cp.conversaciones}\n  Costo/conv.: ${fmt(cp.conversaciones>0?Math.round(cp.gasto/cp.conversaciones):0)}\n\n`;});
+    const tG=c.campanas.reduce((s,cp)=>s+cp.gasto,0);const tCv=c.campanas.reduce((s,cp)=>s+cp.conversaciones,0);
+    t+=`TOTAL:\n• Gasto: ${fmt(tG)}\n• Conversaciones: ${tCv}\n• Costo por conversación: ${fmt(tCv>0?Math.round(tG/tCv):0)}`;
+  } else {
+    t+=`🛒 CAMPAÑAS ECOMMERCE\n\n`;
+    c.campanas.forEach(cp=>{t+=`▸ ${cp.nombre}\n  Gasto: ${fmt(cp.gasto)}\n  Ventas: ${cp.ventas||0}\n  Ingresos: ${fmt(cp.ingresos||0)}\n  ROAS: ×${cp.gasto>0?((cp.ingresos||0)/cp.gasto).toFixed(2):"—"}\n\n`;});
+    const tG=c.campanas.reduce((s,cp)=>s+cp.gasto,0);const tV=c.campanas.reduce((s,cp)=>s+(cp.ventas||0),0);const tI=c.campanas.reduce((s,cp)=>s+(cp.ingresos||0),0);
+    t+=`TOTAL:\n• Gasto: ${fmt(tG)}\n• Ventas: ${tV}\n• Ingresos: ${fmt(tI)}\n• ROAS: ×${tG>0?(tI/tG).toFixed(2):"—"}`;
+  }
+  t+=`\n\n_Marketing con Eli Hansen_`;
+  navigator.clipboard.writeText(t);alert("✅ Reporte de "+c.marca+" copiado");
+}
+
+function genRepCompleto(){
+  let t=`📣 REPORTE SEMANAL COMPLETO\nMarketing con Eli Hansen — Semana 19-25 Mayo 2026\n\n`;
+  t+=`💬 CUENTAS WHATSAPP:\n`;
+  publiCuentas.filter(c=>c.tipo==="whatsapp").forEach(c=>{
+    const g=c.campanas.reduce((s,cp)=>s+cp.gasto,0);const cv=c.campanas.reduce((s,cp)=>s+cp.conversaciones,0);
+    t+=`▸ ${c.marca}: ${cv} conv. — ${fmt(g)}\n`;
+  });
+  t+=`\n🛒 CUENTAS ECOMMERCE:\n`;
+  publiCuentas.filter(c=>c.tipo==="ecommerce").forEach(c=>{
+    const g=c.campanas.reduce((s,cp)=>s+cp.gasto,0);const v=c.campanas.reduce((s,cp)=>s+(cp.ventas||0),0);const i=c.campanas.reduce((s,cp)=>s+(cp.ingresos||0),0);
+    t+=`▸ ${c.marca}: ${v} ventas — ${fmt(i)} — ROAS ×${g>0?(i/g).toFixed(2):"—"}\n`;
+  });
+  return t;
+}
+
+// ══════════════════════════════════════
+// INFOPRODUCTOS
+// ══════════════════════════════════════
+function rInfoprod(){
+  const sem=ventas.filter(v=>(new Date()-new Date(v.fecha))/86400000<=7);
+  const totS=sem.reduce((s,v)=>s+v.monto,0);const totV=sem.reduce((s,v)=>s+v.cantidad,0);
+  const pc={};sem.forEach(v=>{if(!pc[v.curso])pc[v.curso]={q:0,m:0};pc[v.curso].q+=v.cantidad;pc[v.curso].m+=v.monto;});
+  document.getElementById("mc").innerHTML=`
+  <div class="sg">
+    <div class="st" style="border-color:var(--v)"><div style="font-size:10px;color:var(--text3)">Ventas semana</div><div class="sv" style="color:var(--v)">${totV}</div></div>
+    <div class="st" style="border-color:var(--n)"><div style="font-size:10px;color:var(--text3)">Ingresos semana</div><div class="sv" style="color:var(--n)">${fmt(totS)}</div></div>
+  </div>
+  <div class="card"><div class="ct">➕ Cargar venta de hoy</div>
+    <div class="fr"><div class="fg"><label>Fecha</label><input id="ipf" type="date" value="${new Date().toISOString().split('T')[0]}"></div>
+    <div class="fg"><label>Curso</label><select id="ipc" onchange="toggleOtro()">${cursos.map(c=>`<option value="${c.nombre}">${c.nombre}</option>`).join("")}<option value="otro">Otro...</option></select></div></div>
+    <div id="ip-otro" style="display:none" class="fg"><label>Nombre del curso</label><input id="ipo"></div>
+    <div class="fr"><div class="fg"><label>Cantidad</label><input id="ipq" type="number" min="1" placeholder="1"></div><div class="fg"><label>Monto ($)</label><input id="ipm" type="number"></div></div>
+    <div class="fg"><label>Canal</label><select id="ipca"><option>Systema.io</option><option>DM Instagram</option><option>WhatsApp</option><option>Otro</option></select></div>
+    <button class="btn bp" style="width:100%;margin-top:6px" onclick="cargarVenta()">✅ Registrar venta</button>
+  </div>
+  ${Object.keys(pc).length?`<div class="card"><div class="ct">📊 Por curso esta semana</div>${Object.entries(pc).map(([c,d])=>`<div class="tr"><span style="font-size:12px">${c}</span><div style="text-align:right"><div style="color:var(--v);font-weight:700">${d.q} ventas</div><div style="font-size:11px;color:var(--n)">${fmt(d.m)}</div></div></div>`).join("")}</div>`:""}
+  <div class="card"><div class="ct">📋 Historial</div>
+    ${ventas.length?ventas.slice(0,15).map(v=>`<div class="tr"><div><div style="font-weight:700;font-size:12px">${v.curso}</div><div style="font-size:10px;color:var(--text3)">${v.fecha} · ${v.canal}</div></div><div style="text-align:right"><div style="color:var(--v);font-weight:700">${v.cantidad} ud.</div><div style="color:var(--n)">${fmt(v.monto)}</div><button class="btn bd bsm" onclick="delVenta(${v.id})">🗑</button></div></div>`).join(""):`<div style="font-size:12px;color:var(--text3)">Sin ventas registradas aún 👆</div>`}
+  </div>
+  <div class="card"><div class="ct">⚙️ Mis cursos</div>
+    ${cursos.map(c=>`<div class="tr"><span style="font-size:12px">${c.nombre}</span><button class="btn bd bsm" onclick="delCurso(${c.id})">🗑</button></div>`).join("")}
+    <div style="display:flex;gap:8px;margin-top:10px"><input id="nc" placeholder="Nombre del nuevo curso" style="flex:1"><button class="btn bp bsm" onclick="addCurso()">➕</button></div>
+  </div>`;
+  document.getElementById("ipc").addEventListener("change",function(){document.getElementById("ip-otro").style.display=this.value==="otro"?"block":"none";});
+}
+function toggleOtro(){const s=document.getElementById("ipc");if(s)document.getElementById("ip-otro").style.display=s.value==="otro"?"block":"none";}
+function cargarVenta(){let c=document.getElementById("ipc").value;if(c==="otro")c=document.getElementById("ipo").value.trim();const f=document.getElementById("ipf").value;const q=parseInt(document.getElementById("ipq").value)||1;const m=parseFloat(document.getElementById("ipm").value)||0;if(!f||!c||!m){alert("Completá fecha, curso y monto");return;}ventas.unshift({id:nextId++,fecha:f,curso:c,cantidad:q,monto:m,canal:document.getElementById("ipca").value});alert("✅ Venta registrada: "+c);rInfoprod();}
+function delVenta(id){if(confirm("¿Eliminar?"))ventas=ventas.filter(v=>v.id!==id);rInfoprod();}
+function addCurso(){const n=document.getElementById("nc").value.trim();if(!n)return;cursos.push({id:nextId++,nombre:n});rInfoprod();}
+function delCurso(id){if(confirm("¿Eliminar?"))cursos=cursos.filter(c=>c.id!==id);rInfoprod();}
+
+// ══════════════════════════════════════
+// FINANZAS
+// ══════════════════════════════════════
+function rFinanzas(){
+  const tAg=gAg.reduce((s,g)=>s+g.m,0);const tPer=gPer.reduce((s,g)=>s+g.m,0);const tFact=clientes.filter(c=>c.estado==="Activo").reduce((s,c)=>s+c.monto,0);const gan=tFact-tAg-tPer;
+  document.getElementById("mc").innerHTML=`
+  <div class="card"><div class="ct">🏢 Gastos agencia</div>${gAg.map(g=>`<div class="tr"><span style="font-size:12px">${g.c}</span><span style="color:#f87171;font-weight:700">${fmt(g.m)}</span></div>`).join("")}<div style="border-top:2px solid var(--border2);margin-top:10px;padding-top:8px;display:flex;justify-content:space-between;font-weight:800"><span>Total</span><span style="color:#f87171">${fmt(tAg)}</span></div></div>
+  <div class="card"><div class="ct">👤 Gastos personales</div>${gPer.map(g=>`<div class="tr"><span style="font-size:12px">${g.c}</span><span style="color:#fbbf24;font-weight:700">${fmt(g.m)}</span></div>`).join("")}<div style="border-top:2px solid var(--border2);margin-top:10px;padding-top:8px;display:flex;justify-content:space-between;font-weight:800"><span>Total</span><span style="color:#fbbf24">${fmt(tPer)}</span></div></div>
+  <div class="card" style="border-left:3px solid var(--v)"><div class="ct">🎯 Punto de equilibrio</div>
+    <div class="tr"><span style="color:var(--text3);font-size:12px">Facturación</span><span style="color:var(--v);font-weight:800">${fmt(tFact)}</span></div>
+    <div class="tr"><span style="color:var(--text3);font-size:12px">− Gastos agencia</span><span style="color:#f87171;font-weight:700">− ${fmt(tAg)}</span></div>
+    <div class="tr"><span style="color:var(--text3);font-size:12px">− Gastos personales</span><span style="color:#fbbf24;font-weight:700">− ${fmt(tPer)}</span></div>
+    <div style="border-top:2px solid var(--border2);margin-top:8px;padding-top:8px">
+      <div class="tr"><span style="font-weight:800">Mínimo a facturar</span><span style="color:var(--n);font-weight:900;font-size:15px">${fmt(tAg+tPer)}</span></div>
+      <div class="tr"><span style="font-weight:800">Ganancia neta</span><span style="color:${gan>=0?"var(--v)":"#f87171"};font-weight:900;font-size:15px">${fmt(gan)}</span></div>
+    </div>
+  </div>
+  <div class="card"><div class="ct">👥 Descuentos por entregas tarde</div>
+    ${equipo.filter(e=>e.descuentos.length).map(e=>`<div class="tr"><span>${e.nombre}</span><span style="color:#f87171;font-weight:700">− ${fmt(e.descuentos.reduce((s,d)=>s+d.monto,0))}</span></div>${e.descuentos.map(d=>`<div style="font-size:10px;color:var(--text3);padding:2px 0 2px 10px">• ${d.motivo} (${d.fecha})</div>`).join("")}`).join("")||`<div style="font-size:12px;color:var(--text3)">Sin descuentos ✅</div>`}
+  </div>`;
+}
+
+// ══════════════════════════════════════
+// DOCS
+// ══════════════════════════════════════
+function rDocs(){
+  let h=`<div class="card"><div class="ct">📎 Estado documentos</div>`;
+  clientes.forEach(c=>{h+=`<div class="tr"><div><div style="font-weight:700;font-size:12px">${c.marca}</div><div style="display:flex;gap:4px;margin-top:4px;flex-wrap:wrap">${c.docs.contrato?`<span class="badge bg">📄 Contrato</span>`:`<span class="badge br">📄 Pendiente</span>`}${c.docs.comprobantePago?`<span class="badge bg">💳 Pago</span>`:`<span class="badge by">💳 Sin subir</span>`}${c.docs.comprobanteNuestro?`<span class="badge bg">🧾 Factura</span>`:`<span class="badge by">🧾 Sin subir</span>`}</div></div><button class="btn bsm bo" onclick="abrirDocs(${c.id})">📎 Gestionar</button></div>`;});
+  document.getElementById("mc").innerHTML=h+`</div>`;
+}
+
+// ══════════════════════════════════════
+// ALERTAS
+// ══════════════════════════════════════
+function rAlertas(){
+  const al=genAlertas();
+  document.getElementById("mc").innerHTML=`
+  <div class="card"><div class="ct">🔔 Alertas activas (${al.length})</div>
+    ${al.length?al.map(a=>`<div class="ab ${a.u==="danger"?"ad":a.u==="orange"?"ao":"aw"}">${a.msg} <span style="font-size:10px;opacity:.6">[${a.para}]</span></div>`).join(""):`<div style="color:var(--text3);font-size:12px">Sin alertas ✅</div>`}
+  </div>
+  <div class="card"><div class="ct">🔗 Configurar N8N</div>
+    <div style="font-size:12px;color:var(--text2);margin-bottom:10px">Pegá la URL de tu webhook de N8N para activar alertas automáticas por WhatsApp y Email</div>
+    <div style="display:flex;gap:8px;margin-bottom:10px"><input id="n8n-url" placeholder="https://tu-n8n.app.n8n.cloud/webhook/..." style="flex:1"><button class="btn bp bsm" onclick="probarN8N()" style="white-space:nowrap">🧪 Probar</button></div>
+    <div class="ab ${N8N_WEBHOOK!=="TU_WEBHOOK_N8N"?"ag":"aw"}">${N8N_WEBHOOK!=="TU_WEBHOOK_N8N"?"✅ N8N conectado":"⚠️ N8N no configurado — reemplazá TU_WEBHOOK_N8N en el archivo"}</div>
+  </div>
+  <div class="card"><div class="ct">📋 Lógica configurada</div>
+    <div style="font-size:12px;color:var(--text2);line-height:2">
+      <b style="color:var(--v)">Para Eli + Vicky:</b> Sin contrato · Comprobante pendiente · Vencimiento · Baja próxima<br>
+      <b style="color:var(--n)">Solo para Eli:</b> Aumento próximo · Vicky atrasada · Editor atrasado · Reporte semanal (martes)<br>
+      <b style="color:#fbbf24">Diario:</b> Resumen de campañas publicitarias a las 20hs
+    </div>
+  </div>
+  <div class="card" style="border-left:3px solid var(--n)"><div class="ct">⚙️ Paso a paso N8N</div>
+    <div style="font-size:12px;color:var(--text2);line-height:2">
+      1. Entrá a tu N8N → <b style="color:var(--v)">New workflow</b><br>
+      2. Agregá nodo <b style="color:var(--v)">Webhook</b> como trigger<br>
+      3. Copiá la URL y pegala arriba<br>
+      4. Agregá nodos <b style="color:var(--n)">Gmail</b> y <b style="color:var(--n)">WhatsApp Business</b><br>
+      5. Para el resumen del martes: agregá nodo <b style="color:var(--v)">Schedule Trigger</b> → cada martes 9am<br>
+      6. Para alertas diarias: agregá nodo <b style="color:var(--v)">Schedule Trigger</b> → todos los días 20hs<br>
+      7. Activá el workflow ✅
+    </div>
+  </div>`;
+}
+
+async function probarN8N(){const url=document.getElementById("n8n-url").value.trim();if(!url)return;try{await fetch(url,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({test:true,msg:"🧪 Prueba desde Marketing con Eli Hansen",fecha:new Date().toLocaleDateString("es-AR")})});alert("✅ Enviado a N8N — verificá que llegó");}catch(e){alert("❌ Error: "+e.message);}}
+</script>
+</body>
+</html>

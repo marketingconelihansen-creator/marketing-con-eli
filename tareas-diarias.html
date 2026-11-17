@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Tareas Diarias — Marketing con Eli Hansen</title>
+<meta name="description" content="Tareas pendientes del día con notificaciones, organizadas por voz o texto.">
+
+<!-- PWA -->
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#ffffff">
+<link rel="icon" href="icons/icon-192.png" type="image/png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Tareas Diarias">
+
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+<style>
+:root{--v:#2fa428;--vd:#237f1e;--vg:rgba(47,164,40,.10);--n:#F4763B;--nd:#d45e25;--ng:rgba(244,118,59,.10);--bg:#ffffff;--bg2:#f4f7f4;--card:#ffffff;--card2:#eef3ee;--border:#e3e9e3;--border2:#cbd8cb;--text:#16241a;--text2:#48594a;--text3:#8a9c8c;--shadow:0 1px 3px rgba(20,40,20,.06)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Montserrat',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:40px}
+.hdr{background:var(--card);border-bottom:1px solid var(--border);padding:14px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;flex-wrap:wrap;gap:8px;box-shadow:var(--shadow)}
+.hn{font-size:14px;font-weight:800;color:var(--v)}
+.he{font-family:'Dancing Script',cursive;font-size:17px;color:var(--n)}
+.clock{font-size:11px;color:var(--text3)}
+.cnt{padding:14px;max-width:720px;margin:0 auto}
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:14px;margin-bottom:12px;box-shadow:var(--shadow)}
+.ct{font-size:11px;font-weight:800;margin-bottom:12px;color:var(--v);text-transform:uppercase;letter-spacing:1px}
+.sg{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px}
+.st{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:10px;border-left:3px solid;text-align:center;box-shadow:var(--shadow)}
+.sv{font-size:17px;font-weight:900;margin:2px 0}
+.stl{font-size:9px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px}
+.badge{padding:3px 9px;border-radius:20px;font-size:10px;font-weight:700;display:inline-block}
+.bg{background:rgba(47,164,40,.12);color:var(--vd)}.br{background:rgba(248,113,113,.15);color:#dc2626}.by{background:rgba(251,191,36,.18);color:#b45309}.bb{background:rgba(47,164,40,.08);color:var(--v)}
+.btn{padding:8px 14px;border-radius:10px;border:none;cursor:pointer;font-size:11px;font-weight:700;font-family:'Montserrat',sans-serif;transition:all .15s}
+.bp{background:linear-gradient(135deg,var(--v),var(--vd));color:#fff}
+.bo{background:linear-gradient(135deg,var(--n),var(--nd));color:#fff}
+.bs{background:rgba(47,164,40,.10);color:var(--vd);border:1px solid var(--border2)}
+.bd{background:rgba(248,113,113,.10);color:#dc2626;border:1px solid rgba(248,113,113,.25)}
+.bg2c{background:var(--card2);color:var(--text2);border:1px solid var(--border)}
+.bsm{padding:5px 10px;font-size:10px}
+.brec{background:linear-gradient(135deg,#f87171,#dc2626);color:#fff}
+input,select,textarea{background:#fff;border:1px solid var(--border2);color:var(--text);border-radius:10px;padding:9px 12px;font-size:12px;width:100%;font-family:'Montserrat',sans-serif}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--v)}
+label{font-size:10px;color:var(--text3);margin-bottom:3px;display:block;font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+.fg{margin-bottom:9px}
+.fr{display:grid;grid-template-columns:1fr 100px 110px;gap:8px}
+.datebar{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px}
+.datebar .dl{font-size:12px;font-weight:800;text-transform:capitalize;flex:1;text-align:center}
+.wt{font-size:10px;font-weight:800;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin:14px 0 6px}
+.ti{background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:10px;margin-bottom:7px;border-left:3px solid var(--border2);display:flex;align-items:flex-start;gap:8px}
+.ti.done{opacity:.5}
+.ti.done .tt{text-decoration:line-through}
+.ti.alta{border-left-color:#dc2626}
+.ti.media{border-left-color:#f59e0b}
+.ti.baja{border-left-color:var(--v)}
+.ti.atrasada{background:rgba(248,113,113,.07)}
+.chk{width:22px;height:22px;border-radius:7px;border:2px solid var(--border2);background:#fff;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--v)}
+.ti.done .chk{background:var(--v);border-color:var(--v);color:#fff}
+.tt{font-size:12px;font-weight:700;flex:1}
+.tmeta{font-size:10px;color:var(--text3);margin-top:3px;display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.tactions{display:flex;flex-direction:column;gap:4px}
+.empty{color:var(--text3);font-size:12px;padding:16px;text-align:center}
+.notifbar{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:5px}
+.dotg{background:var(--v)}.dotr{background:#dc2626}.doty{background:#f59e0b}
+.micwrap{display:flex;gap:8px;align-items:center;margin-top:8px}
+.micbtn{width:46px;height:46px;border-radius:50%;border:none;cursor:pointer;font-size:18px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--v),var(--vd));color:#fff;transition:all .15s}
+.micbtn.listening{background:linear-gradient(135deg,#f87171,#dc2626);animation:pulse 1.2s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(220,38,38,.4)}70%{box-shadow:0 0 0 12px rgba(220,38,38,0)}100%{box-shadow:0 0 0 0 rgba(220,38,38,0)}}
+.micstatus{font-size:11px;color:var(--text3);flex:1}
+.installcard{display:none}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div><div class="hn">Tareas Diarias — <span class="he">Marketing con Eli Hansen</span></div><div class="clock" id="clock"></div></div>
+  <button class="btn bg2c bsm" onclick="location.href='index.html'">← Volver al sistema</button>
+</div>
+
+<div class="cnt">
+
+  <div class="card installcard" id="installCard">
+    <div class="ct">📲 Instalar como app</div>
+    <div style="font-size:11px;color:var(--text2);margin-bottom:8px" id="installTxt">Instalá esta página en tu teléfono para abrirla como una app, con ícono propio.</div>
+    <button class="btn bp" style="width:100%" id="installBtn" onclick="instalarApp()">📲 Instalar en el teléfono</button>
+  </div>
+
+  <div class="card">
+    <div class="ct">🔔 Notificaciones</div>
+    <div class="notifbar">
+      <div style="font-size:11px;color:var(--text2)" id="notifStatus">Comprobando soporte…</div>
+      <button class="btn bp bsm" id="notifBtn" onclick="activarNotificaciones()">Activar notificaciones</button>
+    </div>
+    <div style="font-size:10px;color:var(--text3);margin-top:8px">Con las notificaciones activadas, te avisamos apenas llega la hora de cada tarea que tenga horario. Si instalaste la app en el teléfono, dejala abierta en segundo plano para recibirlas.</div>
+  </div>
+
+  <div class="card">
+    <div class="ct">📅 Google Calendar</div>
+    <div class="notifbar">
+      <div style="font-size:11px;color:var(--text2)" id="gcalStatus">Comprobando…</div>
+      <button class="btn bp bsm" id="gcalBtn" onclick="conectarGCal()">Conectar Google Calendar</button>
+    </div>
+    <div class="fg" style="margin-top:10px">
+      <label>Avisar con anticipación (minutos)</label>
+      <input id="gcalAviso" type="number" min="1" max="180" value="20" onchange="cambiarAvisoGCal()">
+    </div>
+    <label style="display:flex;align-items:center;gap:6px;text-transform:none;font-size:11px;color:var(--text2);cursor:pointer;font-weight:600">
+      <input type="checkbox" id="gcalAuto" style="width:auto" checked onchange="cambiarAutoSyncGCal()"> Sincronizar automáticamente las tareas con horario
+    </label>
+    <div style="font-size:10px;color:var(--text3);margin-top:8px">Cuando decís o escribís una tarea con hora (ej: "reunión a las 15:00"), se crea sola como evento de Google Calendar con el aviso que elijas arriba. Esa notificación es de Calendar, así que llega aunque esta app esté cerrada.</div>
+  </div>
+
+  <div class="card">
+    <div class="ct">🎤 Contame qué tenés que hacer</div>
+    <div style="font-size:10px;color:var(--text3);margin-bottom:8px">Tocá el micrófono y decí todas tus tareas como si me mandaras un audio (hacé una pausa entre una y otra, o decí "siguiente tarea"). También podés escribirlas, una por renglón. Si mencionás una hora ("a las 10", "14:30") o palabras como "urgente" / "cuando pueda", la app la organiza sola.</div>
+    <div class="micwrap">
+      <button class="micbtn" id="micBtn" onclick="toggleDictado()">🎤</button>
+      <div class="micstatus" id="micStatus">Comprobando soporte de dictado por voz…</div>
+    </div>
+    <textarea id="bulkInput" rows="4" style="margin-top:8px" placeholder="Ej:&#10;Llamar a Skin Lovers urgente&#10;Mandar reporte a las 15:30&#10;Revisar diseños cuando pueda"></textarea>
+    <button class="btn bp" style="width:100%;margin-top:8px" onclick="organizarBulk()">🪄 Organizar tareas</button>
+  </div>
+
+  <div class="card">
+    <div class="ct">➕ Agregar tarea puntual</div>
+    <div class="fr">
+      <div class="fg"><label>Tarea</label><input id="oneText" placeholder="Descripción" onkeydown="if(event.key==='Enter')agregarUna()"></div>
+      <div class="fg"><label>Hora</label><input id="oneHora" type="time"></div>
+      <div class="fg"><label>Prioridad</label><select id="onePrio"><option value="media">Media</option><option value="alta">Alta</option><option value="baja">Baja</option></select></div>
+    </div>
+    <button class="btn bp" style="width:100%;margin-top:4px" onclick="agregarUna()">✅ Agregar</button>
+  </div>
+
+  <div class="datebar">
+    <button class="btn bg2c bsm" onclick="cambiarDia(-1)">← Anterior</button>
+    <div class="dl" id="dLabel"></div>
+    <button class="btn bg2c bsm" onclick="cambiarDia(1)">Siguiente →</button>
+  </div>
+  <div style="text-align:center;margin-bottom:12px" id="hoyBtnWrap"><button class="btn bs bsm" onclick="irHoy()">📅 Ir a hoy</button></div>
+
+  <div class="sg">
+    <div class="st" style="border-color:var(--v)"><div class="stl">Total</div><div class="sv" style="color:var(--v)" id="sTotal">0</div></div>
+    <div class="st" style="border-color:#f59e0b"><div class="stl">Pendientes</div><div class="sv" style="color:#b45309" id="sPend">0</div></div>
+    <div class="st" style="border-color:#dc2626"><div class="stl">Atrasadas</div><div class="sv" style="color:#dc2626" id="sAtr">0</div></div>
+    <div class="st" style="border-color:var(--n)"><div class="stl">Hechas</div><div class="sv" style="color:var(--n)" id="sHechas">0</div></div>
+  </div>
+
+  <div id="listas"></div>
+
+  <div class="card">
+    <button class="btn bg2c bsm" style="width:100%" onclick="copiarDia()">📋 Copiar lista del día</button>
+  </div>
+
+</div>
+
+<script>
+// ══════════════════════════════════════
+// PWA: SERVICE WORKER + INSTALACIÓN
+// ══════════════════════════════════════
+if("serviceWorker"in navigator){window.addEventListener("load",()=>{navigator.serviceWorker.register("sw.js").catch(()=>{});});}
+
+let deferredInstallPrompt=null;
+window.addEventListener("beforeinstallprompt",e=>{
+  e.preventDefault();
+  deferredInstallPrompt=e;
+  document.getElementById("installCard").style.display="block";
+});
+window.addEventListener("appinstalled",()=>{document.getElementById("installCard").style.display="none";});
+
+function esIOS(){return /iphone|ipad|ipod/i.test(navigator.userAgent);}
+function esStandalone(){return window.matchMedia("(display-mode: standalone)").matches||window.navigator.standalone===true;}
+
+function instalarApp(){
+  if(deferredInstallPrompt){
+    deferredInstallPrompt.prompt();
+    deferredInstallPrompt.userChoice.finally(()=>{deferredInstallPrompt=null;});
+  } else if(esIOS()){
+    alert("En iPhone/iPad: tocá el botón Compartir (el cuadradito con la flecha) y elegí 'Agregar a pantalla de inicio'.");
+  } else {
+    alert("Buscá la opción 'Instalar app' o 'Agregar a pantalla de inicio' en el menú de tu navegador (⋮).");
+  }
+}
+
+if(!esStandalone()){
+  if(esIOS()){
+    document.getElementById("installCard").style.display="block";
+    document.getElementById("installTxt").textContent="En iPhone/iPad: tocá Compartir (⬆️) y elegí 'Agregar a pantalla de inicio'.";
+    document.getElementById("installBtn").textContent="ℹ️ Ver instrucciones";
+  }
+}
+
+// ══════════════════════════════════════
+// ESTADO Y PERSISTENCIA
+// ══════════════════════════════════════
+const LS_KEY="tareasDiarias_v1";
+let state=JSON.parse(localStorage.getItem(LS_KEY)||"null")||{porDia:{},lastSummary:null,nextId:1};
+if(!state.calendar)state.calendar={conectado:false,avisoMin:20,autoSync:true};
+let diaActual=todayStr();
+
+function guardar(){localStorage.setItem(LS_KEY,JSON.stringify(state));}
+function todayStr(){const d=new Date();return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");}
+function addDaysStr(str,n){const[y,m,d]=str.split("-").map(Number);const dt=new Date(y,m-1,d);dt.setDate(dt.getDate()+n);return dt.getFullYear()+"-"+String(dt.getMonth()+1).padStart(2,"0")+"-"+String(dt.getDate()).padStart(2,"0");}
+function fmtDateLong(str){const[y,m,d]=str.split("-").map(Number);const dt=new Date(y,m-1,d);return dt.toLocaleDateString("es-AR",{weekday:"long",day:"numeric",month:"long"});}
+function tareasDelDia(dia){if(!state.porDia[dia])state.porDia[dia]=[];return state.porDia[dia];}
+
+// ══════════════════════════════════════
+// RELOJ
+// ══════════════════════════════════════
+function tickClock(){document.getElementById("clock").textContent=new Date().toLocaleString("es-AR",{weekday:"short",day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"});}
+tickClock();setInterval(tickClock,1000*30);
+
+// ══════════════════════════════════════
+// DICTADO POR VOZ
+// ══════════════════════════════════════
+const SpeechRec=window.SpeechRecognition||window.webkitSpeechRecognition;
+let recognizer=null,escuchando=false;
+
+function initDictado(){
+  const btn=document.getElementById("micBtn"),st=document.getElementById("micStatus");
+  if(!SpeechRec){
+    st.textContent="Tu navegador no soporta dictado por voz. Probá con Chrome en el celular o la compu.";
+    btn.disabled=true;btn.style.opacity=".4";
+    return;
+  }
+  st.textContent="Tocá el micrófono y empezá a hablar";
+  recognizer=new SpeechRec();
+  recognizer.lang="es-AR";
+  recognizer.continuous=true;
+  recognizer.interimResults=true;
+
+  let finalTexto="";
+
+  recognizer.onresult=e=>{
+    let interim="";
+    for(let i=e.resultIndex;i<e.results.length;i++){
+      const t=e.results[i][0].transcript;
+      if(e.results[i].isFinal)finalTexto+=t+" ";
+      else interim+=t;
+    }
+    st.textContent="🎙️ Escuchando… "+(finalTexto+interim).slice(-90);
+  };
+  recognizer.onerror=e=>{
+    if(e.error==="not-allowed"||e.error==="service-not-allowed")st.textContent="No pudimos acceder al micrófono. Revisá los permisos del navegador.";
+    else if(e.error==="no-speech")st.textContent="No se escuchó nada. Tocá el micrófono y probá de nuevo.";
+    else st.textContent="Hubo un problema con el dictado. Probá de nuevo.";
+    detenerDictado();
+  };
+  recognizer.onend=()=>{
+    escuchando=false;
+    btn.classList.remove("listening");
+    if(finalTexto.trim()){
+      procesarDictado(finalTexto.trim());
+      st.textContent="✅ Tareas agregadas. Tocá el micrófono para dictar más.";
+    } else {
+      st.textContent="Tocá el micrófono y empezá a hablar";
+    }
+    finalTexto="";
+  };
+  window.__iniciarReconocimiento=()=>{finalTexto="";recognizer.start();};
+}
+
+function toggleDictado(){
+  if(!recognizer)return;
+  if(escuchando){
+    recognizer.stop();
+  } else {
+    escuchando=true;
+    document.getElementById("micBtn").classList.add("listening");
+    document.getElementById("micStatus").textContent="🎙️ Escuchando…";
+    try{window.__iniciarReconocimiento();}catch(err){escuchando=false;document.getElementById("micBtn").classList.remove("listening");}
+  }
+}
+function detenerDictado(){
+  escuchando=false;
+  document.getElementById("micBtn").classList.remove("listening");
+}
+
+const CUES_CORTE=[/\bsiguiente tarea\b/gi,/\botra tarea\b/gi,/\bpr[oó]xima tarea\b/gi,/\btambi[ée]n tengo que\b/gi,/\by tambi[ée]n\b/gi,/\by adem[aá]s\b/gi];
+function procesarDictado(texto){
+  let t=texto;
+  CUES_CORTE.forEach(re=>{t=t.replace(re,". ");});
+  const lineas=t.split(/[.;\n]+/).map(l=>l.trim()).filter(Boolean);
+  if(!lineas.length)return;
+  lineas.forEach(linea=>{
+    const limpia=limpiarLinea(linea);
+    if(!limpia)return;
+    crearTarea(limpia,detectarHora(linea),detectarPrioridad(linea),diaActual);
+  });
+  guardar();render();
+}
+
+// ══════════════════════════════════════
+// PARSEO DE TEXTO LIBRE
+// ══════════════════════════════════════
+const PALABRAS_ALTA=["urgente","importante","ya","asap","prioridad alta","ahora mismo","hoy sí o sí","crítico"];
+const PALABRAS_BAJA=["cuando pueda","si hay tiempo","después","luego","baja prioridad","no urgente","algún día"];
+
+function detectarPrioridad(linea){
+  const l=linea.toLowerCase();
+  if(PALABRAS_ALTA.some(p=>l.includes(p)))return"alta";
+  if(PALABRAS_BAJA.some(p=>l.includes(p)))return"baja";
+  return"media";
+}
+function detectarHora(linea){
+  let m=linea.match(/a\s+las\s+(\d{1,2})(?::(\d{2}))?\s*(am|pm)?/i);
+  if(!m)m=linea.match(/\b(\d{1,2}):(\d{2})\s*(am|pm)?\b/);
+  if(!m)m=linea.match(/\b(\d{1,2})\s*(am|pm)\b/i);
+  if(!m)m=linea.match(/\b(\d{1,2})\s*hs\b/i);
+  if(!m)return null;
+  let h=parseInt(m[1],10);
+  let min=m[2]&&/^\d+$/.test(m[2])?parseInt(m[2],10):0;
+  const ap=(m[3]||m[2]||"").toString().toLowerCase();
+  if(ap==="pm"&&h<12)h+=12;
+  if(ap==="am"&&h===12)h=0;
+  if(h>23||min>59)return null;
+  return String(h).padStart(2,"0")+":"+String(min).padStart(2,"0");
+}
+function limpiarLinea(l){return l.replace(/^[-•*\d.)\s]+/,"").trim();}
+
+function crearTarea(texto,hora,prioridad,dia){
+  const t={id:state.nextId++,texto,hora:hora||null,prioridad:prioridad||"media",hecha:false,notificada:false,gcalId:null};
+  tareasDelDia(dia).push(t);
+  if(t.hora&&state.calendar.autoSync&&state.calendar.conectado)crearEventoCalendar(t,dia);
+  return t;
+}
+
+// ══════════════════════════════════════
+// GOOGLE CALENDAR
+// ══════════════════════════════════════
+const GOOGLE_CLIENT_ID="1024416875332-ulki9pc4piuoko8lt1ck9np801jknuig.apps.googleusercontent.com";
+const GCAL_SCOPE="https://www.googleapis.com/auth/calendar.events";
+const GCAL_TZ="America/Argentina/Buenos_Aires";
+let gcalTokenClient=null,gcalAccessToken=null,gcalTokenExpiry=0;
+
+function gcalConfigurado(){return !GOOGLE_CLIENT_ID.startsWith("TU_");}
+
+function initGCalClient(){
+  if(!gcalConfigurado())return;
+  if(typeof google==="undefined"||!google.accounts||!google.accounts.oauth2)return;
+  gcalTokenClient=google.accounts.oauth2.initTokenClient({client_id:GOOGLE_CLIENT_ID,scope:GCAL_SCOPE,callback:()=>{}});
+  if(state.calendar.conectado)asegurarTokenGCal();
+}
+
+function actualizarEstadoGCal(){
+  const s=document.getElementById("gcalStatus"),b=document.getElementById("gcalBtn");
+  if(!gcalConfigurado()){s.innerHTML=`<span class="dot doty"></span>Falta configurar (pedile a quien programó la app que complete GOOGLE_CLIENT_ID)`;b.style.display="none";return;}
+  if(state.calendar.conectado){s.innerHTML=`<span class="dot dotg"></span>Conectado`;b.textContent="Desconectar";b.onclick=desconectarGCal;b.style.display="inline-block";}
+  else{s.innerHTML=`<span class="dot doty"></span>No conectado`;b.textContent="Conectar Google Calendar";b.onclick=conectarGCal;b.style.display="inline-block";}
+}
+
+function conectarGCal(){
+  if(!gcalConfigurado()){alert("Google Calendar todavía no está configurado en esta app.");return;}
+  if(!gcalTokenClient)initGCalClient();
+  if(!gcalTokenClient){alert("No se pudo cargar Google. Probá de nuevo en unos segundos.");return;}
+  gcalTokenClient.callback=(resp)=>{
+    if(resp.error){alert("No se pudo conectar con Google Calendar.");return;}
+    gcalAccessToken=resp.access_token;
+    gcalTokenExpiry=Date.now()+resp.expires_in*1000;
+    state.calendar.conectado=true;guardar();actualizarEstadoGCal();
+    sincronizarPendientesGCal();
+  };
+  gcalTokenClient.requestAccessToken({prompt:"consent"});
+}
+
+function desconectarGCal(){
+  if(gcalAccessToken&&typeof google!=="undefined"&&google.accounts&&google.accounts.oauth2)google.accounts.oauth2.revoke(gcalAccessToken,()=>{});
+  gcalAccessToken=null;gcalTokenExpiry=0;
+  state.calendar.conectado=false;guardar();actualizarEstadoGCal();
+}
+
+function asegurarTokenGCal(){
+  return new Promise(resolve=>{
+    if(gcalAccessToken&&Date.now()<gcalTokenExpiry-30000){resolve(gcalAccessToken);return;}
+    if(!gcalTokenClient){resolve(null);return;}
+    gcalTokenClient.callback=(resp)=>{
+      if(resp.error){resolve(null);return;}
+      gcalAccessToken=resp.access_token;
+      gcalTokenExpiry=Date.now()+resp.expires_in*1000;
+      state.calendar.conectado=true;guardar();actualizarEstadoGCal();
+      resolve(gcalAccessToken);
+    };
+    gcalTokenClient.requestAccessToken({prompt:""});
+  });
+}
+
+function cambiarAvisoGCal(){const v=parseInt(document.getElementById("gcalAviso").value,10);state.calendar.avisoMin=v>0?v:20;guardar();}
+function cambiarAutoSyncGCal(){state.calendar.autoSync=document.getElementById("gcalAuto").checked;guardar();}
+
+function sumarMinutosADia(dia,hora,minutos){
+  const[y,m,d]=dia.split("-").map(Number);const[hh,mm]=hora.split(":").map(Number);
+  const dt=new Date(y,m-1,d,hh,mm);dt.setMinutes(dt.getMinutes()+minutos);
+  return{dia:dt.getFullYear()+"-"+String(dt.getMonth()+1).padStart(2,"0")+"-"+String(dt.getDate()).padStart(2,"0"),hora:String(dt.getHours()).padStart(2,"0")+":"+String(dt.getMinutes()).padStart(2,"0")};
+}
+
+async function crearEventoCalendar(tarea,dia){
+  if(!gcalConfigurado()||!state.calendar.conectado)return;
+  const token=await asegurarTokenGCal();
+  if(!token)return;
+  const fin=sumarMinutosADia(dia,tarea.hora,30);
+  const body={
+    summary:tarea.texto,
+    start:{dateTime:dia+"T"+tarea.hora+":00",timeZone:GCAL_TZ},
+    end:{dateTime:fin.dia+"T"+fin.hora+":00",timeZone:GCAL_TZ},
+    reminders:{useDefault:false,overrides:[{method:"popup",minutes:state.calendar.avisoMin||20}]}
+  };
+  try{
+    const r=await fetch("https://www.googleapis.com/calendar/v3/calendars/primary/events",{method:"POST",headers:{"Authorization":"Bearer "+token,"Content-Type":"application/json"},body:JSON.stringify(body)});
+    if(!r.ok)throw new Error("HTTP "+r.status);
+    const data=await r.json();
+    tarea.gcalId=data.id;
+    guardar();render();
+  }catch(err){console.error("Error al crear evento en Google Calendar",err);}
+}
+
+async function borrarEventoCalendar(eventId){
+  if(!gcalConfigurado()||!state.calendar.conectado)return;
+  try{
+    const token=await asegurarTokenGCal();
+    if(!token)return;
+    await fetch("https://www.googleapis.com/calendar/v3/calendars/primary/events/"+eventId,{method:"DELETE",headers:{"Authorization":"Bearer "+token}});
+  }catch(err){}
+}
+
+function sincronizarUnaGCal(id){const t=tareasDelDia(diaActual).find(x=>x.id===id);if(t)crearEventoCalendar(t,diaActual);}
+
+function sincronizarPendientesGCal(){
+  if(!state.calendar.autoSync)return;
+  Object.keys(state.porDia).forEach(dia=>{
+    tareasDelDia(dia).filter(t=>t.hora&&!t.hecha&&!t.gcalId).forEach(t=>crearEventoCalendar(t,dia));
+  });
+}
+
+function organizarBulk(){
+  const raw=document.getElementById("bulkInput").value;
+  const lineas=raw.split("\n").map(l=>l.trim()).filter(Boolean);
+  if(!lineas.length){alert("Escribí al menos una tarea");return;}
+  lineas.forEach(linea=>{
+    const limpia=limpiarLinea(linea);
+    if(!limpia)return;
+    crearTarea(limpia,detectarHora(linea),detectarPrioridad(linea),diaActual);
+  });
+  document.getElementById("bulkInput").value="";
+  guardar();render();
+}
+function agregarUna(){
+  const texto=document.getElementById("oneText").value.trim();
+  if(!texto){alert("Escribí la tarea");return;}
+  const hora=document.getElementById("oneHora").value||null;
+  const prioridad=document.getElementById("onePrio").value;
+  crearTarea(texto,hora,prioridad,diaActual);
+  document.getElementById("oneText").value="";document.getElementById("oneHora").value="";document.getElementById("onePrio").value="media";
+  guardar();render();
+}
+
+// ══════════════════════════════════════
+// ACCIONES SOBRE TAREAS
+// ══════════════════════════════════════
+function toggleHecha(id){const t=tareasDelDia(diaActual).find(x=>x.id===id);if(t)t.hecha=!t.hecha;guardar();render();}
+function borrarTarea(id){
+  if(!confirm("¿Eliminar esta tarea?"))return;
+  const t=tareasDelDia(diaActual).find(x=>x.id===id);
+  if(t&&t.gcalId)borrarEventoCalendar(t.gcalId);
+  state.porDia[diaActual]=tareasDelDia(diaActual).filter(x=>x.id!==id);
+  guardar();render();
+}
+function ciclarPrioridad(id){const t=tareasDelDia(diaActual).find(x=>x.id===id);if(!t)return;const orden=["baja","media","alta"];t.prioridad=orden[(orden.indexOf(t.prioridad)+1)%3];guardar();render();}
+
+// ══════════════════════════════════════
+// NAVEGACIÓN DE DÍA
+// ══════════════════════════════════════
+function cambiarDia(n){diaActual=addDaysStr(diaActual,n);render();}
+function irHoy(){diaActual=todayStr();render();}
+
+// ══════════════════════════════════════
+// RENDER
+// ══════════════════════════════════════
+const PRIO_LABEL={alta:"🔴 Alta",media:"🟡 Media",baja:"🟢 Baja"};
+function horaActualStr(){const d=new Date();return String(d.getHours()).padStart(2,"0")+":"+String(d.getMinutes()).padStart(2,"0");}
+
+function render(){
+  document.getElementById("dLabel").textContent=fmtDateLong(diaActual)+(diaActual===todayStr()?" (hoy)":"");
+  document.getElementById("hoyBtnWrap").style.display=diaActual===todayStr()?"none":"block";
+
+  const tareas=tareasDelDia(diaActual);
+  const esHoy=diaActual===todayStr();
+  const ahora=horaActualStr();
+
+  const atrasadas=tareas.filter(t=>!t.hecha&&t.hora&&esHoy&&t.hora<ahora);
+  const programadas=tareas.filter(t=>!t.hecha&&t.hora&&!(esHoy&&t.hora<ahora)).sort((a,b)=>a.hora.localeCompare(b.hora));
+  const sinHorario=tareas.filter(t=>!t.hecha&&!t.hora).sort((a,b)=>({alta:0,media:1,baja:2})[a.prioridad]-({alta:0,media:1,baja:2})[b.prioridad]);
+  const hechas=tareas.filter(t=>t.hecha);
+
+  document.getElementById("sTotal").textContent=tareas.length;
+  document.getElementById("sPend").textContent=tareas.length-hechas.length;
+  document.getElementById("sAtr").textContent=atrasadas.length;
+  document.getElementById("sHechas").textContent=hechas.length;
+
+  function fila(t,atrasada){
+    return `<div class="ti ${t.hecha?"done":""} ${t.prioridad} ${atrasada?"atrasada":""}">
+      <div class="chk" onclick="toggleHecha(${t.id})">${t.hecha?"✓":""}</div>
+      <div style="flex:1">
+        <div class="tt">${t.texto}</div>
+        <div class="tmeta">
+          ${t.hora?`<span>🕐 ${t.hora}</span>`:""}
+          <span class="badge ${t.prioridad==='alta'?'br':t.prioridad==='media'?'by':'bg'}" style="cursor:pointer" onclick="ciclarPrioridad(${t.id})">${PRIO_LABEL[t.prioridad]}</span>
+          ${atrasada?`<span class="badge br">⚠️ ATRASADA</span>`:""}
+          ${t.gcalId?`<span class="badge bb">📅 Calendar</span>`:(t.hora&&state.calendar.conectado?`<button class="btn bsm bs" onclick="sincronizarUnaGCal(${t.id})">📅 Enviar</button>`:"")}
+        </div>
+      </div>
+      <div class="tactions">
+        <button class="btn bsm bd" onclick="borrarTarea(${t.id})">🗑</button>
+      </div>
+    </div>`;
+  }
+
+  let h="";
+  if(atrasadas.length){h+=`<div class="wt">⚠️ Atrasadas</div>`+atrasadas.map(t=>fila(t,true)).join("");}
+  if(programadas.length){h+=`<div class="wt">🕐 Con horario</div>`+programadas.map(t=>fila(t,false)).join("");}
+  if(sinHorario.length){h+=`<div class="wt">📌 Sin horario</div>`+sinHorario.map(t=>fila(t,false)).join("");}
+  if(hechas.length){h+=`<div class="wt">✅ Completadas</div>`+hechas.map(t=>fila(t,false)).join("");}
+  if(!tareas.length)h=`<div class="card empty">Sin tareas para este día. Dictalas o agregalas arriba ✏️</div>`;
+
+  document.getElementById("listas").innerHTML=h;
+  guardar();
+}
+
+function copiarDia(){
+  const tareas=tareasDelDia(diaActual);
+  let txt=`📋 TAREAS — ${fmtDateLong(diaActual)}\n\n`;
+  tareas.forEach(t=>{txt+=`${t.hecha?"✅":"⬜"} ${t.hora?"["+t.hora+"] ":""}${t.texto} (${PRIO_LABEL[t.prioridad]})\n`;});
+  if(!tareas.length)txt+="Sin tareas.";
+  navigator.clipboard.writeText(txt).then(()=>alert("✅ Copiado")).catch(()=>alert("No se pudo copiar"));
+}
+
+// ══════════════════════════════════════
+// NOTIFICACIONES
+// ══════════════════════════════════════
+function actualizarEstadoNotif(){
+  const s=document.getElementById("notifStatus");
+  const b=document.getElementById("notifBtn");
+  if(!("Notification"in window)){s.innerHTML=`<span class="dot dotr"></span>No soportadas en este navegador`;b.style.display="none";return;}
+  if(Notification.permission==="granted"){s.innerHTML=`<span class="dot dotg"></span>Activadas`;b.style.display="none";}
+  else if(Notification.permission==="denied"){s.innerHTML=`<span class="dot dotr"></span>Bloqueadas — habilitalas desde la configuración del navegador`;b.style.display="none";}
+  else{s.innerHTML=`<span class="dot doty"></span>No activadas`;b.style.display="inline-block";}
+}
+function activarNotificaciones(){
+  if(!("Notification"in window))return;
+  Notification.requestPermission().then(()=>{actualizarEstadoNotif();if(Notification.permission==="granted")new Notification("🔔 Notificaciones activadas",{body:"Te avisaremos cuando llegue la hora de cada tarea."});});
+}
+function chequearNotificaciones(){
+  if(!("Notification"in window)||Notification.permission!=="granted")return;
+  const hoy=todayStr();const ahora=horaActualStr();
+  tareasDelDia(hoy).forEach(t=>{
+    if(!t.hecha&&t.hora&&!t.notificada&&t.hora<=ahora){
+      t.notificada=true;
+      const n=new Notification("🔔 "+t.texto,{body:"Hora programada: "+t.hora+(t.prioridad==="alta"?" · Prioridad alta 🔴":"")});
+      n.onclick=()=>{window.focus();};
+    }
+  });
+  guardar();
+  if(diaActual===hoy)render();
+}
+function resumenDelDia(){
+  if(!("Notification"in window)||Notification.permission!=="granted")return;
+  const hoy=todayStr();
+  if(state.lastSummary===hoy)return;
+  const pend=tareasDelDia(hoy).filter(t=>!t.hecha);
+  if(pend.length)new Notification("☀️ Buen día",{body:"Tenés "+pend.length+" tarea(s) pendiente(s) para hoy."});
+  state.lastSummary=hoy;guardar();
+}
+
+// ══════════════════════════════════════
+// INIT
+// ══════════════════════════════════════
+actualizarEstadoNotif();
+actualizarEstadoGCal();
+initDictado();
+render();
+resumenDelDia();
+setInterval(chequearNotificaciones,20000);
+setInterval(actualizarEstadoNotif,10000);
+window.addEventListener("load",()=>{
+  let intentos=0;
+  const t=setInterval(()=>{
+    intentos++;
+    if(typeof google!=="undefined"&&google.accounts&&google.accounts.oauth2){
+      clearInterval(t);initGCalClient();actualizarEstadoGCal();
+    } else if(intentos>20)clearInterval(t);
+  },250);
+});
+</script>
+</body>
+</html>
