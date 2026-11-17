@@ -12,30 +12,57 @@ const motivationalQuotes = [
 
 const DoggyIcon3D = ({ percentage, label }) => (
   <div className="icon-3d-container">
-    <svg viewBox="0 0 100 100" className="icon-3d">
-      {/* Base dog body with 3D effect */}
+    <svg viewBox="0 0 120 140" className="icon-3d doggy-floating">
+      {/* Dollar bills in left hand */}
+      <g className="left-dollar">
+        <rect x="10" y="45" width="20" height="12" fill="#10b981" stroke="#059669" strokeWidth="1" />
+        <text x="20" y="54" fontSize="8" fill="white" fontWeight="bold" textAnchor="middle">$</text>
+      </g>
+
+      {/* Dollar bills in right hand */}
+      <g className="right-dollar">
+        <rect x="90" y="45" width="20" height="12" fill="#10b981" stroke="#059669" strokeWidth="1" />
+        <text x="100" y="54" fontSize="8" fill="white" fontWeight="bold" textAnchor="middle">$</text>
+      </g>
+
+      {/* Wings */}
+      <g className="wings">
+        <path d="M 42 32 Q 25 22 32 52" stroke="#fbbf24" strokeWidth="4" fill="none" opacity="0.8" />
+        <path d="M 78 32 Q 95 22 88 52" stroke="#fbbf24" strokeWidth="4" fill="none" opacity="0.8" />
+      </g>
+
+      {/* Body with fill gradient */}
       <defs>
         <linearGradient id={`dogGrad${label}`} x1="0%" y1="0%" x2="100%" y2="100%">
           <stop offset="0%" style={{stopColor: '#FFD700', stopOpacity: 1}} />
           <stop offset={`${percentage}%`} style={{stopColor: '#FFD700', stopOpacity: 1}} />
-          <stop offset={`${percentage}%`} style={{stopColor: '#E0E0E0', stopOpacity: 0.5}} />
-          <stop offset="100%" style={{stopColor: '#E0E0E0', stopOpacity: 0.5}} />
+          <stop offset={`${percentage}%`} style={{stopColor: '#E0E0E0', stopOpacity: 0.3}} />
+          <stop offset="100%" style={{stopColor: '#E0E0E0', stopOpacity: 0.3}} />
         </linearGradient>
       </defs>
+
       {/* Body */}
-      <ellipse cx="50" cy="50" rx="30" ry="35" fill={`url(#dogGrad${label})`} />
+      <ellipse cx="60" cy="70" rx="25" ry="30" fill={`url(#dogGrad${label})`} />
+
       {/* Head */}
-      <circle cx="50" cy="25" r="18" fill={`url(#dogGrad${label})`} opacity="0.9" />
+      <circle cx="60" cy="40" r="16" fill={`url(#dogGrad${label})`} opacity="0.95" />
+
       {/* Ears */}
-      <ellipse cx="38" cy="12" rx="8" ry="12" fill="#FFD700" opacity="0.8" />
-      <ellipse cx="62" cy="12" rx="8" ry="12" fill="#FFD700" opacity="0.8" />
+      <ellipse cx="48" cy="28" rx="7" ry="11" fill="#FFD700" opacity="0.85" />
+      <ellipse cx="72" cy="28" rx="7" ry="11" fill="#FFD700" opacity="0.85" />
+
       {/* Eyes */}
-      <circle cx="45" cy="22" r="2" fill="#000" />
-      <circle cx="55" cy="22" r="2" fill="#000" />
-      {/* Mouth */}
-      <path d="M 50 28 Q 48 32 46 32" stroke="#000" fill="none" strokeWidth="1" />
+      <circle cx="55" cy="37" r="1.5" fill="#000" />
+      <circle cx="65" cy="37" r="1.5" fill="#000" />
+
+      {/* Happy mouth */}
+      <path d="M 60 42 Q 58 44 56 43.5" stroke="#000" fill="none" strokeWidth="0.8" />
+
       {/* Tail */}
-      <path d="M 25 55 Q 10 50 15 70" stroke="#FFD700" strokeWidth="6" fill="none" opacity="0.9" />
+      <path d="M 38 80 Q 20 75 25 100" stroke="#FFD700" strokeWidth="5" fill="none" opacity="0.9" />
+
+      {/* Power effect */}
+      <circle cx="60" cy="70" r="45" fill="none" stroke="#fbbf24" strokeWidth="1" opacity="0.4" />
     </svg>
     <div className="fill-percentage">{Math.round(percentage)}%</div>
     <div className="icon-label">{label}</div>
