@@ -5,6 +5,8 @@ import './DebtManager.css';
 export default function DebtManager({ debts: initialDebts, onUpdate }) {
   const [debts, setDebts] = useState(initialDebts || []);
   const [showForm, setShowForm] = useState(false);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [uploadingDebtId, setUploadingDebtId] = useState(null);
   const [formData, setFormData] = useState({
     name: '',
     amount: '',
@@ -55,7 +57,40 @@ export default function DebtManager({ debts: initialDebts, onUpdate }) {
     }
   };
 
-  const activeDebts = debts.filter(d => d.status === 'active');
+  const handleUploadReceipt = (debtId, e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const updatedDebts = debts.map(d => {
+          if (d.id === debtId) {
+            return {
+              ...d,
+              status: 'paid',
+              receiptFile: file.name,
+              uploadDate: new Date().toLocaleDateString('es-AR'),
+              receiptData: event.target.result
+            };
+          }
+          return d;
+        });
+        setDebts(updatedDebts);
+        const data = JSON.parse(localStorage.getItem('financialData')) || {};
+        data.debts = updatedDebts;
+        localStorage.setItem('financialData', JSON.stringify(data));
+        setUploadingDebtId(null);
+        onUpdate();
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const filteredDebts = debts.filter(d =>
+    d.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const activeDebts = filteredDebts.filter(d => d.status === 'active');
+  const paidDebts = filteredDebts.filter(d => d.status === 'paid');
   const totalDebt = activeDebts.reduce((sum, d) => sum + d.amount, 0);
 
   return (
@@ -73,9 +108,21 @@ export default function DebtManager({ debts: initialDebts, onUpdate }) {
         </div>
       </div>
 
-      <button className="btn btn-primary" onClick={() => setShowForm(!showForm)}>
-        {showForm ? '✖ Cancelar' : '➕ Agregar Deuda'}
-      </button>
+      <div className="debt-controls">
+        <div className="search-box">
+          <span className="search-icon">🔍</span>
+          <input
+            type="text"
+            placeholder="Buscar deuda..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="search-input"
+          />
+        </div>
+        <button className="btn btn-primary" onClick={() => setShowForm(!showForm)}>
+          {showForm ? '✖ Cancelar' : '➕ Agregar Deuda'}
+        </button>
+      </div>
 
       {showForm && (
         <form onSubmit={handleSubmit} className="debt-form card">
@@ -102,14 +149,15 @@ export default function DebtManager({ debts: initialDebts, onUpdate }) {
         </form>
       )}
 
+      {/* Deudas Activas */}
       <div className="debts-container mt-4">
-        <h3>📋 Mis Deudas</h3>
+        <h3>🔴 Deudas Pendientes ({activeDebts.length})</h3>
         {activeDebts.length === 0 ? (
-          <p className="text-muted">¡Excelente! No tienes deudas registradas.</p>
+          <p className="text-muted">¡Excelente! No tienes deudas pendientes.</p>
         ) : (
           <div className="debt-grid">
             {activeDebts.map(debt => (
-              <div key={debt.id} className="debt-card">
+              <div key={debt.id} className="debt-card active-debt">
                 <div className="debt-header">
                   <h4>{debt.name}</h4>
                   <button className="btn btn-sm" style={{ color: 'var(--danger)' }} onClick={() => handleDelete(debt.id)}>🗑️</button>
@@ -121,11 +169,55 @@ export default function DebtManager({ debts: initialDebts, onUpdate }) {
                     <p>Pago mín: {formatCurrency(debt.minPayment)}</p>
                   </div>
                 </div>
+                <div className="debt-actions">
+                  <label className="upload-btn">
+                    📄 Subir Comprobante
+                    <input
+                      type="file"
+                      accept=".pdf,.jpg,.jpeg,.png,.doc,.docx"
+                      onChange={(e) => handleUploadReceipt(debt.id, e)}
+                      style={{ display: 'none' }}
+                    />
+                  </label>
+                </div>
               </div>
             ))}
           </div>
         )}
       </div>
+
+      {/* Deudas Pagadas */}
+      {paidDebts.length > 0 && (
+        <div className="debts-container mt-4">
+          <h3>🟢 Deudas Pagadas ({paidDebts.length})</h3>
+          <div className="debt-grid">
+            {paidDebts.map(debt => (
+              <div key={debt.id} className="debt-card paid-debt">
+                <div className="debt-header">
+                  <h4>{debt.name}</h4>
+                  <span className="paid-badge">✅ PAGADA</span>
+                </div>
+                <div className="debt-body">
+                  <div className="amount-box paid">{formatCurrency(debt.amount)}</div>
+                  <div className="debt-details">
+                    <p>Pagada el: {debt.uploadDate}</p>
+                    <p>Comprobante: {debt.receiptFile}</p>
+                  </div>
+                </div>
+                <div className="debt-actions">
+                  <button
+                    className="btn btn-sm"
+                    onClick={() => handleDelete(debt.id)}
+                    style={{ color: 'var(--danger)' }}
+                  >
+                    Eliminar
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
