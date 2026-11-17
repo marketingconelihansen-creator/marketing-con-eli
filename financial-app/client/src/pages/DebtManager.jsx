@@ -8,6 +8,7 @@ export default function DebtManager({ debts: initialDebts, onUpdate }) {
   const [showForm, setShowForm] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [uploadingDebtId, setUploadingDebtId] = useState(null);
+  const [editingId, setEditingId] = useState(null);
   const [formData, setFormData] = useState({
     name: '',
     amount: '',
@@ -30,21 +31,54 @@ export default function DebtManager({ debts: initialDebts, onUpdate }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const newDebt = {
-      id: Date.now(),
-      ...formData,
-      amount: parseFloat(formData.amount)
-    };
-    const updatedDebts = [...debts, newDebt];
-    setDebts(updatedDebts);
 
-    const data = JSON.parse(localStorage.getItem('financialData')) || {};
-    data.debts = updatedDebts;
-    localStorage.setItem('financialData', JSON.stringify(data));
+    if (editingId) {
+      // Modo edición
+      const updatedDebts = debts.map(d =>
+        d.id === editingId
+          ? { ...d, ...formData, amount: parseFloat(formData.amount) }
+          : d
+      );
+      setDebts(updatedDebts);
+      const data = JSON.parse(localStorage.getItem('financialData')) || {};
+      data.debts = updatedDebts;
+      localStorage.setItem('financialData', JSON.stringify(data));
+      setEditingId(null);
+    } else {
+      // Modo creación
+      const newDebt = {
+        id: Date.now(),
+        ...formData,
+        amount: parseFloat(formData.amount)
+      };
+      const updatedDebts = [...debts, newDebt];
+      setDebts(updatedDebts);
+      const data = JSON.parse(localStorage.getItem('financialData')) || {};
+      data.debts = updatedDebts;
+      localStorage.setItem('financialData', JSON.stringify(data));
+    }
 
     setFormData({ name: '', amount: '', interestRate: 0, minPayment: '', status: 'active' });
     setShowForm(false);
     onUpdate();
+  };
+
+  const startEdit = (debt) => {
+    setFormData({
+      name: debt.name,
+      amount: debt.amount,
+      interestRate: debt.interestRate,
+      minPayment: debt.minPayment,
+      status: debt.status
+    });
+    setEditingId(debt.id);
+    setShowForm(true);
+  };
+
+  const cancelEdit = () => {
+    setEditingId(null);
+    setFormData({ name: '', amount: '', interestRate: 0, minPayment: '', status: 'active' });
+    setShowForm(false);
   };
 
   const handleDelete = (id) => {
@@ -144,7 +178,7 @@ export default function DebtManager({ debts: initialDebts, onUpdate }) {
 
       {showForm && (
         <form onSubmit={handleSubmit} className="debt-form card">
-          <h3>Nueva Deuda</h3>
+          <h3>{editingId ? '✏️ Editar Deuda' : '➕ Nueva Deuda'}</h3>
           <div className="form-group">
             <label>Nombre *</label>
             <input type="text" name="name" value={formData.name} onChange={handleInputChange} placeholder="Ej: Tarjeta Crédito" required />
@@ -163,7 +197,16 @@ export default function DebtManager({ debts: initialDebts, onUpdate }) {
               <input type="number" name="minPayment" value={formData.minPayment} onChange={handleInputChange} placeholder="100" step="0.01" />
             </div>
           </div>
-          <button type="submit" className="btn btn-primary">Guardar Deuda</button>
+          <div className="form-actions">
+            <button type="submit" className="btn btn-primary">
+              {editingId ? '💾 Guardar Cambios' : '➕ Guardar Deuda'}
+            </button>
+            {editingId && (
+              <button type="button" className="btn btn-secondary" onClick={cancelEdit}>
+                ✖️ Cancelar Edición
+              </button>
+            )}
+          </div>
         </form>
       )}
 
@@ -178,7 +221,10 @@ export default function DebtManager({ debts: initialDebts, onUpdate }) {
               <div key={debt.id} className="debt-card active-debt">
                 <div className="debt-header">
                   <h4>{debt.name}</h4>
-                  <button className="btn btn-sm" style={{ color: 'var(--danger)' }} onClick={() => handleDelete(debt.id)}>🗑️</button>
+                  <div className="debt-buttons">
+                    <button className="btn btn-sm btn-edit" onClick={() => startEdit(debt)}>✏️</button>
+                    <button className="btn btn-sm btn-delete" onClick={() => handleDelete(debt.id)}>🗑️</button>
+                  </div>
                 </div>
                 <div className="debt-body">
                   <div className="amount-box">{formatCurrency(debt.amount)}</div>
