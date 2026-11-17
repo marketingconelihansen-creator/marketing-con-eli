@@ -1,0 +1,404 @@
+{
+  "weeks": [
+    {
+      "week": 1,
+      "trimester": 1,
+      "babySize": { "length": "< 1 mm", "weight": "< 1 g", "comparison": "Punto invisible" },
+      "babyDevelopment": "Concepción. Óvulo fertilizado comienza división celular.",
+      "motherChanges": "Posiblemente aún no sepas que estás embarazada.",
+      "normalSymptoms": ["cansancio", "cambios de ánimo"],
+      "warningSymptoms": ["sangrado vaginal abundante"],
+      "tips": "Comienza el ácido fólico si no lo hiciste."
+    },
+    {
+      "week": 2,
+      "trimester": 1,
+      "babySize": { "length": "< 1 mm", "weight": "< 1 g", "comparison": "Una ameba" },
+      "babyDevelopment": "El óvulo viaja hacia el útero. Comenzará la implantación.",
+      "motherChanges": "Ovulación. Tu cuerpo prepara el endometrio.",
+      "normalSymptoms": ["sin síntomas aún"],
+      "warningSymptoms": [],
+      "tips": "Intenta mantener hábitos saludables."
+    },
+    {
+      "week": 3,
+      "trimester": 1,
+      "babySize": { "length": "< 2 mm", "weight": "< 1 g", "comparison": "Una semilla de amapola" },
+      "babyDevelopment": "Implantación del embrión. Comienzan a formarse capas germinales.",
+      "motherChanges": "El óvulo se implanta en el útero. Comienza la producción de hCG.",
+      "normalSymptoms": ["sin síntomas"],
+      "warningSymptoms": [],
+      "tips": "Un test casero podría detectar embarazo esta semana."
+    },
+    {
+      "week": 4,
+      "trimester": 1,
+      "babySize": { "length": "2 mm", "weight": "< 1 g", "comparison": "Una lenteja" },
+      "babyDevelopment": "El saco gestacional es visible. Comienza formación del tubo neural.",
+      "motherChanges": "Falta de período. Síntomas iniciales del embarazo.",
+      "normalSymptoms": ["náuseas", "cansancio", "sensibilidad en pechos"],
+      "warningSymptoms": ["sangrado abundante", "dolor fuerte"],
+      "tips": "¡Confirmá tu embarazo con tu médico!"
+    },
+    {
+      "week": 5,
+      "trimester": 1,
+      "babySize": { "length": "3-4 mm", "weight": "< 1 g", "comparison": "Una semilla de girasol" },
+      "babyDevelopment": "Brota el primordio cardíaco. Sistema nervioso se desarrolla.",
+      "motherChanges": "Los síntomas de embarazo se intensifican.",
+      "normalSymptoms": ["náuseas", "vómitos ocasionales", "fatiga", "cambios de ánimo"],
+      "warningSymptoms": ["vómitos constantes", "dolor abdominal"],
+      "tips": "Programa tu primer control prenatal."
+    },
+    {
+      "week": 6,
+      "trimester": 1,
+      "babySize": { "length": "5-6 mm", "weight": "1 g", "comparison": "Un grano de arroz" },
+      "babyDevelopment": "Latido cardíaco detectable por ecografía. Brotes de extremidades.",
+      "motherChanges": "Mareos, aversión a ciertos alimentos.",
+      "normalSymptoms": ["náuseas", "cansancio extremo", "cambios de humor"],
+      "warningSymptoms": ["sangrado vaginal", "dolor pélvico"],
+      "tips": "Primer ecografía para confirmar desarrollo."
+    },
+    {
+      "week": 7,
+      "trimester": 1,
+      "babySize": { "length": "7-8 mm", "weight": "1 g", "comparison": "Un frijol" },
+      "babyDevelopment": "Cabeza crece. Ojos y oídos comienzan a formarse. Pulmones en desarrollo.",
+      "motherChanges": "Pechos más sensibles y agrandados.",
+      "normalSymptoms": ["náuseas matutinas", "fatiga", "cambios de apetito"],
+      "warningSymptoms": ["vómitos severos", "deshidratación"],
+      "tips": "Mantén buena hidratación y descansa."
+    },
+    {
+      "week": 8,
+      "trimester": 1,
+      "babySize": { "length": "1.4-1.6 cm", "weight": "1-3 g", "comparison": "Un frijol grande" },
+      "babyDevelopment": "Ya no es embrión, ahora es feto. Oídos más definidos. Dedos empezando.",
+      "motherChanges": "Ligero aumento de peso. Pechos crecen.",
+      "normalSymptoms": ["cansancio", "náuseas", "antojos"],
+      "warningSymptoms": ["sangrado profuso", "dolor constante"],
+      "tips": "Algunos síntomas comienzan a mejorar."
+    },
+    {
+      "week": 9,
+      "trimester": 1,
+      "babySize": { "length": "2.3 cm", "weight": "2-5 g", "comparison": "Una cereza pequeña" },
+      "babyDevelopment": "Cordón umbilical visible. Órganos vitales formándose. Dientes deciduos en desarrollo.",
+      "motherChanges": "Pechos grandes y sensibles. Fatiga sigue.",
+      "normalSymptoms": ["cansancio", "náuseas", "ganas de orinar frecuentemente"],
+      "warningSymptoms": ["náuseas persistentes", "mareos severos"],
+      "tips": "Aproxímadamente final del primer trimestre pronto."
+    },
+    {
+      "week": 10,
+      "trimester": 1,
+      "babySize": { "length": "3.1 cm", "weight": "4-7 g", "comparison": "Una aceituna" },
+      "babyDevelopment": "Cabeza forma 1/3 del cuerpo. Intestinos dentro del abdomen. Párpados se cierran.",
+      "motherChanges": "El útero continúa creciendo. Cintura se expande.",
+      "normalSymptoms": ["fatiga", "manchado ocasional", "cambios en la piel"],
+      "warningSymptoms": ["sangrado vaginal abundante"],
+      "tips": "Test de screening no invasivo disponible (NIPT)."
+    },
+    {
+      "week": 11,
+      "trimester": 1,
+      "babySize": { "length": "3.6-4 cm", "weight": "7-10 g", "comparison": "Un higo pequeño" },
+      "babyDevelopment": "Órganos reproductivos se diferencian. Pelo comienza a crecer. Uñas se forman.",
+      "motherChanges": "Ligera ganancia de peso (500 g aprox).",
+      "normalSymptoms": ["cansancio", "cambios de ánimo", "ligera hinchazón"],
+      "warningSymptoms": [],
+      "tips": "Muchas mamás reportan alivio de síntomas pronto."
+    },
+    {
+      "week": 12,
+      "trimester": 1,
+      "babySize": { "length": "5.4 cm", "weight": "14 g", "comparison": "Un ciruela pequeña" },
+      "babyDevelopment": "Órganos principales formados. Movimientos iniciales. Dientes de leche presentes.",
+      "motherChanges": "Riesgo de aborto disminuye. Energía comienza a mejorar.",
+      "normalSymptoms": ["ligero cansancio", "cambios en apetito"],
+      "warningSymptoms": [],
+      "tips": "¡Fin del primer trimestre! Ecografía de las 12 semanas importante."
+    },
+    {
+      "week": 13,
+      "trimester": 2,
+      "babySize": { "length": "7 cm", "weight": "23 g", "comparison": "Un melocotón pequeño" },
+      "babyDevelopment": "Pantorrillas se desarrollan. Sistema nervioso central madurando. Huellas dactilares unicas.",
+      "motherChanges": "Energía mejora significativamente. Vientre comienza notarse.",
+      "normalSymptoms": ["ligero cansancio", "hinchazón"],
+      "warningSymptoms": [],
+      "tips": "Muchas mamás sienten alivio en esta semana."
+    },
+    {
+      "week": 14,
+      "trimester": 2,
+      "babySize": { "length": "8.7 cm", "weight": "42 g", "comparison": "Un limón pequeño" },
+      "babyDevelopment": "Puede chupar el pulgar. Oídos en posición correcta. Vello lanugo lo cubre.",
+      "motherChanges": "Pechos aún sensibles pero menos. Vientre más visible.",
+      "normalSymptoms": ["ligero cansancio", "manchado ocasional"],
+      "warningSymptoms": [],
+      "tips": "Segundo trimestre es generalmente más cómodo."
+    },
+    {
+      "week": 15,
+      "trimester": 2,
+      "babySize": { "length": "10.1 cm", "weight": "50 g", "comparison": "Una manzana pequeña" },
+      "babyDevelopment": "Cejas se forman. Vello facial comienza. Movimientos más coordinados.",
+      "motherChanges": "Ligero aumento de peso (900-1000 g acumulado). Cintura más redonda.",
+      "normalSymptoms": ["ligero dolor de espalda", "cambios en la piel"],
+      "warningSymptoms": [],
+      "tips": "Mantén buena postura para espalda."
+    },
+    {
+      "week": 16,
+      "trimester": 2,
+      "babySize": { "length": "11.6 cm", "weight": "100 g", "comparison": "Un aguacate pequeño" },
+      "babyDevelopment": "Ojos se mueven bajo párpados cerrados. Cordón umbilical más grueso.",
+      "motherChanges": "Algunos notan el movimiento del bebé (aceleración fetal).",
+      "normalSymptoms": ["sin síntomas", "más energía"],
+      "warningSymptoms": [],
+      "tips": "Algunos médicos ofrecen test de sangre en esta semana."
+    },
+    {
+      "week": 17,
+      "trimester": 2,
+      "babySize": { "length": "13 cm", "weight": "140 g", "comparison": "Una cebolla pequeña" },
+      "babyDevelopment": "Grasa se deposita bajo la piel. Oído más desarrollado. Escucha ruidos.",
+      "motherChanges": "Vientre notoriamente grande. Busca ropa de embarazo.",
+      "normalSymptoms": ["sin síntomas", "buena energía"],
+      "warningSymptoms": [],
+      "tips": "Mantén buena hidratación (2-3 litros de agua diarios)."
+    },
+    {
+      "week": 18,
+      "trimester": 2,
+      "babySize": { "length": "14.2 cm", "weight": "190 g", "comparison": "Un pimiento" },
+      "babyDevelopment": "Ecografía de anatomía muestra desarrolllo. Papilas gustativas se forman. Oído interno completo.",
+      "motherChanges": "Movimientos fetales más evidentes. Puede sentirse en abdomen.",
+      "normalSymptoms": ["ligeros calambres", "ligera hinchazón"],
+      "warningSymptoms": [],
+      "tips": "Ecografía anatomía (segundo trimestre) realizada generalmente 18-22 semanas."
+    },
+    {
+      "week": 19,
+      "trimester": 2,
+      "babySize": { "length": "15.3 cm", "weight": "240 g", "comparison": "Un tomate" },
+      "babyDevelopment": "Vernis caseosa (sustancia protectora) se forma. Movimientos más fuertes.",
+      "motherChanges": "Vientre muy notorio. Línea negra en abdomen (linea nigra) puede aparecer.",
+      "normalSymptoms": ["ligeros calambres", "cambios en piel"],
+      "warningSymptoms": [],
+      "tips": "Cambios en la piel son normales y suelen desaparecer post-parto."
+    },
+    {
+      "week": 20,
+      "trimester": 2,
+      "babySize": { "length": "16.4 cm", "weight": "300 g", "comparison": "Una zanahoria" },
+      "babyDevelopment": "Cubierto con lanugo (vello fino). Huesos osificándose. Hígado produce bilis.",
+      "motherChanges": "A mitad del embarazo. Movimientos fetales claros.",
+      "normalSymptoms": ["ligero dolor de espalda", "hinchazón"],
+      "warningSymptoms": [],
+      "tips": "¡Mitad del embarazo! Celebra este hito."
+    },
+    {
+      "week": 21,
+      "trimester": 2,
+      "babySize": { "length": "26.7 cm", "weight": "360 g", "comparison": "Un plátano" },
+      "babyDevelopment": "Intestinos tienen movimientos peristálticos. Páncreas produce insulina. Movimientos vigorosos.",
+      "motherChanges": "Pechos pueden comenzar a expulsar calostro.",
+      "normalSymptoms": ["hinchazón leve", "dolor de espalda"],
+      "warningSymptoms": [],
+      "tips": "Mantén buena postura y usa almohadas para dormir cómoda."
+    },
+    {
+      "week": 22,
+      "trimester": 2,
+      "babySize": { "length": "27.8 cm", "weight": "430 g", "comparison": "Un papaya pequeña" },
+      "babyDevelopment": "Oído desarrollado. Responde a sonidos. Movimientos vigorosos regulares.",
+      "motherChanges": "Puede notar cicatrices de estiramiento (estrías). Hormigueo en manos.",
+      "normalSymptoms": ["hormigueo en manos (síndrome del túnel carpiano)", "cambios en piel"],
+      "warningSymptoms": [],
+      "tips": "Síndrome del túnel carpiano es común en embarazo. Consulta si es muy molesto."
+    },
+    {
+      "week": 23,
+      "trimester": 2,
+      "babySize": { "length": "28.9 cm", "weight": "501 g", "comparison": "Un aguacate grande" },
+      "babyDevelopment": "Pulmones maduran. Puede sobrevivir con cuidados intensivos si nace ahora.",
+      "motherChanges": "Movimientos fetales cada vez más fuertes. Vientre muy grande.",
+      "normalSymptoms": ["ligeros calambres", "cansancio ocasional"],
+      "warningSymptoms": [],
+      "tips": "Viabilidad fetal comienza en esta semana."
+    },
+    {
+      "week": 24,
+      "trimester": 2,
+      "babySize": { "length": "30 cm", "weight": "600 g", "comparison": "Un maíz grande" },
+      "babyDevelopment": "Pupilas responden a luz. Sistema auditivo funcional. Ciclos sueño-vigilia establecidos.",
+      "motherChanges": "Puede experimentar contracciones Braxton Hicks. Pies pueden hincharse.",
+      "normalSymptoms": ["hinchazón de pies", "calambres en piernas", "cambios de ánimo"],
+      "warningSymptoms": [],
+      "tips": "Contesta el movimiento del bebé regularmente para monitoreo."
+    },
+    {
+      "week": 25,
+      "trimester": 2,
+      "babySize": { "length": "34.6 cm", "weight": "660 g", "comparison": "Una berenjena" },
+      "babyDevelopment": "Cabello en cabeza visible. Piel roja, arrugada. Huesos continuamente endureciéndose.",
+      "motherChanges": "Vientre voluminoso. Puede sentir presión en vejiga.",
+      "normalSymptoms": ["ganas de orinar frecuentemente", "hinchazón"],
+      "warningSymptoms": [],
+      "tips": "Recuerda llevar botellas de agua para mantenerte hidratada."
+    },
+    {
+      "week": 26,
+      "trimester": 2,
+      "babySize": { "length": "35.6 cm", "weight": "760 g", "comparison": "Una cebolla grande" },
+      "babyDevelopment": "Ojos pueden abrirse. Puede reconocer voz de la madre. Pulmones secretan surfactante.",
+      "motherChanges": "Pechos pueden dejar leche. Vientre cada vez más grande.",
+      "normalSymptoms": ["pechos sensibles", "hinchazón", "cansancio"],
+      "warningSymptoms": [],
+      "tips": "Muchos reportan 'baby brain' o falta de concentración."
+    },
+    {
+      "week": 27,
+      "trimester": 2,
+      "babySize": { "length": "36.6 cm", "weight": 875, "comparison": "Un melón pequeño" },
+      "babyDevelopment": "Pulmones casi maduros. Sistema nervioso muy desarrollado. Respuesta a luz fuerte.",
+      "motherChanges": "Final del segundo trimestre próximo. Vientre muy grande.",
+      "normalSymptoms": ["ligero cansancio", "hinchazón", "presión pélvica"],
+      "warningSymptoms": [],
+      "tips": "¡Final del segundo trimestre próximo! Último tercio comienza pronto."
+    },
+    {
+      "week": 28,
+      "trimester": 3,
+      "babySize": { "length": "37.6 cm", "weight": "1000 g", "comparison": "Una berenjena grande" },
+      "babyDevelopment": "Pulmones están listos para respirar. Comienza ganancia rápida de peso. Ojos abiertos.",
+      "motherChanges": "Comienza tercer trimestre. Puede sentir mayor presión abdominal.",
+      "normalSymptoms": ["cansancio", "hinchazón", "presión pélvica", "contracciones Braxton Hicks"],
+      "warningSymptoms": [],
+      "tips": "Inicio del tercer trimestre. Comienza prueba de glucosa gestacional."
+    },
+    {
+      "week": 29,
+      "trimester": 3,
+      "babySize": { "length": "38.6 cm", "weight": 1153, "comparison": "Una piña pequeña" },
+      "babyDevelopment": "Huesos están endureciéndose. Puede voltear para colocarse de cabeza. Movimientos fuertes.",
+      "motherChanges": "Puede sentir múltiples movimientos simultáneamente. Pies hinchados.",
+      "normalSymptoms": ["hinchazón de tobillos/pies", "ligeros calambres", "cansancio"],
+      "warningSymptoms": ["hinchazón repentina", "dolor de cabeza"],
+      "tips": "Recuenta movimientos fetales regulamente."
+    },
+    {
+      "week": 30,
+      "trimester": 3,
+      "babySize": { "length": "39.6 cm", "weight": 1319, "comparison": "Una piña" },
+      "babyDevelopment": "Puede cerrar ojos. Responde a luz y sonido. Comienza aumento rápido de peso.",
+      "motherChanges": "Movimientos fetales muy perceptibles. Puede doler con movimientos vigorosos.",
+      "normalSymptoms": ["presión pélvica", "dificultad para dormir", "acidez"],
+      "warningSymptoms": [],
+      "tips": "Duerme sobre tu lado izquierdo para mejor circulación."
+    },
+    {
+      "week": 31,
+      "trimester": 3,
+      "babySize": { "length": "41.1 cm", "weight": 1502, "comparison": "Un coco" },
+      "babyDevelopment": "Huesos del cráneo aún suaves (permiten paso por canal de parto). Acumula grasa.",
+      "motherChanges": "Puede sentir mayor cansancio. Vientre muy pesado.",
+      "normalSymptoms": ["cansancio", "hinchazón", "presión pélvica", "insomnio"],
+      "warningSymptoms": [],
+      "tips": "Mantén pies elevados para reducir hinchazón."
+    },
+    {
+      "week": 32,
+      "trimester": 3,
+      "babySize": { "length": "42.1 cm", "weight": 1702, "comparison": "Una piña grande" },
+      "babyDevelopment": "Pulmones casi listos. Huesos endurecidos. Sistema nervioso muy desarrollado.",
+      "motherChanges": "Ligero aumento de peso (500g aproximadamente). Vientre muy grande.",
+      "normalSymptoms": ["cansancio", "hinchazón", "acidez", "dificultad para dormir"],
+      "warningSymptoms": ["sangrado vaginal", "pérdida de líquido"],
+      "tips": "Prépárate para clase de parto si lo deseas."
+    },
+    {
+      "week": 33,
+      "trimester": 3,
+      "babySize": { "length": "43.7 cm", "weight": 1918, "comparison": "Una papaya grande" },
+      "babyDevelopment": "Ganancia de peso se acelera. Capas de grasa se depositan. Lanugo comienza desaparecer.",
+      "motherChanges": "Puede experimentar presión pélvica significativa. Pies hinchados.",
+      "normalSymptoms": ["presión pélvica", "dificultad para caminar", "hinchazón severa"],
+      "warningSymptoms": [],
+      "tips": "Muchas mamás sienten que el bebé 'cae' cuando comienza a encajarse."
+    },
+    {
+      "week": 34,
+      "trimester": 3,
+      "babySize": { "length": "45 cm", "weight": 2146, "comparison": "Una sandía pequeña" },
+      "babyDevelopment": "Sistema nervioso central madura. Pulmones maduran. Acumula grasa rápidamente.",
+      "motherChanges": "Puede sentir que el bebé se coloca de cabeza (encajamiento).",
+      "normalSymptoms": ["presión pélvica", "hinchazón", "cansancio extremo"],
+      "warningSymptoms": [],
+      "tips": "Si el bebé aún no se voltea, aún hay tiempo."
+    },
+    {
+      "week": 35,
+      "trimester": 3,
+      "babySize": { "length": "46.2 cm", "weight": 2383, "comparison": "Una sandía pequeña-mediana" },
+      "babyDevelopment": "Pulmones maduros. Sistema nervioso completamente desarrollado. Preparándose para nacimiento.",
+      "motherChanges": "Puede experimentar ligero 'alivio' si bebé se encaja. Mayor comodidad.",
+      "normalSymptoms": ["hinchazón variable", "ligero cansancio"],
+      "warningSymptoms": [],
+      "tips": "Viabilidad del parto prematuro sin complicaciones significativas esta semana."
+    },
+    {
+      "week": 36,
+      "trimester": 3,
+      "babySize": { "length": "47.3 cm", "weight": 2622, "comparison": "Una sandía mediana" },
+      "babyDevelopment": "Anticuerpos maternos se transfieren. Lanugo casi desaparecido. Vernis caseosa disminuye.",
+      "motherChanges": "Movimientos fetales pueden disminuir ligeramente debido a espacio limitado.",
+      "normalSymptoms": ["presión pélvica", "cansancio", "hinchazón"],
+      "warningSymptoms": [],
+      "tips": "Mantén control de movimientos fetales diariamente."
+    },
+    {
+      "week": 37,
+      "trimester": 3,
+      "babySize": { "length": "48.4 cm", "weight": 2859, "comparison": "Una sandía grande" },
+      "babyDevelopment": "Se considera 'a término completo'. Puede nacer sin complicaciones. Sistema inmunológico maduro.",
+      "motherChanges": "Puede experimentar descargas de energía antes del parto (linpieza anestral).",
+      "normalSymptoms": ["presión pélvica", "hinchazón", "cambios en mucosidad cervical"],
+      "warningSymptoms": [],
+      "tips": "¡A término completo! El parto puede iniciarse en cualquier momento."
+    },
+    {
+      "week": 38,
+      "trimester": 3,
+      "babySize": { "length": "49.4 cm", "weight": 3083, "comparison": "Una sandía muy grande" },
+      "babyDevelopment": "Sistema nervioso, pulmones, órganos completamente maduros. Listo para nacer.",
+      "motherChanges": "Pueden aumentar contracciones irregulares. Prodromos del parto pueden iniciar.",
+      "normalSymptoms": ["contracciones irregulares", "cambios en leucorrea", "encajamiento profundo"],
+      "warningSymptoms": ["sangrado vaginal abundante", "pérdida repentina de líquido"],
+      "tips": "Mantente alerta a signos de inicio de parto."
+    },
+    {
+      "week": 39,
+      "trimester": 3,
+      "babySize": { "length": "50.3 cm", "weight": 3317, "comparison": "Un melón grande" },
+      "babyDevelopment": "Completamente desarrollado. Listo para vida extrauterina. Espera inicio de parto.",
+      "motherChanges": "Prodromos intensificándose. Puede sentir cambios hormonales significativos.",
+      "normalSymptoms": ["contracciones irregulares", "mucosidad espesa con sangre", "cansancio"],
+      "warningSymptoms": [],
+      "tips": "Parto puede comenzar en cualquier momento. Mantente lista."
+    },
+    {
+      "week": 40,
+      "trimester": 3,
+      "babySize": { "length": "51.2 cm", "weight": 3500, "comparison": "Un melón muy grande" },
+      "babyDevelopment": "Completamente listo. Fecha probable de parto. Sistema inmunológico materno transfiriendo últimos anticuerpos.",
+      "motherChanges": "Espera del parto. Puede sentir impaciencia y emoción.",
+      "normalSymptoms": ["contracciones regulares progresivas", "pérdida de mucón", "ruptura de membranas"],
+      "warningSymptoms": ["sangrado profuso", "pérdida de movimiento fetal"],
+      "tips": "¡El gran día está cerca! Mantente en contacto con tu médico."
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "expo": {
+    "name": "Primer Latido",
+    "slug": "primer-latido",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#F5E6E8"
+    },
+    "assetBundlePatterns": ["**/*"],
+    "ios": {
+      "supportsTabletMode": true,
+      "bundleIdentifier": "com.primerlatido.app",
+      "buildNumber": "1"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#F5E6E8"
+      },
+      "package": "com.primerlatido.app",
+      "versionCode": 1,
+      "permissions": [
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE",
+        "INTERNET",
+        "POST_NOTIFICATIONS"
+      ]
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "description": "App para mamás primerizas con información semana a semana, recordatorios personalizables y acceso a recursos PDF.",
+    "plugins": [
+      [
+        "expo-notifications",
+        {
+          "icons": ["./assets/notification-icon.png"],
+          "color": "#E8A5C4"
+        }
+      ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "primer-latido-app"
+      }
+    }
+  }
+}
