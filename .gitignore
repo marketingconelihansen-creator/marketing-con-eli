@@ -1,2 +1,23 @@
 ODC_video_tiktok.mp4
 *.mp4
+
+# Node dependencies
+node_modules/
+npm-debug.log
+package-lock.json
+yarn.lock
+
+# Expo
+.expo/
+.expo-shared/
+dist/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
