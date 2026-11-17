@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Debug</title>
+    <style>
+        body { font-family: monospace; padding: 20px; background: #f5f5f5; }
+        pre { background: white; padding: 15px; border-radius: 5px; overflow: auto; }
+        .error { color: red; background: #ffe6e6; }
+    </style>
+</head>
+<body>
+    <h1>🐛 Debug Info</h1>
+    <h2>Errores:</h2>
+    <pre id="errors"></pre>
+    
+    <h2>Verificación de archivos:</h2>
+    <pre id="files"></pre>
+
+    <script>
+        // Capturar errores
+        let errorLog = '';
+        window.addEventListener('error', (e) => {
+            errorLog += `❌ ${e.filename}\n   ${e.message}\n\n`;
+            updateErrors();
+        });
+        
+        // Verificar si React cargó
+        setTimeout(() => {
+            if (window.React === undefined) {
+                errorLog += '⚠️ React no está cargado\n';
+            }
+            updateErrors();
+        }, 2000);
+
+        function updateErrors() {
+            document.getElementById('errors').textContent = errorLog || '✅ Sin errores';
+        }
+
+        // Verificar archivos
+        async function checkFiles() {
+            const files = {
+                '/marketing-con-eli/index.html': false,
+                '/marketing-con-eli/assets/index-31909f9f.js': false,
+                '/marketing-con-eli/assets/index-8f2b6831.css': false,
+            };
+
+            for (const url of Object.keys(files)) {
+                try {
+                    const r = await fetch(url, {method: 'HEAD'});
+                    files[url] = r.status === 200 ? '✅' : `❌ ${r.status}`;
+                } catch(e) {
+                    files[url] = `❌ ${e.message}`;
+                }
+            }
+
+            let output = '';
+            for (const [url, status] of Object.entries(files)) {
+                output += `${status} ${url}\n`;
+            }
+            document.getElementById('files').textContent = output;
+        }
+
+        checkFiles();
+    </script>
+</body>
+</html>
