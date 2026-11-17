@@ -1,0 +1,19 @@
+{
+  "name": "financial-app",
+  "version": "1.0.0",
+  "description": "Control completo de tus finanzas personales y negocios",
+  "private": true,
+  "scripts": {
+    "install-all": "npm install && cd server && npm install && cd ../client && npm install && cd ..",
+    "dev": "concurrently \"cd server && npm run dev\" \"cd client && npm run dev\"",
+    "build": "cd client && npm run build",
+    "start:server": "cd server && npm start",
+    "start:client": "cd client && npm run preview"
+  },
+  "devDependencies": {
+    "concurrently": "^8.0.0"
+  },
+  "keywords": ["finanzas", "deudas", "ingresos", "gastos", "negocios"],
+  "author": "Tu Nombre",
+  "license": "MIT"
+}

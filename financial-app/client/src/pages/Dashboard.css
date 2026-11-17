@@ -1,0 +1,391 @@
+.dashboard {
+  animation: fadeIn 0.3s ease-in;
+}
+
+/* Motivational Banner */
+.motivational-banner {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 1.5rem;
+  border-radius: 1rem;
+  margin-bottom: 2rem;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+}
+
+.quote-text {
+  font-size: 1.3rem;
+  color: white;
+  margin: 0;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+/* Dashboard Title */
+.dashboard-title {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  margin-top: 0;
+}
+
+.dashboard-title .libertad {
+  color: #10b981;
+  font-weight: 700;
+}
+
+.dashboard-title .financiera {
+  font-style: italic;
+  color: #fbbf24;
+  font-weight: 300;
+  font-family: 'Brush Script MT', cursive;
+  font-size: 2.8rem;
+  letter-spacing: 2px;
+}
+
+/* Monthly Section */
+.monthly-section {
+  background: rgba(16, 185, 129, 0.05);
+  border: 2px solid #10b981;
+  border-radius: 1rem;
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+
+.monthly-section h3 {
+  color: #10b981;
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+}
+
+.monthly-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+.month-card {
+  background: white;
+  border: 2px solid #e5e7eb;
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.month-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  border-color: #10b981;
+}
+
+.month-card h4 {
+  margin: 0 0 1rem 0;
+  color: #333;
+  font-size: 1rem;
+}
+
+.month-card .amount {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0.5rem 0;
+}
+
+.month-card .need-to-pay {
+  color: #dc2626;
+}
+
+.month-card .live-cost {
+  color: #fbbf24;
+}
+
+.month-card .total-needed {
+  color: #667eea;
+}
+
+.month-card small {
+  color: #9ca3af;
+  font-size: 0.85rem;
+}
+
+/* Savings Section */
+.savings-section {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(251, 191, 36, 0.1) 100%);
+  border: 2px solid #10b981;
+  border-radius: 1rem;
+  padding: 2rem;
+  margin-bottom: 2rem;
+}
+
+.savings-section h3 {
+  color: #10b981;
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.savings-grid {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.savings-info {
+  text-align: center;
+  color: #333;
+}
+
+.savings-info p {
+  margin: 0.5rem 0;
+  font-size: 1.1rem;
+}
+
+.savings-info strong {
+  color: #10b981;
+  font-size: 1.3rem;
+}
+
+.savings-percentage {
+  color: #fbbf24;
+  font-weight: 600;
+}
+
+/* Icon 3D */
+.icon-3d-container {
+  width: 150px;
+  height: 180px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.icon-3d {
+  width: 100%;
+  height: 120px;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+  animation: bounce 2s infinite ease-in-out;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  25% { transform: translateY(-15px) rotate(2deg); }
+  50% { transform: translateY(-25px) rotate(0deg); }
+  75% { transform: translateY(-15px) rotate(-2deg); }
+}
+
+@keyframes dollarFloat {
+  0%, 100% { transform: translateX(0) rotate(0deg); }
+  50% { transform: translateX(5px) rotate(10deg); }
+}
+
+.icon-3d.doggy-floating {
+  animation: float 3s ease-in-out infinite;
+  filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.2));
+}
+
+.icon-3d .left-dollar {
+  animation: dollarFloat 2s ease-in-out infinite;
+  transform-origin: center;
+}
+
+.icon-3d .right-dollar {
+  animation: dollarFloat 2s ease-in-out infinite;
+  animation-direction: reverse;
+  transform-origin: center;
+}
+
+.icon-3d .wings {
+  animation: dollarFloat 2s ease-in-out infinite;
+  opacity: 0.8;
+}
+
+.fill-percentage {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #10b981;
+}
+
+.icon-label {
+  font-size: 0.9rem;
+  color: #666;
+  font-weight: 600;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.dashboard h2 {
+  margin-bottom: 1.5rem;
+  color: var(--primary);
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.stat-card {
+  background: var(--bg-card);
+  border: 2px solid var(--border);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.stat-label {
+  font-size: 0.875rem;
+  color: var(--text-light);
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.stat-value {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.stat-meta {
+  font-size: 0.75rem;
+  color: var(--text-light);
+}
+
+.debt-card { border-color: var(--danger); }
+.debt-card .stat-value { color: var(--danger); }
+
+.income-card { border-color: var(--success); }
+.income-card .stat-value { color: var(--success); }
+
+.expense-card { border-color: var(--warning); }
+.expense-card .stat-value { color: var(--warning); }
+
+.balance-card.positive { border-color: var(--success); }
+.balance-card.positive .stat-value { color: var(--success); }
+
+.balance-card.negative { border-color: var(--danger); }
+.balance-card.negative .stat-value { color: var(--danger); }
+
+.alert-danger {
+  background-color: rgba(239, 68, 68, 0.1);
+  border: 1px solid var(--danger);
+  color: var(--danger);
+  padding: 1rem;
+  border-radius: 0.5rem;
+  margin-bottom: 2rem;
+}
+
+.sections {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.section h3 {
+  margin-bottom: 1rem;
+  color: var(--text);
+  font-size: 1.1rem;
+}
+
+.debt-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.debt-item {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.debt-item.overdue {
+  border-left: 4px solid var(--danger);
+  background: rgba(239, 68, 68, 0.05);
+}
+
+.debt-item.upcoming {
+  border-left: 4px solid var(--warning);
+  background: rgba(245, 158, 11, 0.05);
+}
+
+.debt-info {
+  flex: 1;
+}
+
+.debt-creditor {
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.debt-date {
+  font-size: 0.875rem;
+  color: var(--text-light);
+}
+
+.debt-amount {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--danger);
+  text-align: right;
+}
+
+.tip-box {
+  background: rgba(99, 102, 241, 0.1);
+  border: 1px solid var(--primary);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  color: var(--text);
+}
+
+.tip-box h4 {
+  margin-bottom: 0.5rem;
+  color: var(--primary);
+}
+
+.tip-box p {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--text-light);
+}
+
+.loading {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: var(--text-light);
+}
+
+@media (max-width: 768px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .stat-value {
+    font-size: 1.5rem;
+  }
+
+  .sections {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
