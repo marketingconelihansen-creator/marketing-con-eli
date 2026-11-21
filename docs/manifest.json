@@ -2,7 +2,7 @@
   "name": "Primer Latido",
   "short_name": "Primer Latido",
   "description": "Tu compañero en el embarazo - 40 semanas de información",
-  "start_url": "/",
+  "start_url": "app.html",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#E8A5C4",
