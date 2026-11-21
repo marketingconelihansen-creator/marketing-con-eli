@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#E8A5C4">
+    <meta name="description" content="Primer Latido - Tu compañero en el embarazo">
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'><rect fill='%23E8A5C4' width='192' height='192'/><text x='50%' y='50%' font-size='100' font-weight='bold' fill='white' text-anchor='middle' dominant-baseline='central'>❤️</text></svg>">
+    <title>Primer Latido</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #E8A5C4;
+            --primary-dark: #D48BB0;
+            --secondary: #C8956B;
+            --bg: #FAFAFA;
+            --white: #FFFFFF;
+            --text: #333333;
+            --text-light: #666666;
+            --text-lighter: #999999;
+            --border: #EEEEEE;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            overflow: hidden;
+        }
+
+        .app-container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            max-height: 100vh;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .header-title {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .lang-toggle {
+            background: rgba(255,255,255,0.3);
+            border: none;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 12px;
+        }
+
+        .lang-toggle:active {
+            background: rgba(255,255,255,0.5);
+        }
+
+        .content {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+        }
+
+        .screen {
+            display: none;
+            padding: 20px;
+            animation: fadeIn 0.3s;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .bottom-nav {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 0;
+            border-top: 1px solid var(--border);
+            background: white;
+            padding-bottom: env(safe-area-inset-bottom, 0);
+        }
+
+        .nav-button {
+            padding: 12px;
+            border: none;
+            background: white;
+            border-top: 2px solid transparent;
+            cursor: pointer;
+            font-size: 11px;
+            text-align: center;
+            color: var(--text-lighter);
+            transition: all 0.2s;
+        }
+
+        .nav-button.active {
+            color: var(--primary);
+            border-top-color: var(--primary);
+            background: #FFF5FA;
+        }
+
+        .nav-icon {
+            font-size: 24px;
+            margin-bottom: 4px;
+        }
+
+        .week-card {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+            border-left: 4px solid var(--primary);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .week-card-title {
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--primary);
+            margin-bottom: 8px;
+        }
+
+        .week-card-content {
+            font-size: 13px;
+            line-height: 1.6;
+            color: var(--text-light);
+        }
+
+        .slider-container {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .slider-container input[type="range"] {
+            width: 100%;
+            height: 6px;
+            accent-color: var(--primary);
+            cursor: pointer;
+        }
+
+        .week-display {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+        .stat {
+            background: #FFF5FA;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-label {
+            font-size: 11px;
+            color: var(--text-lighter);
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .reminder-item {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .reminder-name {
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .toggle {
+            width: 50px;
+            height: 28px;
+            background: #ddd;
+            border-radius: 14px;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            transition: background 0.3s;
+        }
+
+        .toggle.on {
+            background: var(--primary);
+        }
+
+        .toggle::after {
+            content: '';
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            background: white;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            transition: left 0.3s;
+        }
+
+        .toggle.on::after {
+            left: 24px;
+        }
+
+        .pdf-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .pdf-card {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .pdf-icon {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .pdf-name {
+            font-weight: 500;
+            font-size: 12px;
+            line-height: 1.4;
+        }
+
+        .profile-section {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .section-title {
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 12px;
+            font-size: 14px;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border);
+            font-size: 13px;
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            color: var(--text-light);
+        }
+
+        .info-value {
+            font-weight: 500;
+        }
+
+        @media (max-height: 600px) {
+            .content {
+                overflow-y: auto;
+            }
+            .header {
+                padding: 12px 16px;
+            }
+        }
+
+        @supports (padding: max(0px)) {
+            body {
+                padding-left: max(0px, env(safe-area-inset-left));
+                padding-right: max(0px, env(safe-area-inset-right));
+                padding-top: max(0px, env(safe-area-inset-top));
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <div class="header">
+            <div class="header-title">❤️ Primer Latido</div>
+            <button class="lang-toggle" onclick="toggleLanguage()">EN/ES</button>
+        </div>
+
+        <div class="content">
+            <!-- HOME SCREEN -->
+            <div id="home" class="screen active">
+                <div class="slider-container">
+                    <label id="week-label">Semana actual</label>
+                    <input type="range" id="weekSlider" min="1" max="40" value="20">
+                    <div class="week-display">
+                        <div class="stat">
+                            <div class="stat-label" id="week-label2">Semana</div>
+                            <div class="stat-value" id="currentWeek">20</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-label" id="days-label">Días restantes</div>
+                            <div class="stat-value" id="daysLeft">140</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="week-card">
+                    <div class="week-card-title" id="baby-size-title">📏 Tamaño del Bebé</div>
+                    <div class="week-card-content" id="babySize">Tu bebé mide aproximadamente 10 cm</div>
+                </div>
+
+                <div class="week-card">
+                    <div class="week-card-title" id="dev-title">👶 Desarrollo</div>
+                    <div class="week-card-content" id="development">Los órganos continúan desarrollándose</div>
+                </div>
+
+                <div class="week-card">
+                    <div class="week-card-title" id="mother-title">💚 Cambios en Ti</div>
+                    <div class="week-card-content" id="motherChanges">Cambios normales del embarazo</div>
+                </div>
+
+                <div class="week-card">
+                    <div class="week-card-title" id="symptoms-title">⚠️ Síntomas</div>
+                    <div class="week-card-content" id="symptoms">Síntomas normales</div>
+                </div>
+            </div>
+
+            <!-- WEEKS SCREEN -->
+            <div id="weeks" class="screen">
+                <div class="slider-container">
+                    <label id="select-week-label">Selecciona una semana (1-40)</label>
+                    <input type="range" id="weekSlider2" min="1" max="40" value="20" oninput="updateFromSlider(this.value)">
+                    <div class="week-display">
+                        <div class="stat">
+                            <div class="stat-label" id="week-num-label">Semana</div>
+                            <div class="stat-value" id="weekNum">20</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-label" id="emoji-label">Comparación</div>
+                            <div class="stat-value" id="babyEmoji">🍌</div>
+                        </div>
+                    </div>
+                </div>
+                <div id="weeksList"></div>
+            </div>
+
+            <!-- PDFs SCREEN -->
+            <div id="pdfs" class="screen">
+                <h2 id="pdfs-title">📚 PDFs Disponibles</h2>
+                <p style="font-size: 12px; color: var(--text-light); margin-bottom: 16px;" id="pdfs-desc">20 guías para tu embarazo</p>
+                <div class="pdf-grid" id="pdfGrid"></div>
+            </div>
+
+            <!-- REMINDERS SCREEN -->
+            <div id="reminders" class="screen">
+                <h2 id="reminders-title">🔔 Recordatorios</h2>
+                <div id="remindersList"></div>
+            </div>
+
+            <!-- PROFILE SCREEN -->
+            <div id="profile" class="screen">
+                <div class="profile-section">
+                    <div class="section-title" id="about-title">ℹ️ Acerca de</div>
+                    <div class="info-row">
+                        <div class="info-label" id="app-name-label">Aplicación</div>
+                        <div class="info-value">Primer Latido</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label" id="version-label">Versión</div>
+                        <div class="info-value">1.0</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label" id="lang-label">Idioma</div>
+                        <div class="info-value" id="langDisplay">Español</div>
+                    </div>
+                </div>
+
+                <div class="profile-section">
+                    <div class="section-title" id="features-title">✨ Características</div>
+                    <div style="font-size: 13px; line-height: 1.8; color: var(--text-light);">
+                        📖 40 semanas de información<br>
+                        💚 Consejos de bienestar<br>
+                        📸 Galería de fotos<br>
+                        🔔 Recordatorios personalizados<br>
+                        📚 20 PDFs descargables<br>
+                        🌍 Español e Inglés
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="bottom-nav">
+            <button class="nav-button active" onclick="showScreen('home')">
+                <div class="nav-icon">❤️</div>
+                <div id="nav-home">Inicio</div>
+            </button>
+            <button class="nav-button" onclick="showScreen('weeks')">
+                <div class="nav-icon">📅</div>
+                <div id="nav-weeks">Semanas</div>
+            </button>
+            <button class="nav-button" onclick="showScreen('pdfs')">
+                <div class="nav-icon">📚</div>
+                <div id="nav-pdfs">PDFs</div>
+            </button>
+            <button class="nav-button" onclick="showScreen('reminders')">
+                <div class="nav-icon">🔔</div>
+                <div id="nav-reminders">Recordatorios</div>
+            </button>
+            <button class="nav-button" onclick="showScreen('profile')">
+                <div class="nav-icon">⚙️</div>
+                <div id="nav-profile">Perfil</div>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        let currentLang = localStorage.getItem('lang') || 'es';
+        let currentWeek = 20;
+
+        const translations = {
+            es: {
+                'week-label': 'Semana actual',
+                'week-label2': 'Semana',
+                'days-label': 'Días restantes',
+                'baby-size-title': '📏 Tamaño del Bebé',
+                'dev-title': '👶 Desarrollo',
+                'mother-title': '💚 Cambios en Ti',
+                'symptoms-title': '⚠️ Síntomas',
+                'select-week-label': 'Selecciona una semana (1-40)',
+                'week-num-label': 'Semana',
+                'emoji-label': 'Comparación',
+                'pdfs-title': '📚 PDFs Disponibles',
+                'pdfs-desc': '20 guías para tu embarazo',
+                'reminders-title': '🔔 Recordatorios',
+                'about-title': 'ℹ️ Acerca de',
+                'app-name-label': 'Aplicación',
+                'version-label': 'Versión',
+                'lang-label': 'Idioma',
+                'features-title': '✨ Características',
+                'nav-home': 'Inicio',
+                'nav-weeks': 'Semanas',
+                'nav-pdfs': 'PDFs',
+                'nav-reminders': 'Recordatorios',
+                'nav-profile': 'Perfil'
+            },
+            en: {
+                'week-label': 'Current Week',
+                'week-label2': 'Week',
+                'days-label': 'Days Left',
+                'baby-size-title': '📏 Baby Size',
+                'dev-title': '👶 Development',
+                'mother-title': '💚 Changes in You',
+                'symptoms-title': '⚠️ Symptoms',
+                'select-week-label': 'Select a week (1-40)',
+                'week-num-label': 'Week',
+                'emoji-label': 'Comparison',
+                'pdfs-title': '📚 Available PDFs',
+                'pdfs-desc': '20 guides for your pregnancy',
+                'reminders-title': '🔔 Reminders',
+                'about-title': 'ℹ️ About',
+                'app-name-label': 'Application',
+                'version-label': 'Version',
+                'lang-label': 'Language',
+                'features-title': '✨ Features',
+                'nav-home': 'Home',
+                'nav-weeks': 'Weeks',
+                'nav-pdfs': 'PDFs',
+                'nav-reminders': 'Reminders',
+                'nav-profile': 'Profile'
+            }
+        };
+
+        const weekData = {
+            1: { size: '2mm', weight: '0g', emoji: '🫐', fruit: 'Semilla de amapola', dev: 'Comienza la fertilización', mother: 'Podrías no sentir nada', symptoms: 'Cambios de humor leves' },
+            5: { size: '7mm', weight: '2g', emoji: '🫐', fruit: 'Semilla de girasol', dev: 'El corazón comenzó a latir', mother: 'Sensibilidad en los pechos', symptoms: 'Náuseas matutinas' },
+            10: { size: '3cm', weight: '4g', emoji: '🍓', fruit: 'Fresa', dev: 'Se forman los órganos principales', mother: 'Fatiga extrema', symptoms: 'Cambios de apetito' },
+            13: { size: '7cm', weight: '23g', emoji: '🍑', fruit: 'Melocotón pequeño', dev: 'El bebé puede mover sus brazos y piernas', mother: 'Energía creciente', symptoms: 'Mareos ocasionales' },
+            20: { size: '10cm', weight: '300g', emoji: '🍌', fruit: 'Plátano', dev: 'El bebé puede escuchar sonidos', mother: 'Más energía', symptoms: 'Fatiga, hinchazón' },
+            26: { size: '35cm', weight: '760g', emoji: '🥬', fruit: 'Lechuga', dev: 'Los pulmones se preparan para respirar', mother: 'Movimiento más visible', symptoms: 'Dolor de espalda' },
+            30: { size: '39cm', weight: '1300g', emoji: '🥦', fruit: 'Coliflor', dev: 'El cerebro se desarrolla rápidamente', mother: 'Dificultad para dormir', symptoms: 'Calambres en las piernas' },
+            36: { size: '47cm', weight: '2500g', emoji: '🍈', fruit: 'Melón pequeño', dev: 'El bebé se posiciona para el parto', mother: 'Más cansancio', symptoms: 'Contracciones falsas' },
+            40: { size: '51cm', weight: '3400g', emoji: '🍉', fruit: 'Sandía pequeña', dev: 'El bebé está listo para nacer', mother: 'Ansiedad y emoción', symptoms: 'Pueden comenzar las contracciones' }
+        };
+
+        const reminders = [
+            { name: 'Tomar agua', icon: '💧' },
+            { name: 'Ejercicio', icon: '🏃' },
+            { name: 'Vitaminas', icon: '💊' },
+            { name: 'Descanso', icon: '😴' },
+            { name: 'Control médico', icon: '🏥' },
+            { name: 'Almuerzo saludable', icon: '🥗' },
+            { name: 'Meditación', icon: '🧘' },
+            { name: 'Hidratación', icon: '💦' },
+            { name: 'Hierro', icon: '🩸' },
+            { name: 'Ácido fólico', icon: '🌿' },
+            { name: 'Calcio', icon: '🥛' },
+            { name: 'Descanso nocturno', icon: '🌙' },
+            { name: 'Revisión prenatal', icon: '📋' }
+        ];
+
+        const pdfs = Array.from({length: 20}, (_, i) => ({
+            name: `PDF ${i + 1}`,
+            icon: '📄'
+        }));
+
+        function t(key) {
+            return translations[currentLang]?.[key] || key;
+        }
+
+        function updateUI() {
+            Object.entries(translations[currentLang]).forEach(([key, value]) => {
+                const el = document.getElementById(key);
+                if (el) el.textContent = value;
+            });
+
+            updateWeekInfo(currentWeek);
+            renderReminders();
+            renderPDFs();
+
+            document.getElementById('langDisplay').textContent = currentLang === 'es' ? 'Español' : 'English';
+        }
+
+        function getWeekData(week) {
+            const weeks = Object.keys(weekData).map(Number).sort((a,b) => a-b);
+            let closest = weeks[0];
+            for (let w of weeks) {
+                if (w > week) break;
+                closest = w;
+            }
+            return weekData[closest];
+        }
+
+        function updateWeekInfo(week) {
+            const data = getWeekData(week);
+            const daysLeft = Math.max(0, (40 - week) * 7);
+
+            document.getElementById('currentWeek').textContent = week;
+            document.getElementById('weekNum').textContent = week;
+            document.getElementById('daysLeft').textContent = daysLeft;
+            document.getElementById('babyEmoji').textContent = data.emoji;
+            document.getElementById('babySize').textContent = `Tu bebé mide ${data.size} y pesa ${data.weight} (como ${data.fruit})`;
+            document.getElementById('development').textContent = data.dev;
+            document.getElementById('motherChanges').textContent = data.mother;
+            document.getElementById('symptoms').textContent = data.symptoms;
+
+            document.getElementById('weekSlider').value = week;
+            document.getElementById('weekSlider2').value = week;
+        }
+
+        function updateFromSlider(value) {
+            currentWeek = parseInt(value);
+            updateWeekInfo(currentWeek);
+        }
+
+        function renderReminders() {
+            const list = document.getElementById('remindersList');
+            list.innerHTML = reminders.map((r, i) => `
+                <div class="reminder-item">
+                    <div>
+                        <div style="font-size: 20px; margin-bottom: 4px;">${r.icon}</div>
+                        <div class="reminder-name">${r.name}</div>
+                    </div>
+                    <button class="toggle on" onclick="toggleReminder(this)"></button>
+                </div>
+            `).join('');
+        }
+
+        function renderPDFs() {
+            const grid = document.getElementById('pdfGrid');
+            grid.innerHTML = pdfs.map((p, i) => `
+                <div class="pdf-card">
+                    <div class="pdf-icon">${p.icon}</div>
+                    <div class="pdf-name">${p.name}</div>
+                </div>
+            `).join('');
+        }
+
+        function showScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(screenId).classList.add('active');
+
+            document.querySelectorAll('.nav-button').forEach(b => b.classList.remove('active'));
+            event.target.closest('.nav-button').classList.add('active');
+        }
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'es' ? 'en' : 'es';
+            localStorage.setItem('lang', currentLang);
+            updateUI();
+        }
+
+        function toggleReminder(btn) {
+            btn.classList.toggle('on');
+        }
+
+        // Initialize
+        updateUI();
+        document.getElementById('weekSlider').addEventListener('input', (e) => {
+            currentWeek = parseInt(e.target.value);
+            updateWeekInfo(currentWeek);
+        });
+
+        // Service Worker
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js').catch(() => {});
+        }
+    </script>
+</body>
+</html>
