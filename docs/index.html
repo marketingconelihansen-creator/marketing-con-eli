@@ -329,9 +329,27 @@
 
         <!-- DOCTOR -->
         <div id="doctor" class="tab-content hidden">
-            <h3 style="color: var(--primary); margin-bottom: 10px;">🏥 Notas Médico</h3>
-            <textarea id="doctorNota" class="textarea-field" placeholder="Escribe tu nota..."></textarea>
-            <button class="action-btn" onclick="saveDoctorNote()">💾 Guardar</button>
+            <h3 style="color: var(--primary); margin-bottom: 10px;">🏥 Visita al Médico</h3>
+
+            <div style="margin-bottom: 12px;">
+                <label style="font-size: 12px; color: var(--primary); font-weight: 600; display: block; margin-bottom: 8px;">📋 Preguntas para el Médico</label>
+                <div id="doctorQuestions" style="margin-bottom: 12px;"></div>
+            </div>
+
+            <div style="margin-bottom: 12px;">
+                <label style="font-size: 12px; color: var(--text-light); display: block; margin-bottom: 8px;">➕ Agregar pregunta</label>
+                <div class="row">
+                    <input type="text" id="newQuestion" class="input-field" placeholder="Ej: ¿Cuándo puedo viajar?" style="margin-bottom: 0; flex: 1;">
+                    <button class="action-btn" onclick="addQuestion()" style="flex: 0.3; margin: 0;">➕</button>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 12px;">
+                <label style="font-size: 12px; color: var(--text-light); display: block; margin-bottom: 8px;">📝 Notas de la Visita</label>
+                <textarea id="doctorNota" class="textarea-field" placeholder="Escribe lo que el médico te dijo..."></textarea>
+                <button class="action-btn" onclick="saveDoctorNote()">💾 Guardar Nota</button>
+            </div>
+
             <div id="doctorNotesList"></div>
         </div>
 
@@ -357,6 +375,7 @@
         let presupuesto = JSON.parse(localStorage.getItem('presupuesto')) || [];
         let userProfile = JSON.parse(localStorage.getItem('userProfile')) || {};
         let doctorNotes = JSON.parse(localStorage.getItem('doctorNotes')) || [];
+        let doctorQuestions = JSON.parse(localStorage.getItem('doctorQuestions')) || ['¿Cuál es el peso ideal para mi embarazo?', '¿Qué vitaminas debo tomar?', '¿Puedo hacer ejercicio?', '¿Cuáles son los síntomas de alerta?', '¿Cuándo es la próxima cita?'];
         let reminders = JSON.parse(localStorage.getItem('reminders')) || [{text: 'Próxima cita con el doctor', done: false}, {text: 'Exámenes de laboratorio', done: false}, {text: 'Comprar vitaminas prenatales', done: false}];
         let currentWeek = 20;
 
@@ -571,6 +590,31 @@
             localStorage.setItem('doctorNotes', JSON.stringify(doctorNotes));
             document.getElementById('doctorNota').value = '';
             renderDoctorNotes();
+        }
+
+        function renderDoctorQuestions() {
+            let html = '';
+            doctorQuestions.forEach((q, i) => {
+                html += '<div class="item-row"><span class="item-text" style="flex: 1;">❓ '+q+'</span><button class="item-delete" onclick="deleteQuestion('+i+')">🗑️</button></div>';
+            });
+            document.getElementById('doctorQuestions').innerHTML = html;
+        }
+
+        function addQuestion() {
+            const text = document.getElementById('newQuestion').value.trim();
+            if (!text) {alert('Escribe una pregunta'); return;}
+            doctorQuestions.push(text);
+            localStorage.setItem('doctorQuestions', JSON.stringify(doctorQuestions));
+            document.getElementById('newQuestion').value = '';
+            renderDoctorQuestions();
+            showNotification('✅ Pregunta agregada');
+        }
+
+        function deleteQuestion(i) {
+            doctorQuestions.splice(i, 1);
+            localStorage.setItem('doctorQuestions', JSON.stringify(doctorQuestions));
+            renderDoctorQuestions();
+            showNotification('✅ Pregunta eliminada');
         }
 
         function renderDoctorNotes() {
@@ -984,6 +1028,7 @@
         renderSintomas();
         renderTareas();
         renderPresupuesto();
+        renderDoctorQuestions();
         renderDoctorNotes();
         renderReminders();
         renderGalleryPhotos();
