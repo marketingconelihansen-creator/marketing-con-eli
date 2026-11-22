@@ -65,6 +65,7 @@
         .pdf-content canvas {max-width: 100%; display: block; margin: 0 auto; margin-bottom: 16px;}
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script>pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';</script>
 </head>
 <body>
     <div class="container">
@@ -303,7 +304,7 @@
         let presupuesto = JSON.parse(localStorage.getItem('presupuesto')) || [];
         let userProfile = JSON.parse(localStorage.getItem('userProfile')) || {};
         let doctorNotes = JSON.parse(localStorage.getItem('doctorNotes')) || [];
-        let reminders = JSON.parse(localStorage.getItem('reminders')) || [];
+        let reminders = JSON.parse(localStorage.getItem('reminders')) || [{text: 'Próxima cita con el doctor', done: false}, {text: 'Exámenes de laboratorio', done: false}, {text: 'Comprar vitaminas prenatales', done: false}];
         let currentWeek = 20;
 
         function showTab(tab) {
