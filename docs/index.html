@@ -206,7 +206,10 @@
         <!-- BIBLIOTECA -->
         <div id="biblioteca" class="tab-content hidden">
             <h3 style="color: var(--primary); margin-bottom: 10px;">📚 Mi Biblioteca</h3>
-            <div class="category-tabs" id="categoryTabs"></div>
+            <div style="display: flex; gap: 8px; margin-bottom: 12px;">
+                <button class="category-btn active" id="langES" onclick="switchLanguage('es')" style="flex: 1;">🇪🇸 Español</button>
+                <button class="category-btn" id="langEN" onclick="switchLanguage('en')" style="flex: 1;">🇬🇧 English</button>
+            </div>
             <div class="book-grid" id="booksGrid"></div>
             <input type="file" id="pdfInput" accept="application/pdf" style="display: none;">
             <button class="action-btn" onclick="document.getElementById('pdfInput').click()">➕ Cargar PDF</button>
@@ -653,16 +656,56 @@
         // Variables globales
         let galleryData = JSON.parse(localStorage.getItem('galleryData')) || {};
 
-        // Biblioteca
-        const pdfCategories = {
-            'Desarrollo': {icon: '👶', books: []},
-            'Nutrición': {icon: '🥗', books: []},
-            'Ejercicio': {icon: '🏃', books: []},
-            'Salud Mental': {icon: '💚', books: []},
-            'Preparación': {icon: '🤰', books: []}
+        // Biblioteca - PDFs desde Google Drive
+        const pdfsBibles = {
+            es: [
+                {title: '01 - Acabo de Enterarme', id: '1mj32Wu4YSF-NXR8Nwrlnpb5FKQc7EdEp'},
+                {title: '02 - Calendario de Controles', id: '13eiJgxz-1_63qt9Rz6mQaLdVRGPpsp9l'},
+                {title: '03 - Planner Semana a Semana', id: '1d5IHfktkdoQXANMB8PbBRPRQWARKMbpZ'},
+                {title: '04 - Alimentación en el Embarazo', id: '16gzTirS5Wai2g_CIKKc7RzZVlhlYv7JS'},
+                {title: '05 - Semáforo de Síntomas', id: '1hbdNbxWjPr1UEz-X0Cb0Cer6ANdQ_Flg'},
+                {title: '06 - Movimiento y Bienestar', id: '1o-Q3iheVTxygxULzijRjcGZQQ8oaMn3Q'},
+                {title: '07 - Derechos y Trámites', id: '1IiQtqO5H4eCGUepxeAzAbZ-8arKD3EcB'},
+                {title: '08 - Presupuesto del Bebé', id: '1Xb40DGX-KhbRQ0MFSnYBVqgdc6W-1Yyo'},
+                {title: '09 - Plan de Parto', id: '1mIBrZWT0cRyjW6M4uX6oBK2hfSqM_brc'},
+                {title: '10 - Preparación al Parto', id: '1KChRsiGWWsWXECOJ3c0roEH0WIfWJmGy'},
+                {title: '11 - Checklist Bolsa Hospital', id: '1gkEDBHaAziuSplGD4WXzgWHHhiEIvo_F'},
+                {title: '12 - Guía para el Acompañante', id: '1pr0dU2dw7ijaDJI1Yr5h2yjQYoMmlKD0'},
+                {title: '13 - Guía de Posparto', id: '1rDyMWSmu-D--N9YVZMu2ve1Dh_kbkkFq'},
+                {title: '14 - Guía de Lactancia', id: '1Yilgbcd0cADbLlTxl9zk9QbahP8-JZqh'},
+                {title: '15 - Primeras 6 Semanas', id: '1KDCC0lq8vFSgIiEYhRKsU9ZFjN0xEszM'},
+                {title: '16 - Salud Emocional Posparto', id: '1qLPZGqz9gsdR7rYLS3GWX-q50DAVzUhQ'},
+                {title: '17 - Vacunas y Controles', id: '1CVY0k0RHzmLqvLfKH9tkP_xk6_UV8WC-'},
+                {title: '18 - Primeras Comidas del Bebé', id: '1fdQgWE-6bMUCdne9H8abWvEBAVIw-cnE'},
+                {title: '19 - Kit Baby Shower', id: '1Xcfn_qzD8wBFZuEbazdRtIOio5-1NErg'},
+                {title: '20 - Primeriza Acompañada', id: '1cfFmztH8tgFkbGsm2uT1uUrY5q_AE99t'}
+            ],
+            en: [
+                {title: '01 - I Just Found Out', id: '1W08SFmmd2faXTTU_VlU36qsD_tsho1Bd'},
+                {title: '02 - Prenatal Checkup Calendar', id: '1BeqJNZhSvwAI5ekAgd6OU8wui_PWrPDx'},
+                {title: '03 - Week by Week Planner', id: '1GjoubZyEoxLAOdLZZ6XumwY5962e4_n9'},
+                {title: '04 - Eating Well in Pregnancy', id: '13xLnk04YM8OpqZagff51eK35a9lE2GKr'},
+                {title: '05 - Symptom Traffic Light', id: '1hbdNbxWjPr1UEz-X0Cb0Cer6ANdQ_Flg'},
+                {title: '06 - Movement and Wellbeing', id: '1ez7W2MTiSVOxnngNSHAsvo4ZX7W3A0aJ'},
+                {title: '07 - Rights and Paperwork', id: '12n8XHUVyBxkBek9CRkmHkGGFCFTGW_FT'},
+                {title: '08 - Baby Budget', id: '1pDDCp0gFgkQ5RbOMbx1PztfXgMATNpHe'},
+                {title: '09 - Birth Plan', id: '13n4MW0rNjrH19emrZ1pnrNwmxpmEOCQm'},
+                {title: '10 - Childbirth Preparation', id: '115_uiBBQg2lcm0rRYFhkpRc80X9YCpqv'},
+                {title: '11 - Hospital Bag Checklist', id: '1gkEDBHaAziuSplGD4WXzgWHHhiEIvo_F'},
+                {title: '12 - Guide for the Support Person', id: '1RkaTaBjIFRc2z8kFDU7L3xZdR-tP6P4H'},
+                {title: '13 - Postpartum Guide', id: '17ZMpwfb0F-KCxeqXuoaGA3VobcsDi8mZ'},
+                {title: '14 - Breastfeeding Guide', id: '1R5x5HNh0i0cxBJIoMeWHPENOtEjWw2ck'},
+                {title: '15 - First 6 Weeks', id: '1oKr20OJw-avqcIhn8Yt6DnpJpibdO41S'},
+                {title: '16 - Postpartum Emotional Health', id: '1fxWBP9Xk3w5p22mw7aBEjsVUyp7dpWsU'},
+                {title: '17 - Vaccines and Checkups', id: '1sGZHVfWOIOjoTW9Vo9wgXRSyT3UT6_hX'},
+                {title: '18 - Baby\'s First Foods', id: '1bX7saJHRO_i7GTX8muJtSKONWJAbWqoG'},
+                {title: '19 - Baby Shower Kit', id: '1mBIp8lQP90Jk0rhYpvdnZWFeea9H7UV9'},
+                {title: '20 - First Time Mom Journey', id: '1Nm5uSa4N3qH1w12gpaz3oXTEhTbkdPlf'}
+            ]
         };
-        let pdfLibrary = JSON.parse(localStorage.getItem('pdfLibrary')) || {books: [], currentCategory: 'Desarrollo'};
-        let currentPdfCategory = pdfLibrary.currentCategory || 'Desarrollo';
+
+        let pdfLibrary = JSON.parse(localStorage.getItem('pdfLibrary')) || {books: [], currentLanguage: 'es'};
+        let currentLanguage = pdfLibrary.currentLanguage || 'es';
 
         // Cargar PDFs al inicializar
         document.getElementById('pdfInput').addEventListener('change', (e) => {
@@ -685,55 +728,51 @@
         });
 
         function renderBiblioteca() {
-            const categoryTabs = document.getElementById('categoryTabs');
-            let tabsHtml = '';
-            Object.keys(pdfCategories).forEach(cat => {
-                tabsHtml += '<button class="category-btn '+(cat === currentPdfCategory ? 'active' : '')+'" onclick="switchPdfCategory(\''+cat+'\')">'+pdfCategories[cat].icon+' '+cat+'</button>';
-            });
-            categoryTabs.innerHTML = tabsHtml;
-
             const booksGrid = document.getElementById('booksGrid');
-            const categoryBooks = pdfLibrary.books.filter(b => b.category === currentPdfCategory);
+            const books = pdfsBibles[currentLanguage] || [];
             let booksHtml = '';
-            if (categoryBooks.length === 0) {
-                booksHtml = '<div style="grid-column: 1/-1; text-align: center; color: var(--text-light); padding: 20px;">Carga tu primer PDF en esta categoría</div>';
-            } else {
-                categoryBooks.forEach((book, i) => {
-                    booksHtml += '<div class="book-card" onclick="openPdfViewer('+i+')"><div class="book-icon">📖</div><div class="book-title">'+book.name+'</div></div>';
-                });
-            }
+            books.forEach((book, i) => {
+                booksHtml += '<div class="book-card" onclick="openGoogleDrivePdf(\''+book.id+'\', \''+book.title.replace(/'/g, "\\'")+'\')" style="cursor: pointer;"><div class="book-icon">📖</div><div class="book-title">'+book.title+'</div></div>';
+            });
             booksGrid.innerHTML = booksHtml;
+
+            document.getElementById('langES').classList.toggle('active', currentLanguage === 'es');
+            document.getElementById('langEN').classList.toggle('active', currentLanguage === 'en');
         }
 
-        function switchPdfCategory(cat) {
-            currentPdfCategory = cat;
-            pdfLibrary.currentCategory = cat;
+        function switchLanguage(lang) {
+            currentLanguage = lang;
+            pdfLibrary.currentLanguage = lang;
             localStorage.setItem('pdfLibrary', JSON.stringify(pdfLibrary));
             renderBiblioteca();
         }
 
-        function openPdfViewer(bookIndex) {
-            const book = pdfLibrary.books[bookIndex];
-            if (!book) return;
-            document.getElementById('pdfTitle').textContent = book.name;
+        function openGoogleDrivePdf(fileId, title) {
+            document.getElementById('pdfTitle').textContent = title;
             document.getElementById('pdfViewerContainer').classList.add('active');
+            document.getElementById('pdfContent').innerHTML = '<div style="text-align: center; padding: 20px;">Cargando PDF...</div>';
 
-            pdfjsLib.getDocument(new Uint8Array(book.data)).promise.then(pdf => {
-                document.getElementById('pdfContent').innerHTML = '';
-                for (let i = 1; i <= Math.min(pdf.numPages, 10); i++) {
-                    pdf.getPage(i).then(page => {
-                        const canvas = document.createElement('canvas');
-                        const ctx = canvas.getContext('2d');
-                        const viewport = page.getViewport({scale: 1.5});
-                        canvas.width = viewport.width;
-                        canvas.height = viewport.height;
-                        page.render({canvasContext: ctx, viewport: viewport}).promise.then(() => {
-                            document.getElementById('pdfContent').appendChild(canvas);
+            const pdfUrl = 'https://drive.google.com/uc?export=download&id=' + fileId;
+            fetch(pdfUrl).then(r => r.arrayBuffer()).then(data => {
+                pdfjsLib.getDocument(new Uint8Array(data)).promise.then(pdf => {
+                    document.getElementById('pdfContent').innerHTML = '';
+                    for (let i = 1; i <= Math.min(pdf.numPages, 15); i++) {
+                        pdf.getPage(i).then(page => {
+                            const canvas = document.createElement('canvas');
+                            const ctx = canvas.getContext('2d');
+                            const viewport = page.getViewport({scale: 1.5});
+                            canvas.width = viewport.width;
+                            canvas.height = viewport.height;
+                            page.render({canvasContext: ctx, viewport: viewport}).promise.then(() => {
+                                document.getElementById('pdfContent').appendChild(canvas);
+                            });
                         });
-                    });
-                }
+                    }
+                }).catch(() => {
+                    document.getElementById('pdfContent').innerHTML = '<div style="text-align: center; padding: 20px; color: red;">Error al abrir PDF</div>';
+                });
             }).catch(() => {
-                document.getElementById('pdfContent').innerHTML = '<div style="text-align: center; padding: 20px; color: red;">Error al abrir PDF</div>';
+                document.getElementById('pdfContent').innerHTML = '<div style="text-align: center; padding: 20px; color: red;">Error al descargar PDF</div>';
             });
         }
 
