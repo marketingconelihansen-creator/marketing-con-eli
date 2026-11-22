@@ -594,12 +594,13 @@
             localStorage.setItem('reminders', JSON.stringify(reminders));
             document.getElementById('newReminder').value = '';
             renderReminders();
+            showNotification('✅ Recordatorio agregado');
         }
 
         function renderReminders() {
             let html = '';
             reminders.forEach((r, i) => {
-                html += '<div class="item-row"><input type="checkbox" '+( r.done ? 'checked' : '')+' onchange="toggleReminder('+i+')" style="margin-right: 10px;"><span class="item-text" style="'+(r.done ? 'text-decoration: line-through; opacity: 0.6;' : '')+'">'+r.text+'</span><button class="item-delete" onclick="deleteReminder('+i+')">🗑️</button></div>';
+                html += '<div class="item-row" style="'+(r.done ? 'opacity: 0.5;' : '')+'"><input type="checkbox" class="toggle" '+( r.done ? 'checked' : '')+' onchange="toggleReminder('+i+')" style="margin-right: 10px;"><span class="item-text" style="'+(r.done ? 'text-decoration: line-through; opacity: 0.6;' : '')+'">'+r.text+'</span><button class="item-delete" onclick="deleteReminder('+i+')">🗑️</button></div>';
             });
             document.getElementById('remindersList').innerHTML = html;
         }
