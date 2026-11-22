@@ -356,9 +356,20 @@
         <!-- RECORDATORIOS -->
         <div id="recordatorios" class="tab-content hidden">
             <h3 style="color: var(--primary); margin-bottom: 10px;">🔔 Recordatorios</h3>
-            <div id="remindersList"></div>
-            <input type="text" id="newReminder" class="input-field" placeholder="Nuevo recordatorio">
-            <button class="action-btn" onclick="addReminder()">➕ Agregar</button>
+
+            <div style="margin-bottom: 12px;">
+                <label style="font-size: 12px; color: var(--text-light); display: block; margin-bottom: 8px;">📝 Qué recordar</label>
+                <input type="text" id="newReminder" class="input-field" placeholder="Ej: Tomar vitaminas">
+            </div>
+
+            <div style="margin-bottom: 12px;">
+                <label style="font-size: 12px; color: var(--text-light); display: block; margin-bottom: 8px;">⏰ Hora del recordatorio</label>
+                <input type="time" id="reminderTime" class="input-field" placeholder="08:00">
+            </div>
+
+            <button class="action-btn" onclick="addReminder()">➕ Agregar Recordatorio</button>
+
+            <div id="remindersList" style="margin-top: 16px;"></div>
         </div>
 
         <div class="footer">❤️ Primer Latido 3.0</div>
@@ -376,7 +387,11 @@
         let userProfile = JSON.parse(localStorage.getItem('userProfile')) || {};
         let doctorNotes = JSON.parse(localStorage.getItem('doctorNotes')) || [];
         let doctorQuestions = JSON.parse(localStorage.getItem('doctorQuestions')) || ['¿Cuál es el peso ideal para mi embarazo?', '¿Qué vitaminas debo tomar?', '¿Puedo hacer ejercicio?', '¿Cuáles son los síntomas de alerta?', '¿Cuándo es la próxima cita?'];
-        let reminders = JSON.parse(localStorage.getItem('reminders')) || [{text: 'Próxima cita con el doctor', done: false}, {text: 'Exámenes de laboratorio', done: false}, {text: 'Comprar vitaminas prenatales', done: false}];
+        let reminders = JSON.parse(localStorage.getItem('reminders')) || [
+            {text: 'Próxima cita con el doctor', time: '09:00', done: false},
+            {text: 'Exámenes de laboratorio', time: '10:00', done: false},
+            {text: 'Comprar vitaminas prenatales', time: '14:00', done: false}
+        ];
         let currentWeek = 20;
 
         function showTab(tab) {
@@ -643,20 +658,23 @@
 
         function addReminder() {
             const text = document.getElementById('newReminder').value.trim();
-            if (!text) {alert('Escribe un recordatorio'); return;}
-            reminders.push({text, done: false});
+            const time = document.getElementById('reminderTime').value;
+            if (!text || !time) {alert('Completa recordatorio y hora'); return;}
+            reminders.push({text, time, done: false});
             localStorage.setItem('reminders', JSON.stringify(reminders));
             document.getElementById('newReminder').value = '';
+            document.getElementById('reminderTime').value = '';
             renderReminders();
-            showNotification('✅ Recordatorio agregado');
+            showNotification('✅ Recordatorio a las '+time);
         }
 
         function renderReminders() {
             let html = '';
             reminders.forEach((r, i) => {
-                html += '<div class="item-row" style="'+(r.done ? 'opacity: 0.5;' : '')+'"><input type="checkbox" class="toggle" '+( r.done ? 'checked' : '')+' onchange="toggleReminder('+i+')" style="margin-right: 10px;"><span class="item-text" style="'+(r.done ? 'text-decoration: line-through; opacity: 0.6;' : '')+'">'+r.text+'</span><button class="item-delete" onclick="deleteReminder('+i+')">🗑️</button></div>';
+                html += '<div class="item-row" style="'+(r.done ? 'opacity: 0.5;' : '')+'"><div style="flex: 1;"><input type="checkbox" class="toggle" '+( r.done ? 'checked' : '')+' onchange="toggleReminder('+i+')" style="margin-right: 10px;"><span class="item-text" style="'+(r.done ? 'text-decoration: line-through; opacity: 0.6;' : '')+'">'+r.text+'<br><span style="font-size: 11px; color: var(--text-light);">⏰ '+r.time+'</span></span></div><button class="item-delete" onclick="deleteReminder('+i+')">🗑️</button></div>';
             });
             document.getElementById('remindersList').innerHTML = html;
+            scheduleNotifications();
         }
 
         function toggleReminder(i) {
@@ -669,6 +687,39 @@
             reminders.splice(i, 1);
             localStorage.setItem('reminders', JSON.stringify(reminders));
             renderReminders();
+        }
+
+        function scheduleNotifications() {
+            if (!('Notification' in window)) return;
+
+            reminders.forEach((r, i) => {
+                const [hours, minutes] = r.time.split(':');
+                const now = new Date();
+                let reminderTime = new Date();
+                reminderTime.setHours(parseInt(hours), parseInt(minutes), 0, 0);
+
+                if (reminderTime <= now) {
+                    reminderTime.setDate(reminderTime.getDate() + 1);
+                }
+
+                const timeUntil = reminderTime - now;
+                setTimeout(() => {
+                    if (!r.done && Notification.permission === 'granted') {
+                        new Notification('🔔 ' + r.text, {
+                            icon: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192"><rect fill="%23E8A5C4" width="192" height="192"/><text x="50%" y="50%" font-size="100" font-weight="bold" fill="white" text-anchor="middle" dominant-baseline="central">❤️</text></svg>',
+                            tag: 'reminder-'+i,
+                            requireInteraction: true
+                        });
+                    }
+                }, timeUntil);
+            });
+        }
+
+        // Pedir permiso para notificaciones
+        if ('Notification' in window && Notification.permission === 'default') {
+            setTimeout(() => {
+                Notification.requestPermission();
+            }, 500);
         }
 
         // Initialize
