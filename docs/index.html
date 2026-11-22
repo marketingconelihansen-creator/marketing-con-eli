@@ -6,67 +6,45 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <title>Primer Latido 2.0</title>
+    <title>Primer Latido 3.0</title>
     <style>
         * {margin: 0; padding: 0; box-sizing: border-box;}
         :root {--primary: #E8A5C4; --primary-dark: #D48BB0; --text: #333; --text-light: #666; --border: #DDD;}
         body {font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); min-height: 100vh; padding: 20px; display: flex; align-items: center; justify-content: center;}
-        .container {background: white; border-radius: 24px; padding: 32px 24px; max-width: 400px; width: 100%; box-shadow: 0 10px 40px rgba(0,0,0,0.2);}
-        .header {text-align: center; margin-bottom: 24px;}
+        .container {background: white; border-radius: 24px; padding: 32px 24px; max-width: 400px; width: 100%; box-shadow: 0 10px 40px rgba(0,0,0,0.2); max-height: 90vh; overflow-y: auto;}
+        .header {text-align: center; margin-bottom: 20px;}
         .header h1 {font-size: 28px; color: var(--primary); margin-bottom: 8px;}
-        .week-display {text-align: center; padding: 16px; background: #FFF5FA; border-radius: 12px; margin-bottom: 20px;}
-        .week-number {font-size: 48px; font-weight: bold; color: var(--primary);}
+        .week-display {text-align: center; padding: 16px; background: #FFF5FA; border-radius: 12px; margin-bottom: 16px;}
+        .week-number {font-size: 44px; font-weight: bold; color: var(--primary);}
         .week-label {font-size: 12px; color: var(--text-light); text-transform: uppercase;}
-        .baby-3d {width: 100%; height: 80px; margin-bottom: 20px; border-radius: 12px; background: linear-gradient(135deg, #FFF5FA 0%, #fff 100%);}
-        .info-cards {margin-bottom: 20px;}
-        .info-card {background: #FFF5FA; border-left: 4px solid var(--primary); padding: 12px 16px; margin-bottom: 12px; border-radius: 8px;}
-        .info-title {font-weight: 600; font-size: 14px; color: var(--primary); margin-bottom: 4px;}
-        .info-text {font-size: 13px; color: var(--text-light); line-height: 1.5;}
-        .slider-container {margin-bottom: 20px;}
-        .slider-container label {display: block; font-size: 12px; color: var(--text-light); margin-bottom: 8px; font-weight: 600;}
-        .slider-container input[type="range"] {width: 100%; accent-color: var(--primary);}
-        .nav-buttons {display: flex; gap: 8px; margin-bottom: 16px; justify-content: center; flex-wrap: wrap;}
-        .nav-btn {padding: 10px 16px; border: none; background: var(--primary); color: white; border-radius: 20px; font-size: 12px; font-weight: 600; cursor: pointer;}
-        .nav-btn:active {background: var(--primary-dark); transform: scale(0.95);}
-        .action-buttons {display: flex; flex-direction: column; gap: 12px;}
-        .action-btn {padding: 14px; border: none; background: var(--primary); color: white; border-radius: 12px; font-size: 14px; font-weight: 600; cursor: pointer;}
-        .action-btn:active {background: var(--primary-dark); transform: scale(0.98);}
-        .input-field {width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px; margin-bottom: 12px; font-family: inherit;}
+        .baby-3d {width: 100%; height: 60px; margin-bottom: 16px; border-radius: 12px; background: linear-gradient(135deg, #FFF5FA 0%, #fff 100%); display: flex; align-items: center; justify-content: center; font-size: 48px;}
+        .nav-tabs {display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 16px;}
+        .nav-tab {padding: 8px 12px; border: none; background: var(--primary); color: white; border-radius: 12px; font-size: 11px; font-weight: 600; cursor: pointer;}
+        .nav-tab:active {background: var(--primary-dark);}
+        .action-btn {width: 100%; padding: 12px; border: none; background: var(--primary); color: white; border-radius: 12px; font-size: 13px; font-weight: 600; cursor: pointer; margin-bottom: 8px;}
+        .action-btn:active {background: var(--primary-dark);}
+        .info-card {background: #FFF5FA; border-left: 4px solid var(--primary); padding: 12px; margin-bottom: 10px; border-radius: 8px;}
+        .info-title {font-weight: 600; font-size: 13px; color: var(--primary); margin-bottom: 4px;}
+        .info-text {font-size: 12px; color: var(--text-light); line-height: 1.5;}
+        .input-field {width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 8px; font-size: 13px; margin-bottom: 10px; font-family: inherit;}
         .input-field:focus {outline: none; border-color: var(--primary); background: #FFF5FA;}
-        .textarea-field {width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px; margin-bottom: 12px; font-family: inherit; height: 80px; resize: vertical;}
-        .textarea-field:focus {outline: none; border-color: var(--primary); background: #FFF5FA;}
-        .week-grid {display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-bottom: 20px;}
-        .week-box {background: white; border: 2px solid var(--border); border-radius: 8px; padding: 6px; text-align: center; cursor: pointer; font-weight: 600; font-size: 11px;}
-        .week-box:active {border-color: var(--primary); background: #FFF5FA;}
-        .upload-box {border: 2px dashed var(--primary); border-radius: 12px; padding: 20px; text-align: center; cursor: pointer; margin-bottom: 12px;}
-        .upload-box:active {background: #FFF5FA;}
-        .upload-box input {display: none;}
-        .gallery-item {background: white; border: 1px solid var(--border); border-radius: 12px; padding: 12px; margin-bottom: 12px;}
-        .gallery-preview {width: 100%; border-radius: 8px; margin-bottom: 8px; max-height: 150px; object-fit: cover;}
-        .gallery-note {font-size: 12px; color: var(--text-light); margin-top: 8px; padding: 8px; background: #FFF5FA; border-radius: 6px; border-left: 2px solid var(--primary);}
-        .book-item {background: white; border: 1px solid var(--border); border-radius: 12px; padding: 16px; margin-bottom: 12px; cursor: pointer;}
-        .book-title {font-weight: 600; color: var(--primary); font-size: 14px; margin-bottom: 4px;}
-        .book-desc {font-size: 12px; color: var(--text-light); margin-bottom: 8px;}
-        .book-label {display: inline-block; background: #FFF5FA; color: var(--primary); padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 600;}
-        .book-content {display: none; margin-top: 12px; padding: 12px; background: #FFF5FA; border-radius: 8px; line-height: 1.6; font-size: 13px; max-height: 400px; overflow-y: auto;}
-        .book-content.active {display: block;}
-        .reminder-item {background: white; border: 1px solid var(--border); border-radius: 12px; padding: 12px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center;}
-        .reminder-label {font-size: 13px; color: var(--text);}
+        .textarea-field {width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 8px; font-size: 13px; margin-bottom: 10px; font-family: inherit; height: 70px; resize: vertical;}
+        .row {display: flex; gap: 8px; margin-bottom: 10px;}
+        .row input {flex: 1;}
         .toggle {width: 44px; height: 24px; background: #ddd; border-radius: 12px; border: none; cursor: pointer; position: relative; transition: background 0.2s;}
         .toggle.on {background: var(--primary);}
         .toggle::after {content: ''; position: absolute; width: 20px; height: 20px; background: white; border-radius: 50%; top: 2px; left: 2px; transition: left 0.2s;}
         .toggle.on::after {left: 22px;}
-        .medical-template {background: white; border: 1px solid var(--border); border-radius: 12px; padding: 12px; margin-bottom: 10px; cursor: pointer; font-size: 13px; color: var(--primary); font-weight: 500;}
-        .medical-template:active {background: #FFF5FA;}
-        .footer {text-align: center; margin-top: 20px; font-size: 11px; color: var(--text-light);}
+        .item-row {display: flex; justify-content: space-between; align-items: center; padding: 10px; background: white; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 8px;}
+        .item-text {font-size: 13px; color: var(--text); flex: 1;}
+        .item-delete {background: #ff6666; color: white; border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 11px;}
         .hidden {display: none;}
-        .month-calendar {display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin-bottom: 20px;}
-        .day-header {font-weight: 600; font-size: 11px; color: var(--primary); text-align: center; padding: 4px;}
-        .day-cell {border: 1px solid var(--border); border-radius: 6px; padding: 4px; text-align: center; font-size: 11px; cursor: pointer; min-height: 30px; display: flex; align-items: center; justify-content: center;}
-        .day-cell:active {background: #FFF5FA; border-color: var(--primary);}
-        .event-item {background: white; border-left: 4px solid var(--primary); padding: 10px; margin-bottom: 10px; border-radius: 4px;}
-        .event-delete {font-size: 11px; color: #ff4444; cursor: pointer; margin-top: 4px;}
-        @media print {body {background: white;} .nav-buttons, .action-buttons {display: none;}}
+        .table {width: 100%; border-collapse: collapse; margin: 10px 0;}
+        .table th {background: #FFF5FA; color: var(--primary); padding: 8px; text-align: left; font-size: 12px; font-weight: 600;}
+        .table td {padding: 8px; border-bottom: 1px solid var(--border); font-size: 12px;}
+        .footer {text-align: center; margin-top: 20px; font-size: 10px; color: var(--text-light);}
+        .chart-simple {height: 100px; border: 1px solid var(--border); border-radius: 8px; margin: 10px 0; position: relative;}
+        .chart-bar {position: absolute; bottom: 0; background: var(--primary); border-radius: 4px 4px 0 0;}
     </style>
 </head>
 <body>
@@ -75,498 +53,460 @@
             <h1>❤️ Primer Latido</h1>
         </div>
 
-        <!-- INICIO -->
-        <div id="inicio">
-            <div class="week-display">
-                <div class="week-label">Semana actual</div>
-                <div class="week-number" id="mainWeek">20</div>
-                <div style="font-size: 12px; color: var(--text-light); margin-top: 12px;">
-                    <div>📅 <span id="daysLeft">140</span> días restantes</div>
-                    <div>⏳ <span id="weeksLeft">20</span> semanas restantes</div>
-                </div>
-            </div>
-
-            <div class="baby-3d" id="baby3d"></div>
-
-            <div class="info-cards">
-                <div class="info-card">
-                    <div class="info-title">👶 Tamaño de tu bebé</div>
-                    <div class="info-text" id="mainSize">Tu bebé mide aproximadamente 10 cm</div>
-                </div>
-                <div class="info-card">
-                    <div class="info-title">💚 Desarrollo</div>
-                    <div class="info-text" id="mainDev">Los órganos continúan desarrollándose</div>
-                </div>
-                <div class="info-card">
-                    <div class="info-title">⚠️ Síntomas</div>
-                    <div class="info-text" id="mainSymptoms">Cambios normales del embarazo</div>
-                </div>
-            </div>
-
-            <div class="slider-container">
-                <label>Cambiar semana</label>
-                <input type="range" id="mainSlider" min="1" max="40" value="20">
-            </div>
-
-            <div class="nav-buttons">
-                <button class="nav-btn" id="btnLibros">👀 Libros</button>
-                <button class="nav-btn" id="btnGaleria">📸 Galería</button>
-                <button class="nav-btn" id="btnCalendario">📅 Calendario</button>
-                <button class="nav-btn" id="btnPerfil">👤 Perfil</button>
-            </div>
-
-            <div class="action-buttons">
-                <button class="action-btn" id="btnDoctor">🏥 Notas Médico</button>
-                <button class="action-btn" id="btnRecordatorios">🔔 Recordatorios</button>
+        <div class="week-display">
+            <div class="week-label">Semana actual</div>
+            <div class="week-number" id="mainWeek">20</div>
+            <div style="font-size: 11px; color: var(--text-light); margin-top: 8px;">
+                📅 <span id="daysLeft">140</span> días | ⏳ <span id="weeksLeft">20</span> semanas
             </div>
         </div>
 
-        <!-- LIBROS -->
-        <div id="libros" class="hidden">
-            <h2 style="color: var(--primary); margin-bottom: 16px;">📚 Libros para Leer</h2>
-            <h3 style="color: var(--primary); font-size: 13px; margin: 16px 0 10px 0;">📌 Recomendados para esta semana</h3>
-            <div id="recommendedBooks"></div>
-            <h3 style="color: var(--primary); font-size: 13px; margin: 16px 0 10px 0;">📖 Todos los libros</h3>
-            <div id="allBooks"></div>
-            <button class="action-btn" id="btnVolverLibros">← Anterior</button>
+        <div class="baby-3d" id="baby3d">👶🍌</div>
+
+        <div class="nav-tabs">
+            <button class="nav-tab" id="btnHome" onclick="showTab('home')">🏠 Inicio</button>
+            <button class="nav-tab" id="btnMovimientos" onclick="showTab('movimientos')">👣 Movimientos</button>
+            <button class="nav-tab" id="btnPeso" onclick="showTab('peso')">⚖️ Peso</button>
+            <button class="nav-tab" id="btnSintomas" onclick="showTab('sintomas')">🤒 Síntomas</button>
+            <button class="nav-tab" id="btnTareas" onclick="showTab('tareas')">✅ Tareas</button>
+            <button class="nav-tab" id="btnContactos" onclick="showTab('contactos')">📞 Contactos</button>
+            <button class="nav-tab" id="btnPresupuesto" onclick="showTab('presupuesto')">💰 Presupuesto</button>
+            <button class="nav-tab" id="btnMas" onclick="showTab('mas')">⋯ Más</button>
         </div>
 
-        <!-- GALERÍA -->
-        <div id="galeria" class="hidden">
-            <h2 style="color: var(--primary); margin-bottom: 16px;">📸 Mi Álbum de Embarazo</h2>
-            <div class="slider-container">
-                <label>Semana</label>
-                <input type="range" id="gallerySlider" min="1" max="40" value="20">
-                <div style="text-align: center; color: var(--primary); font-weight: 600; margin-top: 8px;">Semana <span id="galleryWeekNum">20</span></div>
+        <!-- HOME -->
+        <div id="home" class="tab-content">
+            <div class="info-card">
+                <div class="info-title">👶 Tamaño del bebé</div>
+                <div class="info-text" id="mainSize">Tu bebé mide aproximadamente 10 cm</div>
             </div>
-            <div class="upload-box" id="uploadBoxBtn">
+            <div class="info-card">
+                <div class="info-title">💚 Desarrollo</div>
+                <div class="info-text" id="mainDev">Los órganos continúan desarrollándose</div>
+            </div>
+            <input type="range" id="mainSlider" min="1" max="40" value="20" style="width: 100%; margin-bottom: 16px;">
+            <button class="action-btn" onclick="showTab('mas')">Ver más opciones ➜</button>
+        </div>
+
+        <!-- MOVIMIENTOS -->
+        <div id="movimientos" class="tab-content hidden">
+            <h3 style="color: var(--primary); margin-bottom: 10px;">👣 Movimientos del Bebé</h3>
+            <div style="margin-bottom: 10px;">
+                <label style="font-size: 12px; color: var(--text-light);">Registrar movimiento de hoy</label>
+                <input type="time" id="timeMovimiento" class="input-field">
+                <button class="action-btn" onclick="addMovimiento()">➕ Registrar</button>
+            </div>
+            <table class="table">
+                <thead><tr><th>Hora</th><th>Fecha</th><th></th></tr></thead>
+                <tbody id="movimientosList"></tbody>
+            </table>
+        </div>
+
+        <!-- PESO -->
+        <div id="peso" class="tab-content hidden">
+            <h3 style="color: var(--primary); margin-bottom: 10px;">⚖️ Historial de Peso</h3>
+            <div style="margin-bottom: 10px;">
+                <label style="font-size: 12px; color: var(--text-light);">Peso actual (kg)</label>
+                <input type="number" id="pesoInput" class="input-field" placeholder="Ej: 70.5">
+                <button class="action-btn" onclick="addPeso()">➕ Registrar</button>
+            </div>
+            <div class="chart-simple" id="pesoChart"></div>
+            <table class="table">
+                <thead><tr><th>Peso</th><th>Fecha</th><th></th></tr></thead>
+                <tbody id="pesoList"></tbody>
+            </table>
+        </div>
+
+        <!-- SÍNTOMAS -->
+        <div id="sintomas" class="tab-content hidden">
+            <h3 style="color: var(--primary); margin-bottom: 10px;">🤒 Diario de Síntomas</h3>
+            <div style="margin-bottom: 10px;">
+                <label style="font-size: 12px; color: var(--text-light);">¿Cómo te sientes hoy?</label>
+                <textarea id="sintomaText" class="textarea-field" placeholder="Ej: Cansancio, dolor de espalda..."></textarea>
+                <button class="action-btn" onclick="addSintoma()">➕ Guardar</button>
+            </div>
+            <div id="sintomasList"></div>
+        </div>
+
+        <!-- TAREAS -->
+        <div id="tareas" class="tab-content hidden">
+            <h3 style="color: var(--primary); margin-bottom: 10px;">✅ Tareas para Prepararse</h3>
+            <div style="margin-bottom: 10px;">
+                <input type="text" id="tareaText" class="input-field" placeholder="Ej: Preparar cuarto del bebé">
+                <button class="action-btn" onclick="addTarea()">➕ Agregar</button>
+            </div>
+            <div id="tareasList"></div>
+        </div>
+
+        <!-- CONTACTOS -->
+        <div id="contactos" class="tab-content hidden">
+            <h3 style="color: var(--primary); margin-bottom: 10px;">📞 Contactos de Emergencia</h3>
+            <div style="margin-bottom: 10px;">
+                <label style="font-size: 12px; color: var(--text-light);">Doctor/Obstetra</label>
+                <input type="text" id="doctorNombre" class="input-field" placeholder="Nombre">
+                <input type="tel" id="doctorTel" class="input-field" placeholder="Teléfono">
+                <button class="action-btn" onclick="saveDoctorContact()">💾 Guardar</button>
+            </div>
+            <div class="info-card" id="doctorCard" style="display: none;">
+                <div id="doctorInfo"></div>
+            </div>
+            <div style="margin-bottom: 10px; margin-top: 20px;">
+                <label style="font-size: 12px; color: var(--text-light);">Hospital</label>
+                <input type="text" id="hospitalNombre" class="input-field" placeholder="Nombre">
+                <input type="tel" id="hospitalTel" class="input-field" placeholder="Teléfono">
+                <input type="text" id="hospitalDir" class="input-field" placeholder="Dirección">
+                <button class="action-btn" onclick="saveHospitalContact()">💾 Guardar</button>
+            </div>
+            <div class="info-card" id="hospitalCard" style="display: none;">
+                <div id="hospitalInfo"></div>
+            </div>
+        </div>
+
+        <!-- PRESUPUESTO -->
+        <div id="presupuesto" class="tab-content hidden">
+            <h3 style="color: var(--primary); margin-bottom: 10px;">💰 Presupuesto del Bebé</h3>
+            <div style="margin-bottom: 10px;">
+                <input type="text" id="itemNombre" class="input-field" placeholder="Ej: Cuna">
+                <div class="row">
+                    <input type="number" id="itemCosto" placeholder="Costo">
+                    <button class="action-btn" style="flex: 0.5; margin: 0;" onclick="addPresupuesto()">➕</button>
+                </div>
+            </div>
+            <div style="padding: 10px; background: var(--primary); color: white; border-radius: 8px; margin-bottom: 10px; text-align: center; font-weight: 600;">
+                Total: $<span id="totalPresupuesto">0</span>
+            </div>
+            <div id="presupuestoList"></div>
+        </div>
+
+        <!-- MÁS -->
+        <div id="mas" class="tab-content hidden">
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px;">
+                <button class="action-btn" onclick="showTab('libros')" style="margin: 0;">📚 Libros</button>
+                <button class="action-btn" onclick="showTab('galeria')" style="margin: 0;">📸 Galería</button>
+                <button class="action-btn" onclick="showTab('calendario')" style="margin: 0;">📅 Calendario</button>
+                <button class="action-btn" onclick="showTab('perfil')" style="margin: 0;">👤 Perfil</button>
+                <button class="action-btn" onclick="showTab('doctor')" style="margin: 0;">🏥 Notas</button>
+                <button class="action-btn" onclick="showTab('recordatorios')" style="margin: 0;">🔔 Recordatorios</button>
+            </div>
+        </div>
+
+        <!-- LIBROS (from before) -->
+        <div id="libros" class="tab-content hidden">
+            <h3 style="color: var(--primary); margin-bottom: 10px;">📚 Libros</h3>
+            <div id="booksList"></div>
+        </div>
+
+        <!-- GALERÍA (from before) -->
+        <div id="galeria" class="tab-content hidden">
+            <h3 style="color: var(--primary); margin-bottom: 10px;">📸 Mi Galería</h3>
+            <input type="range" id="gallerySlider" min="1" max="40" value="20" style="width: 100%; margin-bottom: 10px;">
+            <div style="text-align: center; color: var(--primary); font-weight: 600; margin-bottom: 10px;">Semana <span id="galleryWeekNum">20</span></div>
+            <div class="upload-box" id="uploadBox" style="border: 2px dashed var(--primary); padding: 20px; text-align: center; cursor: pointer; margin-bottom: 10px; border-radius: 12px;">
                 <div style="font-size: 32px; margin-bottom: 8px;">📷</div>
-                <div style="font-weight: 500;">Toca para subir foto/video</div>
-                <input type="file" id="photoInput" accept="image/*,video/*">
+                <div style="font-size: 13px;">Toca para subir foto</div>
+                <input type="file" id="photoInput" accept="image/*,video/*" style="display: none;">
             </div>
             <div id="galleryList"></div>
-            <button class="action-btn" id="btnPrintGal">🖨️ Imprimir Álbum</button>
-            <button class="action-btn" id="btnVolverGal">← Anterior</button>
         </div>
 
-        <!-- CALENDARIO -->
-        <div id="calendario" class="hidden">
-            <div style="display: flex; gap: 8px; margin-bottom: 16px;">
-                <button class="action-btn" style="flex: 1; padding: 10px;" id="btnWeekPhotos">📸 Fotos/Semana</button>
-                <button class="action-btn" style="flex: 1; padding: 10px;" id="btnEventos">📋 Eventos/Día</button>
-            </div>
-            
-            <!-- Semanas -->
-            <div id="calendarWeeks">
-                <h2 style="color: var(--primary); margin-bottom: 16px;">📅 Calendario (40 Semanas)</h2>
-                <div class="week-grid" id="calendarGrid"></div>
-            </div>
-            
-            <!-- Eventos -->
-            <div id="calendarEvents" class="hidden">
-                <h2 style="color: var(--primary); margin-bottom: 16px;">📋 Eventos del Embarazo</h2>
-                <div style="margin-bottom: 16px;">
-                    <label style="font-size: 12px; color: var(--text-light); display: block; margin-bottom: 8px;">Mes</label>
-                    <select id="eventMonth" class="input-field" style="margin-bottom: 0;">
-                        <option value="11">Noviembre 2026</option>
-                        <option value="12">Diciembre 2026</option>
-                        <option value="1">Enero 2027</option>
-                        <option value="2">Febrero 2027</option>
-                        <option value="3">Marzo 2027</option>
-                    </select>
-                </div>
-                <div class="month-calendar" id="monthCalendar"></div>
-                <div style="margin-bottom: 16px; padding: 16px; background: #FFF5FA; border-radius: 12px;">
-                    <label style="font-size: 12px; color: var(--text-light); display: block; margin-bottom: 8px;">Evento</label>
-                    <input type="text" id="eventName" class="input-field" placeholder="Ej: Ecografía">
-                    <label style="font-size: 12px; color: var(--text-light); display: block; margin-bottom: 8px;">Día</label>
-                    <select id="eventDay" class="input-field" style="margin-bottom: 0;"></select>
-                    <label style="font-size: 12px; color: var(--text-light); display: block; margin: 12px 0 8px 0;">Hora</label>
-                    <input type="time" id="eventTime" class="input-field">
-                    <label style="font-size: 12px; color: var(--text-light); display: block; margin-bottom: 8px;">Lugar</label>
-                    <input type="text" id="eventPlace" class="input-field" placeholder="Ej: Hospital Central">
-                    <button class="action-btn" id="btnAddEvent" style="margin-top: 12px;">➕ Agregar Evento</button>
-                </div>
-                <div id="eventsList"></div>
-            </div>
-            
-            <button class="action-btn" id="btnVolverCal">← Anterior</button>
+        <!-- CALENDARIO (from before) -->
+        <div id="calendario" class="tab-content hidden">
+            <h3 style="color: var(--primary); margin-bottom: 10px;">📅 Eventos</h3>
+            <div id="eventsList"></div>
         </div>
 
         <!-- PERFIL -->
-        <div id="perfil" class="hidden">
-            <h2 style="color: var(--primary); margin-bottom: 16px;">👤 Tu Perfil</h2>
-            <div class="slider-container">
-                <label>Tu nombre</label>
-                <input type="text" id="momName" class="input-field" placeholder="Tu nombre">
-            </div>
-            <div class="slider-container">
-                <label>Nombre del bebé</label>
-                <input type="text" id="babyName" class="input-field" placeholder="Nombre del bebé">
-            </div>
-            <div class="slider-container">
-                <label>Semana actual</label>
-                <input type="range" id="profileSlider" min="1" max="40" value="20">
-                <div style="text-align: center; color: var(--primary); font-weight: 600; margin-top: 8px;">Semana <span id="profileWeekNum">20</span></div>
-            </div>
-            <button class="action-btn" id="btnSaveProf">💾 Guardar</button>
-            <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border);">
-                <div style="margin-bottom: 8px;"><span style="color: var(--text-light);">Nombre:</span> <strong id="displayMom">-</strong></div>
-                <div style="margin-bottom: 8px;"><span style="color: var(--text-light);">Bebé:</span> <strong id="displayBaby">-</strong></div>
-                <div><span style="color: var(--text-light);">Semana:</span> <strong id="displayWeekProf">20</strong></div>
-            </div>
-            <button class="action-btn" style="margin-top: 16px;" id="btnVolverProf">← Anterior</button>
+        <div id="perfil" class="tab-content hidden">
+            <h3 style="color: var(--primary); margin-bottom: 10px;">👤 Tu Perfil</h3>
+            <input type="text" id="momName" class="input-field" placeholder="Tu nombre">
+            <input type="text" id="babyName" class="input-field" placeholder="Nombre del bebé">
+            <button class="action-btn" onclick="saveProfile()">💾 Guardar</button>
         </div>
 
         <!-- DOCTOR -->
-        <div id="doctor" class="hidden">
-            <h2 style="color: var(--primary); margin-bottom: 16px;">🏥 Notas del Médico</h2>
-            <h3 style="color: var(--primary); font-size: 13px; margin-bottom: 10px;">📋 Plantillas</h3>
-            <div id="templatesList"></div>
-            <div style="margin-bottom: 16px; padding: 16px; background: #FFF5FA; border-radius: 12px;">
-                <label style="font-size: 12px; color: var(--text-light); display: block; margin-bottom: 8px;">Semana</label>
-                <select id="doctorWeek" class="input-field" style="margin-bottom: 0;">
-                    <script>for(let i=1; i<=40; i++) document.write('<option value="'+i+'">Semana '+i+'</option>');</script>
-                </select>
-                <label style="font-size: 12px; color: var(--text-light); display: block; margin: 12px 0 8px 0;">Nota</label>
-                <textarea id="doctorText" class="textarea-field" placeholder="Escribe tu nota..."></textarea>
-                <button class="action-btn" id="btnSaveDoc">💾 Guardar nota</button>
-            </div>
-            <div id="doctorList"></div>
-            <button class="action-btn" id="btnVolverDoc">← Anterior</button>
+        <div id="doctor" class="tab-content hidden">
+            <h3 style="color: var(--primary); margin-bottom: 10px;">🏥 Notas Médico</h3>
+            <textarea id="doctorNota" class="textarea-field" placeholder="Escribe tu nota..."></textarea>
+            <button class="action-btn" onclick="saveDoctorNote()">💾 Guardar</button>
+            <div id="doctorNotesList"></div>
         </div>
 
         <!-- RECORDATORIOS -->
-        <div id="recordatorios" class="hidden">
-            <h2 style="color: var(--primary); margin-bottom: 16px;">🔔 Mis Recordatorios</h2>
+        <div id="recordatorios" class="tab-content hidden">
+            <h3 style="color: var(--primary); margin-bottom: 10px;">🔔 Recordatorios</h3>
             <div id="remindersList"></div>
-            <div style="margin: 16px 0; padding: 16px; background: #FFF5FA; border-radius: 12px;">
-                <label style="font-size: 12px; color: var(--text-light); display: block; margin-bottom: 8px;">➕ Agregar nuevo recordatorio</label>
-                <input type="text" id="newReminderText" class="input-field" placeholder="Ej: Tomar vitaminas">
-                <button class="action-btn" id="btnAddReminder" style="margin-top: 8px;">➕ Agregar</button>
-            </div>
-            <button class="action-btn" id="btnVolverRec">← Anterior</button>
+            <input type="text" id="newReminder" class="input-field" placeholder="Nuevo recordatorio">
+            <button class="action-btn" onclick="addReminder()">➕ Agregar</button>
         </div>
 
-        <div class="footer">
-            ❤️ Hecho con amor para las mamás<br>
-            Versión 3.0
-        </div>
+        <div class="footer">❤️ Primer Latido 3.0</div>
     </div>
 
     <script>
-        const weekData = {1:{size:'2mm',emoji:'🫐',dev:'Comienza la fertilización',symptoms:'Cambios leves'},5:{size:'7mm',emoji:'🫐',dev:'El corazón comenzó a latir',symptoms:'Náuseas'},10:{size:'3cm',emoji:'🍓',dev:'Se forman los órganos',symptoms:'Cambios de apetito'},13:{size:'7cm',emoji:'🍑',dev:'El bebé se mueve',symptoms:'Mareos'},20:{size:'10cm',emoji:'🍌',dev:'El bebé escucha sonidos',symptoms:'Fatiga'},26:{size:'35cm',emoji:'🥬',dev:'Los pulmones se preparan',symptoms:'Dolor de espalda'},30:{size:'39cm',emoji:'🥦',dev:'El cerebro se desarrolla',symptoms:'Calambres'},36:{size:'47cm',emoji:'🍈',dev:'El bebé se posiciona',symptoms:'Contracciones falsas'},40:{size:'51cm',emoji:'🍉',dev:'El bebé está listo',symptoms:'Pueden comenzar contracciones'}};
-        
-        const books = {1:[{title:'Primeros Pasos',content:'Guía inicial del embarazo. Cambios normales, cuidados básicos.',rec:true}],5:[{title:'El Corazón Late',content:'Semanas 5-8: desarrollo temprano. Nutrición importante.',rec:true}],10:[{title:'Trimestre Mágico',content:'Semanas 9-12: desarrollo de órganos principales.',rec:false}],13:[{title:'El Movimiento Comienza',content:'Semanas 13-16: primeros movimientos del bebé.',rec:true}],20:[{title:'A Mitad del Camino',content:'Semanas 17-20: ecografía importante. Desarrollo visual.',rec:true}],26:[{title:'Preparándose',content:'Semanas 25-28: clase prenatal. Parto y lactancia.',rec:true}],30:[{title:'La Recta Final',content:'Semanas 29-32: preparación para parto. Posiciones.',rec:true}],36:[{title:'Casi Lista',content:'Semanas 36-40: esperando al bebé. Señales de trabajo.',rec:false}],40:[{title:'Bienvenido Bebé',content:'Información postparto. Cuidados del recién nacido.',rec:false}]};
-        
-        const templates = ['Presión arterial normal','Peso ganado','Próxima cita','Medicamentos','Recomendaciones del doctor','Resultados de exámenes','Ecografía realizada'];
-        
-        const defaultReminders = ['💧 Tomar agua (8 vasos)','🏃 Ejercicio moderado','💊 Vitaminas','🏥 Control médico','🥗 Nutrición','😴 Descanso','🧘 Meditación','🌿 Ácido fólico','🥛 Calcio'];
-        
-        let currentScreen = 'inicio';
-        let userProfile = JSON.parse(localStorage.getItem('userProfile')) || {momName:'',babyName:'',week:20};
-        let galleryData = JSON.parse(localStorage.getItem('galleryData')) || {};
+        // Data
+        let movimientos = JSON.parse(localStorage.getItem('movimientos')) || [];
+        let pesos = JSON.parse(localStorage.getItem('pesos')) || [];
+        let sintomas = JSON.parse(localStorage.getItem('sintomas')) || [];
+        let tareas = JSON.parse(localStorage.getItem('tareas')) || [{text: 'Preparar cuarto del bebé', done: false}, {text: 'Comprar ropa del bebé', done: false}, {text: 'Instalar asiento de auto', done: false}, {text: 'Preparar bolsa para hospital', done: false}, {text: 'Preparar nombre para bebé', done: false}];
+        let doctorContact = JSON.parse(localStorage.getItem('doctorContact')) || {};
+        let hospitalContact = JSON.parse(localStorage.getItem('hospitalContact')) || {};
+        let presupuesto = JSON.parse(localStorage.getItem('presupuesto')) || [];
+        let userProfile = JSON.parse(localStorage.getItem('userProfile')) || {};
         let doctorNotes = JSON.parse(localStorage.getItem('doctorNotes')) || [];
-        let calendarEvents = JSON.parse(localStorage.getItem('calendarEvents')) || {};
-        let reminders = JSON.parse(localStorage.getItem('reminders')) || defaultReminders.map(r => ({text:r,enabled:true}));
-        let currentEventMonth = 11;
+        let reminders = JSON.parse(localStorage.getItem('reminders')) || [];
+        let currentWeek = 20;
 
-        function getWeekData(w) {
-            const weeks = Object.keys(weekData).map(Number).sort((a,b)=>a-b);
-            let closest = weeks[0];
-            for (let wk of weeks) {if (wk > w) break; closest = wk;}
-            return weekData[closest];
+        function showTab(tab) {
+            document.querySelectorAll('.tab-content').forEach(e => e.classList.add('hidden'));
+            document.getElementById(tab).classList.remove('hidden');
         }
 
-        function updateWeek(w) {
-            w = parseInt(w);
-            const data = getWeekData(w);
-            const daysLeft = Math.max(0, (40 - w) * 7);
-            const weeksLeft = Math.max(0, 40 - w);
-            document.getElementById('mainWeek').textContent = w;
+        function updateUI() {
+            const daysLeft = Math.max(0, (40 - currentWeek) * 7);
+            const weeksLeft = Math.max(0, 40 - currentWeek);
+            document.getElementById('mainWeek').textContent = currentWeek;
             document.getElementById('daysLeft').textContent = daysLeft;
             document.getElementById('weeksLeft').textContent = weeksLeft;
-            document.getElementById('mainSize').textContent = 'Tu bebé mide aproximadamente '+data.size;
-            document.getElementById('mainDev').textContent = data.dev;
-            document.getElementById('mainSymptoms').textContent = data.symptoms;
-            document.getElementById('mainSlider').value = w;
-            render3dBaby(data.emoji);
+            document.getElementById('mainSlider').value = currentWeek;
         }
 
-        function render3dBaby(emoji) {
-            const container = document.getElementById('baby3d');
-            container.innerHTML = '<div style="display: flex; align-items: center; justify-content: center; height: 100%; font-size: 60px; animation: float 3s ease-in-out infinite;">'+emoji+'👶</div>';
+        function addMovimiento() {
+            const time = document.getElementById('timeMovimiento').value;
+            if (!time) {alert('Selecciona hora'); return;}
+            movimientos.push({time, date: new Date().toLocaleDateString('es-ES')});
+            localStorage.setItem('movimientos', JSON.stringify(movimientos));
+            document.getElementById('timeMovimiento').value = '';
+            renderMovimientos();
         }
 
-        const style = document.createElement('style');
-        style.textContent = '@keyframes float {0%, 100% {transform: translateY(0px);} 50% {transform: translateY(-10px);}}';
-        document.head.appendChild(style);
-
-        function showScreen(name) {
-            document.getElementById(currentScreen).classList.add('hidden');
-            document.getElementById(name).classList.remove('hidden');
-            currentScreen = name;
-            if (name === 'libros') renderBooks();
-            if (name === 'galeria') updateGallery(20);
-            if (name === 'doctor') {renderTemplates(); renderDoctor();}
-            if (name === 'recordatorios') renderReminders();
+        function renderMovimientos() {
+            let html = '';
+            movimientos.slice().reverse().forEach((m, i) => {
+                html += '<tr><td>'+m.time+'</td><td>'+m.date+'</td><td><button class="item-delete" onclick="deleteMovimiento('+i+')">🗑️</button></td></tr>';
+            });
+            document.getElementById('movimientosList').innerHTML = html;
         }
 
-        function renderBooks() {
-            const w = parseInt(document.getElementById('mainSlider').value);
-            const weeks = Object.keys(books).map(Number).sort((a,b)=>a-b);
-            let closest = weeks[0];
-            for (let wk of weeks) {if (wk > w) break; closest = wk;}
+        function deleteMovimiento(i) {
+            movimientos.splice(movimientos.length - 1 - i, 1);
+            localStorage.setItem('movimientos', JSON.stringify(movimientos));
+            renderMovimientos();
+        }
+
+        function addPeso() {
+            const peso = document.getElementById('pesoInput').value;
+            if (!peso) {alert('Escribe tu peso'); return;}
+            pesos.push({peso, date: new Date().toLocaleDateString('es-ES')});
+            localStorage.setItem('pesos', JSON.stringify(pesos));
+            document.getElementById('pesoInput').value = '';
+            renderPeso();
+        }
+
+        function renderPeso() {
+            let html = '';
+            pesos.slice().reverse().forEach((p, i) => {
+                html += '<tr><td>'+p.peso+' kg</td><td>'+p.date+'</td><td><button class="item-delete" onclick="deletePeso('+i+')">🗑️</button></td></tr>';
+            });
+            document.getElementById('pesoList').innerHTML = html;
             
-            let rec = '';
-            if (books[closest]) {
-                for (let b of books[closest]) {
-                    rec += '<div class="book-item" onclick="toggleBook(this)"><div style="display: flex; justify-content: space-between; align-items: center;"><div><div class="book-title">📖 '+b.title+'</div><span class="book-label">🎯 Recomendado</span></div><div style="font-size: 20px;">▼</div></div><div class="book-content">'+b.content+'</div></div>';
-                }
+            if (pesos.length > 0) {
+                const max = Math.max(...pesos.map(p => parseFloat(p.peso)));
+                const min = Math.min(...pesos.map(p => parseFloat(p.peso)));
+                const range = max - min || 1;
+                let chart = '';
+                pesos.forEach(p => {
+                    const height = ((parseFloat(p.peso) - min) / range * 60) + 20;
+                    chart += '<div class="chart-bar" style="width: 20px; height: '+height+'px;"></div>';
+                });
+                document.getElementById('pesoChart').innerHTML = chart;
             }
-            document.getElementById('recommendedBooks').innerHTML = rec;
-            
-            let all = '';
-            for (let wk in books) {
-                for (let b of books[wk]) {
-                    all += '<div class="book-item" onclick="toggleBook(this)"><div style="display: flex; justify-content: space-between; align-items: center;"><div><div class="book-title">📖 '+b.title+'</div><div class="book-desc">Semana '+wk+'</div></div><div style="font-size: 20px;">▼</div></div><div class="book-content">'+b.content+'</div></div>';
-                }
-            }
-            document.getElementById('allBooks').innerHTML = all;
         }
 
-        function toggleBook(el) {
-            el.querySelector('.book-content').classList.toggle('active');
-            const icon = el.querySelector('div:last-child');
-            icon.textContent = el.querySelector('.book-content').classList.contains('active') ? '▲' : '▼';
+        function deletePeso(i) {
+            pesos.splice(pesos.length - 1 - i, 1);
+            localStorage.setItem('pesos', JSON.stringify(pesos));
+            renderPeso();
         }
 
-        function updateGallery(w) {
-            w = parseInt(w);
-            document.getElementById('galleryWeekNum').textContent = w;
-            const photos = galleryData[w] || [];
+        function addSintoma() {
+            const text = document.getElementById('sintomaText').value.trim();
+            if (!text) {alert('Escribe cómo te sientes'); return;}
+            sintomas.push({text, date: new Date().toLocaleDateString('es-ES')});
+            localStorage.setItem('sintomas', JSON.stringify(sintomas));
+            document.getElementById('sintomaText').value = '';
+            renderSintomas();
+        }
+
+        function renderSintomas() {
             let html = '';
-            for (let i = 0; i < photos.length; i++) {
-                const p = photos[i];
-                html += '<div class="gallery-item">';
-                if (p.type.startsWith('image/')) html += '<img src="'+p.data+'" class="gallery-preview">';
-                else html += '<video src="'+p.data+'" class="gallery-preview" controls></video>';
-                html += '<div style="font-size: 11px; color: var(--text-light); margin-bottom: 4px;">Semana '+w+' - '+p.date+'</div>';
-                if (p.babyNote) html += '<div class="gallery-note"><strong>💬 Al bebé:</strong> '+p.babyNote+'</div>';
-                if (p.momFeeling) html += '<div class="gallery-note"><strong>💚 Cómo me siento:</strong> '+p.momFeeling+'</div>';
-                html += '<button onclick="deletePhoto('+w+','+i+')" style="width: 100%; margin-top: 8px; padding: 6px; background: #ff6666; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 12px;">🗑️ Eliminar</button></div>';
-            }
-            document.getElementById('galleryList').innerHTML = html;
+            sintomas.slice().reverse().forEach((s, i) => {
+                html += '<div class="info-card"><div style="font-size: 11px; color: var(--text-light);">'+s.date+'</div><div style="font-size: 13px; margin-top: 4px;">'+s.text+'</div><button class="item-delete" style="margin-top: 4px;" onclick="deleteSintoma('+i+')">🗑️ Eliminar</button></div>';
+            });
+            document.getElementById('sintomasList').innerHTML = html;
         }
 
-        document.getElementById('uploadBoxBtn').addEventListener('click', () => document.getElementById('photoInput').click());
-        document.getElementById('photoInput').addEventListener('change', (e) => {
-            const w = parseInt(document.getElementById('gallerySlider').value);
-            if (!galleryData[w]) galleryData[w] = [];
-            if (galleryData[w].length >= 2) {alert('Máximo 2 fotos por semana'); return;}
-            const f = e.target.files[0];
-            const r = new FileReader();
-            r.onload = (evt) => {
-                const babyNote = prompt('💬 ¿Qué quieres decirle al bebé?');
-                const momFeeling = prompt('💚 ¿Cómo te sientes?');
-                galleryData[w].push({data:evt.target.result,type:f.type,date:new Date().toLocaleDateString('es-ES'),babyNote,momFeeling});
-                localStorage.setItem('galleryData',JSON.stringify(galleryData));
-                updateGallery(w);
-            };
-            r.readAsDataURL(f);
-            e.target.value = '';
-        });
-
-        function deletePhoto(w, i) {
-            galleryData[w].splice(i, 1);
-            localStorage.setItem('galleryData',JSON.stringify(galleryData));
-            updateGallery(w);
+        function deleteSintoma(i) {
+            sintomas.splice(sintomas.length - 1 - i, 1);
+            localStorage.setItem('sintomas', JSON.stringify(sintomas));
+            renderSintomas();
         }
 
-        function renderTemplates() {
+        function addTarea() {
+            const text = document.getElementById('tareaText').value.trim();
+            if (!text) {alert('Escribe una tarea'); return;}
+            tareas.push({text, done: false});
+            localStorage.setItem('tareas', JSON.stringify(tareas));
+            document.getElementById('tareaText').value = '';
+            renderTareas();
+        }
+
+        function renderTareas() {
             let html = '';
-            for (let t of templates) {
-                html += '<div class="medical-template" onclick="document.getElementById(\'doctorText\').value += \'\\n'+t+'\'; alert(\'Template añadido\');">➕ '+t+'</div>';
-            }
-            document.getElementById('templatesList').innerHTML = html;
+            tareas.forEach((t, i) => {
+                html += '<div class="item-row"><input type="checkbox" '+( t.done ? 'checked' : '')+' onchange="toggleTarea('+i+')" style="margin-right: 10px;"><span class="item-text" style="'+(t.done ? 'text-decoration: line-through; opacity: 0.6;' : '')+'">'+t.text+'</span><button class="item-delete" onclick="deleteTarea('+i+')">🗑️</button></div>';
+            });
+            document.getElementById('tareasList').innerHTML = html;
         }
 
-        function renderDoctor() {
+        function toggleTarea(i) {
+            tareas[i].done = !tareas[i].done;
+            localStorage.setItem('tareas', JSON.stringify(tareas));
+            renderTareas();
+        }
+
+        function deleteTarea(i) {
+            tareas.splice(i, 1);
+            localStorage.setItem('tareas', JSON.stringify(tareas));
+            renderTareas();
+        }
+
+        function saveDoctorContact() {
+            const nombre = document.getElementById('doctorNombre').value.trim();
+            const tel = document.getElementById('doctorTel').value.trim();
+            if (!nombre || !tel) {alert('Completa los datos'); return;}
+            doctorContact = {nombre, tel};
+            localStorage.setItem('doctorContact', JSON.stringify(doctorContact));
+            document.getElementById('doctorNombre').value = '';
+            document.getElementById('doctorTel').value = '';
+            document.getElementById('doctorCard').style.display = 'block';
+            document.getElementById('doctorInfo').innerHTML = '<strong>🏥 '+nombre+'</strong><br>📞 '+tel;
+        }
+
+        function saveHospitalContact() {
+            const nombre = document.getElementById('hospitalNombre').value.trim();
+            const tel = document.getElementById('hospitalTel').value.trim();
+            const dir = document.getElementById('hospitalDir').value.trim();
+            if (!nombre || !tel) {alert('Completa los datos'); return;}
+            hospitalContact = {nombre, tel, dir};
+            localStorage.setItem('hospitalContact', JSON.stringify(hospitalContact));
+            document.getElementById('hospitalNombre').value = '';
+            document.getElementById('hospitalTel').value = '';
+            document.getElementById('hospitalDir').value = '';
+            document.getElementById('hospitalCard').style.display = 'block';
+            document.getElementById('hospitalInfo').innerHTML = '<strong>🏥 '+nombre+'</strong><br>📞 '+tel+'<br>📍 '+dir;
+        }
+
+        function addPresupuesto() {
+            const nombre = document.getElementById('itemNombre').value.trim();
+            const costo = document.getElementById('itemCosto').value;
+            if (!nombre || !costo) {alert('Completa los datos'); return;}
+            presupuesto.push({nombre, costo: parseFloat(costo)});
+            localStorage.setItem('presupuesto', JSON.stringify(presupuesto));
+            document.getElementById('itemNombre').value = '';
+            document.getElementById('itemCosto').value = '';
+            renderPresupuesto();
+        }
+
+        function renderPresupuesto() {
             let html = '';
-            for (let i = 0; i < doctorNotes.length; i++) {
-                const n = doctorNotes[i];
-                html += '<div class="event-item"><div style="font-size: 11px; color: var(--text-light);">📅 Semana '+n.week+' - '+n.date+'</div><div style="font-size: 12px; color: var(--text); margin-top: 4px; white-space: pre-wrap;">'+n.text+'</div><div class="event-delete" onclick="deleteNote('+i+')">🗑️ Eliminar</div></div>';
-            }
-            document.getElementById('doctorList').innerHTML = html;
+            let total = 0;
+            presupuesto.forEach((p, i) => {
+                html += '<div class="item-row"><span class="item-text">'+p.nombre+': $'+p.costo.toFixed(2)+'</span><button class="item-delete" onclick="deletePresupuesto('+i+')">🗑️</button></div>';
+                total += p.costo;
+            });
+            document.getElementById('presupuestoList').innerHTML = html;
+            document.getElementById('totalPresupuesto').textContent = total.toFixed(2);
         }
 
-        document.getElementById('btnSaveDoc').addEventListener('click', () => {
-            const w = parseInt(document.getElementById('doctorWeek').value);
-            const txt = document.getElementById('doctorText').value.trim();
-            if (!txt) {alert('Escribe una nota'); return;}
-            doctorNotes.push({week:w,date:new Date().toLocaleDateString('es-ES'),text:txt});
-            localStorage.setItem('doctorNotes',JSON.stringify(doctorNotes));
-            document.getElementById('doctorText').value = '';
-            renderDoctor();
-        });
+        function deletePresupuesto(i) {
+            presupuesto.splice(i, 1);
+            localStorage.setItem('presupuesto', JSON.stringify(presupuesto));
+            renderPresupuesto();
+        }
 
-        function deleteNote(i) {
-            doctorNotes.splice(i, 1);
-            localStorage.setItem('doctorNotes',JSON.stringify(doctorNotes));
-            renderDoctor();
+        function saveProfile() {
+            userProfile = {momName: document.getElementById('momName').value, babyName: document.getElementById('babyName').value};
+            localStorage.setItem('userProfile', JSON.stringify(userProfile));
+            alert('✅ Perfil guardado');
+        }
+
+        function saveDoctorNote() {
+            const text = document.getElementById('doctorNota').value.trim();
+            if (!text) {alert('Escribe una nota'); return;}
+            doctorNotes.push({text, date: new Date().toLocaleDateString('es-ES')});
+            localStorage.setItem('doctorNotes', JSON.stringify(doctorNotes));
+            document.getElementById('doctorNota').value = '';
+            renderDoctorNotes();
+        }
+
+        function renderDoctorNotes() {
+            let html = '';
+            doctorNotes.slice().reverse().forEach((n, i) => {
+                html += '<div class="info-card"><div style="font-size: 11px; color: var(--text-light);">'+n.date+'</div><div style="font-size: 13px; margin-top: 4px; white-space: pre-wrap;">'+n.text+'</div><button class="item-delete" style="margin-top: 4px;" onclick="deleteDoctorNote('+i+')">🗑️</button></div>';
+            });
+            document.getElementById('doctorNotesList').innerHTML = html;
+        }
+
+        function deleteDoctorNote(i) {
+            doctorNotes.splice(doctorNotes.length - 1 - i, 1);
+            localStorage.setItem('doctorNotes', JSON.stringify(doctorNotes));
+            renderDoctorNotes();
+        }
+
+        function addReminder() {
+            const text = document.getElementById('newReminder').value.trim();
+            if (!text) {alert('Escribe un recordatorio'); return;}
+            reminders.push({text, done: false});
+            localStorage.setItem('reminders', JSON.stringify(reminders));
+            document.getElementById('newReminder').value = '';
+            renderReminders();
         }
 
         function renderReminders() {
             let html = '';
-            for (let i = 0; i < reminders.length; i++) {
-                const r = reminders[i];
-                html += '<div class="reminder-item"><span class="reminder-label">'+r.text+'</span><button class="toggle '+(r.enabled?'on':'')+'" onclick="toggleReminder('+i+')"></button></div>';
-            }
+            reminders.forEach((r, i) => {
+                html += '<div class="item-row"><input type="checkbox" '+( r.done ? 'checked' : '')+' onchange="toggleReminder('+i+')" style="margin-right: 10px;"><span class="item-text" style="'+(r.done ? 'text-decoration: line-through; opacity: 0.6;' : '')+'">'+r.text+'</span><button class="item-delete" onclick="deleteReminder('+i+')">🗑️</button></div>';
+            });
             document.getElementById('remindersList').innerHTML = html;
         }
 
         function toggleReminder(i) {
-            reminders[i].enabled = !reminders[i].enabled;
-            localStorage.setItem('reminders',JSON.stringify(reminders));
+            reminders[i].done = !reminders[i].done;
+            localStorage.setItem('reminders', JSON.stringify(reminders));
             renderReminders();
         }
 
-        document.getElementById('btnAddReminder').addEventListener('click', () => {
-            const text = document.getElementById('newReminderText').value.trim();
-            if (!text) {alert('Escribe un recordatorio'); return;}
-            reminders.push({text,enabled:true});
-            localStorage.setItem('reminders',JSON.stringify(reminders));
-            document.getElementById('newReminderText').value = '';
+        function deleteReminder(i) {
+            reminders.splice(i, 1);
+            localStorage.setItem('reminders', JSON.stringify(reminders));
             renderReminders();
-        });
-
-        document.getElementById('mainSlider').addEventListener('input', (e) => updateWeek(e.target.value));
-        document.getElementById('profileSlider').addEventListener('input', (e) => document.getElementById('profileWeekNum').textContent = e.target.value);
-        document.getElementById('gallerySlider').addEventListener('input', (e) => updateGallery(e.target.value));
-        document.getElementById('eventMonth').addEventListener('change', (e) => {currentEventMonth = parseInt(e.target.value); renderMonthCalendar(currentEventMonth); renderEvents();});
-
-        document.getElementById('btnLibros').addEventListener('click', () => showScreen('libros'));
-        document.getElementById('btnGaleria').addEventListener('click', () => showScreen('galeria'));
-        document.getElementById('btnCalendario').addEventListener('click', () => showScreen('calendario'));
-        document.getElementById('btnPerfil').addEventListener('click', () => showScreen('perfil'));
-        document.getElementById('btnDoctor').addEventListener('click', () => showScreen('doctor'));
-        document.getElementById('btnRecordatorios').addEventListener('click', () => showScreen('recordatorios'));
-        document.getElementById('btnVolverLibros').addEventListener('click', () => showScreen('inicio'));
-        document.getElementById('btnVolverGal').addEventListener('click', () => showScreen('inicio'));
-        document.getElementById('btnVolverCal').addEventListener('click', () => showScreen('inicio'));
-        document.getElementById('btnVolverProf').addEventListener('click', () => showScreen('inicio'));
-        document.getElementById('btnVolverDoc').addEventListener('click', () => showScreen('inicio'));
-        document.getElementById('btnVolverRec').addEventListener('click', () => showScreen('inicio'));
-
-        function saveProfile() {
-            userProfile = {momName:document.getElementById('momName').value,babyName:document.getElementById('babyName').value,week:parseInt(document.getElementById('profileSlider').value)};
-            localStorage.setItem('userProfile',JSON.stringify(userProfile));
-            updateWeek(userProfile.week);
-            loadProfile();
-            alert('✅ Perfil guardado');
         }
 
-        function loadProfile() {
-            document.getElementById('momName').value = userProfile.momName;
-            document.getElementById('babyName').value = userProfile.babyName;
-            document.getElementById('profileSlider').value = userProfile.week;
-            document.getElementById('profileWeekNum').textContent = userProfile.week;
-            document.getElementById('displayMom').textContent = userProfile.momName || '-';
-            document.getElementById('displayBaby').textContent = userProfile.babyName || '-';
-            document.getElementById('displayWeekProf').textContent = userProfile.week;
-        }
-
-        document.getElementById('btnSaveProf').addEventListener('click', saveProfile);
-        document.getElementById('btnPrintGal').addEventListener('click', () => window.print());
-
-        function renderCalendar() {
-            let html = '';
-            for (let i=1; i<=40; i++) html += '<div class="week-box" onclick="updateWeek('+i+'); showScreen(\'inicio\')">'+i+'</div>';
-            document.getElementById('calendarGrid').innerHTML = html;
-        }
-
-        function renderMonthCalendar(month) {
-            const year = month <= 10 ? 2026 : 2027;
-            const days = new Date(year, month + 1, 0).getDate();
-            const firstDay = new Date(year, month, 1).getDay();
-            let html = '';
-            const dayNames = ['Dom','Lun','Mar','Mié','Jue','Vie','Sab'];
-            for (let dn of dayNames) html += '<div class="day-header">'+dn+'</div>';
-            for (let i = 0; i < firstDay; i++) html += '<div></div>';
-            for (let d = 1; d <= days; d++) html += '<div class="day-cell" onclick="document.getElementById(\'eventDay\').value='+d+'">'+d+'</div>';
-            document.getElementById('monthCalendar').innerHTML = html;
-            let dayOpt = '<option value="">Día</option>';
-            for (let d = 1; d <= days; d++) dayOpt += '<option value="'+d+'">'+d+'</option>';
-            document.getElementById('eventDay').innerHTML = dayOpt;
-        }
-
-        document.getElementById('btnWeekPhotos').addEventListener('click', () => {
-            document.getElementById('calendarWeeks').classList.remove('hidden');
-            document.getElementById('calendarEvents').classList.add('hidden');
-        });
-
-        document.getElementById('btnEventos').addEventListener('click', () => {
-            document.getElementById('calendarWeeks').classList.add('hidden');
-            document.getElementById('calendarEvents').classList.remove('hidden');
-            renderMonthCalendar(11);
-            renderEvents();
-        });
-
-        document.getElementById('btnAddEvent').addEventListener('click', () => {
-            const name = document.getElementById('eventName').value.trim();
-            const day = document.getElementById('eventDay').value;
-            const time = document.getElementById('eventTime').value;
-            const place = document.getElementById('eventPlace').value.trim();
-            if (!name || !day) {alert('Escribe el evento y selecciona el día'); return;}
-            const key = currentEventMonth+'-'+day;
-            if (!calendarEvents[key]) calendarEvents[key] = [];
-            calendarEvents[key].push({name, time, place});
-            localStorage.setItem('calendarEvents', JSON.stringify(calendarEvents));
-            document.getElementById('eventName').value = '';
-            document.getElementById('eventDay').value = '';
-            document.getElementById('eventTime').value = '';
-            document.getElementById('eventPlace').value = '';
-            renderEvents();
-        });
-
-        function renderEvents() {
-            let html = '';
-            const eventsToShow = [];
-            for (let key in calendarEvents) {
-                const [month, day] = key.split('-');
-                if (parseInt(month) === currentEventMonth) {
-                    for (let e of calendarEvents[key]) {
-                        eventsToShow.push({day, ...e, key});
-                    }
-                }
-            }
-            eventsToShow.sort((a,b) => parseInt(a.day) - parseInt(b.day));
-            for (let i = 0; i < eventsToShow.length; i++) {
-                const e = eventsToShow[i];
-                html += '<div class="event-item"><div style="font-weight: 600; color: var(--primary);">'+e.name+'</div>';
-                html += '<div style="font-size: 11px; color: var(--text-light); margin-top: 2px;">📅 Día '+e.day;
-                if (e.time) html += ' - '+e.time;
-                html += '</div>';
-                if (e.place) html += '<div style="font-size: 11px; color: var(--text-light);">📍 '+e.place+'</div>';
-                html += '<div class="event-delete" onclick="deleteEvent(\''+e.key+'\', '+i+')">🗑️ Eliminar</div></div>';
-            }
-            document.getElementById('eventsList').innerHTML = html;
-        }
-
-        function deleteEvent(key, idx) {
-            const [month, day] = key.split('-');
-            const events = calendarEvents[key];
-            if (events) {
-                events.splice(idx, 1);
-                if (events.length === 0) delete calendarEvents[key];
-                localStorage.setItem('calendarEvents', JSON.stringify(calendarEvents));
-                renderEvents();
-            }
-        }
-
-        updateWeek(20);
-        loadProfile();
-        renderCalendar();
+        // Initialize
+        document.getElementById('mainSlider').addEventListener('input', (e) => {currentWeek = parseInt(e.target.value); updateUI();});
+        document.getElementById('mainSlider').addEventListener('input', (e) => {const w = parseInt(e.target.value); const data = {20: {size: '10cm', dev: 'El bebé escucha sonidos'}}[w] || {size: '10cm', dev: 'Desarrollo'}; document.getElementById('mainSize').textContent = 'Tu bebé mide ' + data.size; document.getElementById('mainDev').textContent = data.dev;});
+        document.getElementById('gallerySlider').addEventListener('input', (e) => document.getElementById('galleryWeekNum').textContent = e.target.value);
+        document.getElementById('uploadBox').addEventListener('click', () => document.getElementById('photoInput').click());
+        
+        updateUI();
+        renderMovimientos();
+        renderPeso();
+        renderSintomas();
+        renderTareas();
+        renderPresupuesto();
+        renderDoctorNotes();
+        renderReminders();
+        
         if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});
     </script>
 </body>
