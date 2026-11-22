@@ -94,11 +94,12 @@
 
         .bottom-nav {
             display: grid;
-            grid-template-columns: repeat(5, 1fr);
+            grid-template-columns: repeat(6, 1fr);
             gap: 0;
             border-top: 1px solid var(--border);
             background: white;
             padding-bottom: env(safe-area-inset-bottom, 0);
+            font-size: 10px;
         }
 
         .nav-button {
@@ -424,6 +425,65 @@
             }
         }
 
+        .input-field {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: #FFF5FA;
+        }
+
+        .doctor-note {
+            background: #FFF5FA;
+            border-left: 4px solid var(--primary);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 12px;
+        }
+
+        .doctor-note-date {
+            font-size: 11px;
+            color: var(--text-lighter);
+            margin-bottom: 4px;
+        }
+
+        .doctor-note-text {
+            font-size: 13px;
+            color: var(--text);
+            line-height: 1.5;
+            margin-bottom: 8px;
+        }
+
+        .doctor-note-delete {
+            font-size: 12px;
+            color: #ff4444;
+            cursor: pointer;
+        }
+
+        .week-box {
+            background: white;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            padding: 8px;
+            text-align: center;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 12px;
+            transition: all 0.2s;
+        }
+
+        .week-box.active {
+            background: #FFF5FA;
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
         @supports (padding: max(0px)) {
             body {
                 padding-left: max(0px, env(safe-area-inset-left));
@@ -490,12 +550,30 @@
                             <div class="stat-value" id="weekNum">20</div>
                         </div>
                         <div class="stat">
-                            <div class="stat-label" id="emoji-label">Comparación</div>
+                            <div class="stat-label" id="emoji-label">Tamaño esta semana</div>
                             <div class="stat-value" id="babyEmoji">🍌</div>
                         </div>
                     </div>
                 </div>
-                <div id="weeksList"></div>
+            </div>
+
+            <!-- CALENDAR SCREEN -->
+            <div id="calendar" class="screen">
+                <div class="slider-container">
+                    <label id="calendar-title" style="font-weight: 600; font-size: 16px; display: block; margin-bottom: 12px;">📅 Tu Calendario de Embarazo</label>
+                    <div id="calendarGrid" style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin-top: 12px;"></div>
+                </div>
+                <div class="profile-section" style="margin-top: 16px;">
+                    <div class="section-title" id="calendar-info-title">ℹ️ Tu Semana Actual</div>
+                    <div class="info-row">
+                        <div class="info-label">Semana</div>
+                        <div class="info-value" id="calendarCurrentWeek">20</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">Días restantes</div>
+                        <div class="info-value" id="calendarDaysLeft">140</div>
+                    </div>
+                </div>
             </div>
 
             <!-- PDFs SCREEN -->
@@ -537,8 +615,36 @@
                 <div id="remindersList"></div>
             </div>
 
+            <!-- DOCTOR NOTES SCREEN -->
+            <div id="doctor" class="screen">
+                <div class="profile-section">
+                    <div class="section-title" id="doctor-title">🏥 Notas del Médico</div>
+                    <textarea id="doctorNoteInput" style="width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px; font-family: inherit; resize: vertical; height: 100px; margin-bottom: 12px;" placeholder="Escribe tu nota de la visita al médico..."></textarea>
+                    <button class="print-btn" onclick="saveDoctorNote()" id="save-doctor-btn">💾 Guardar nota</button>
+                    <div id="doctorNotesList" style="margin-top: 16px;"></div>
+                </div>
+            </div>
+
             <!-- PROFILE SCREEN -->
             <div id="profile" class="screen">
+                <div class="profile-section">
+                    <div class="section-title" id="my-info-title">👤 Mi Información</div>
+                    <div style="margin-bottom: 12px;">
+                        <label id="mom-name-label" style="display: block; font-size: 12px; color: var(--text-light); margin-bottom: 4px;">Tu nombre</label>
+                        <input type="text" id="momName" class="input-field" placeholder="Tu nombre" style="width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px;">
+                    </div>
+                    <div style="margin-bottom: 12px;">
+                        <label id="baby-name-label" style="display: block; font-size: 12px; color: var(--text-light); margin-bottom: 4px;">Nombre del bebé</label>
+                        <input type="text" id="babyName" class="input-field" placeholder="Nombre del bebé" style="width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px;">
+                    </div>
+                    <div style="margin-bottom: 12px;">
+                        <label id="current-week-label" style="display: block; font-size: 12px; color: var(--text-light); margin-bottom: 8px;">Semana actual</label>
+                        <input type="range" id="profileWeek" min="1" max="40" value="20" style="width: 100%; accent-color: var(--primary);">
+                        <div style="text-align: center; font-weight: 600; color: var(--primary); margin-top: 8px;">Semana <span id="profileWeekDisplay">20</span></div>
+                    </div>
+                    <button class="print-btn" onclick="saveProfile()" id="save-profile-btn">💾 Guardar perfil</button>
+                </div>
+
                 <div class="profile-section">
                     <div class="section-title" id="about-title">ℹ️ Acerca de</div>
                     <div class="info-row">
@@ -547,7 +653,7 @@
                     </div>
                     <div class="info-row">
                         <div class="info-label" id="version-label">Versión</div>
-                        <div class="info-value">1.0</div>
+                        <div class="info-value">2.0</div>
                     </div>
                     <div class="info-row">
                         <div class="info-label" id="lang-label">Idioma</div>
@@ -563,6 +669,8 @@
                         📸 Galería de fotos<br>
                         🔔 Recordatorios personalizados<br>
                         📚 20 PDFs descargables<br>
+                        🏥 Notas del médico<br>
+                        📅 Calendario visual<br>
                         🌍 Español e Inglés
                     </div>
                 </div>
@@ -574,24 +682,24 @@
                 <div class="nav-icon">❤️</div>
                 <div id="nav-home">Inicio</div>
             </button>
-            <button class="nav-button" onclick="showScreen('weeks')">
+            <button class="nav-button" onclick="showScreen('calendar')">
                 <div class="nav-icon">📅</div>
-                <div id="nav-weeks">Semanas</div>
-            </button>
-            <button class="nav-button" onclick="showScreen('pdfs')">
-                <div class="nav-icon">📚</div>
-                <div id="nav-pdfs">PDFs</div>
+                <div id="nav-calendar">Calendario</div>
             </button>
             <button class="nav-button" onclick="showScreen('gallery')">
                 <div class="nav-icon">📸</div>
                 <div id="nav-gallery">Galería</div>
+            </button>
+            <button class="nav-button" onclick="showScreen('doctor')">
+                <div class="nav-icon">🏥</div>
+                <div id="nav-doctor">Médico</div>
             </button>
             <button class="nav-button" onclick="showScreen('reminders')">
                 <div class="nav-icon">🔔</div>
                 <div id="nav-reminders">Recordatorios</div>
             </button>
             <button class="nav-button" onclick="showScreen('profile')">
-                <div class="nav-icon">⚙️</div>
+                <div class="nav-icon">👤</div>
                 <div id="nav-profile">Perfil</div>
             </button>
         </div>
@@ -612,19 +720,28 @@
                 'symptoms-title': '⚠️ Síntomas',
                 'select-week-label': 'Selecciona una semana (1-40)',
                 'week-num-label': 'Semana',
-                'emoji-label': 'Comparación',
+                'emoji-label': 'Tamaño esta semana',
                 'pdfs-title': '📚 PDFs Disponibles',
                 'pdfs-desc': '20 guías para tu embarazo',
                 'reminders-title': '🔔 Recordatorios',
+                'doctor-title': '🏥 Notas del Médico',
+                'calendar-title': '📅 Tu Calendario de Embarazo',
+                'calendar-info-title': 'ℹ️ Tu Semana Actual',
+                'my-info-title': '👤 Mi Información',
+                'mom-name-label': 'Tu nombre',
+                'baby-name-label': 'Nombre del bebé',
+                'current-week-label': 'Semana actual',
+                'save-profile-btn': '💾 Guardar perfil',
+                'save-doctor-btn': '💾 Guardar nota',
                 'about-title': 'ℹ️ Acerca de',
                 'app-name-label': 'Aplicación',
                 'version-label': 'Versión',
                 'lang-label': 'Idioma',
                 'features-title': '✨ Características',
                 'nav-home': 'Inicio',
-                'nav-weeks': 'Semanas',
-                'nav-pdfs': 'PDFs',
+                'nav-calendar': 'Calendario',
                 'nav-gallery': 'Galería',
+                'nav-doctor': 'Médico',
                 'nav-reminders': 'Recordatorios',
                 'nav-profile': 'Perfil',
                 'gallery-title': '📸 Mi Galería',
@@ -641,19 +758,28 @@
                 'symptoms-title': '⚠️ Symptoms',
                 'select-week-label': 'Select a week (1-40)',
                 'week-num-label': 'Week',
-                'emoji-label': 'Comparison',
+                'emoji-label': 'Size this week',
                 'pdfs-title': '📚 Available PDFs',
                 'pdfs-desc': '20 guides for your pregnancy',
                 'reminders-title': '🔔 Reminders',
+                'doctor-title': '🏥 Doctor Notes',
+                'calendar-title': '📅 Your Pregnancy Calendar',
+                'calendar-info-title': 'ℹ️ Your Current Week',
+                'my-info-title': '👤 My Information',
+                'mom-name-label': 'Your name',
+                'baby-name-label': 'Baby name',
+                'current-week-label': 'Current week',
+                'save-profile-btn': '💾 Save profile',
+                'save-doctor-btn': '💾 Save note',
                 'about-title': 'ℹ️ About',
                 'app-name-label': 'Application',
                 'version-label': 'Version',
                 'lang-label': 'Language',
                 'features-title': '✨ Features',
                 'nav-home': 'Home',
-                'nav-weeks': 'Weeks',
-                'nav-pdfs': 'PDFs',
+                'nav-calendar': 'Calendar',
                 'nav-gallery': 'Gallery',
+                'nav-doctor': 'Doctor',
                 'nav-reminders': 'Reminders',
                 'nav-profile': 'Profile',
                 'gallery-title': '📸 My Gallery',
@@ -767,12 +893,104 @@
             `).join('');
         }
 
+        function renderCalendar() {
+            const grid = document.getElementById('calendarGrid');
+            const weeks = Array.from({length: 40}, (_, i) => i + 1);
+            grid.innerHTML = weeks.map(week => `
+                <div class="week-box ${week === currentWeek ? 'active' : ''}" onclick="selectWeekFromCalendar(${week})">${week}</div>
+            `).join('');
+
+            document.getElementById('calendarCurrentWeek').textContent = currentWeek;
+            const daysLeft = Math.max(0, (40 - currentWeek) * 7);
+            document.getElementById('calendarDaysLeft').textContent = daysLeft;
+        }
+
+        function selectWeekFromCalendar(week) {
+            currentWeek = week;
+            updateWeekInfo(week);
+            renderCalendar();
+        }
+
+        // Doctor Notes
+        let doctorNotes = JSON.parse(localStorage.getItem('doctorNotes')) || [];
+
+        function saveDoctorNote() {
+            const text = document.getElementById('doctorNoteInput').value.trim();
+            if (!text) {
+                alert('Por favor escribe una nota');
+                return;
+            }
+
+            doctorNotes.push({
+                week: currentWeek,
+                date: new Date().toLocaleDateString('es-ES'),
+                text: text
+            });
+            localStorage.setItem('doctorNotes', JSON.stringify(doctorNotes));
+            document.getElementById('doctorNoteInput').value = '';
+            renderDoctorNotes();
+        }
+
+        function renderDoctorNotes() {
+            const list = document.getElementById('doctorNotesList');
+            list.innerHTML = doctorNotes.map((note, idx) => `
+                <div class="doctor-note">
+                    <div class="doctor-note-date">📅 Semana ${note.week} - ${note.date}</div>
+                    <div class="doctor-note-text">${note.text.replace(/\n/g, '<br>')}</div>
+                    <div class="doctor-note-delete" onclick="deleteDoctorNote(${idx})">🗑️ Eliminar</div>
+                </div>
+            `).join('');
+        }
+
+        function deleteDoctorNote(idx) {
+            doctorNotes.splice(idx, 1);
+            localStorage.setItem('doctorNotes', JSON.stringify(doctorNotes));
+            renderDoctorNotes();
+        }
+
+        // User Profile
+        let userProfile = JSON.parse(localStorage.getItem('userProfile')) || {
+            momName: '',
+            babyName: '',
+            week: 20
+        };
+
+        function saveProfile() {
+            userProfile = {
+                momName: document.getElementById('momName').value,
+                babyName: document.getElementById('babyName').value,
+                week: parseInt(document.getElementById('profileWeek').value)
+            };
+            localStorage.setItem('userProfile', JSON.stringify(userProfile));
+            currentWeek = userProfile.week;
+            updateWeekInfo(currentWeek);
+            renderCalendar();
+            alert('✅ Perfil guardado');
+        }
+
+        function loadProfile() {
+            document.getElementById('momName').value = userProfile.momName || '';
+            document.getElementById('babyName').value = userProfile.babyName || '';
+            document.getElementById('profileWeek').value = userProfile.week || 20;
+            document.getElementById('profileWeekDisplay').textContent = userProfile.week || 20;
+        }
+
         function showScreen(screenId) {
             document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
             document.getElementById(screenId).classList.add('active');
 
             document.querySelectorAll('.nav-button').forEach(b => b.classList.remove('active'));
             event.target.closest('.nav-button').classList.add('active');
+
+            if (screenId === 'profile') {
+                loadProfile();
+            } else if (screenId === 'calendar') {
+                renderCalendar();
+            } else if (screenId === 'doctor') {
+                renderDoctorNotes();
+            } else if (screenId === 'gallery') {
+                renderGalleryPhotos();
+            }
         }
 
         function toggleLanguage() {
@@ -848,6 +1066,9 @@
 
         // Initialize
         updateUI();
+        renderCalendar();
+        renderDoctorNotes();
+
         document.getElementById('weekSlider').addEventListener('input', (e) => {
             currentWeek = parseInt(e.target.value);
             updateWeekInfo(currentWeek);
@@ -862,6 +1083,10 @@
             const week = parseInt(document.getElementById('galleryWeek').value);
             Array.from(e.target.files).forEach(file => saveGalleryPhoto(week, file));
             e.target.value = '';
+        });
+
+        document.getElementById('profileWeek').addEventListener('input', (e) => {
+            document.getElementById('profileWeekDisplay').textContent = e.target.value;
         });
 
         // Service Worker
