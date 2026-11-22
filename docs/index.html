@@ -69,6 +69,11 @@
 </head>
 <body>
     <div class="container">
+        <div id="installPrompt" style="display: none; background: linear-gradient(135deg, #E8A5C4 0%, #D48BB0 100%); color: white; padding: 12px; border-radius: 12px; margin-bottom: 16px; text-align: center;">
+            <div style="font-size: 12px; margin-bottom: 8px;">📱 Descargar como app en tu teléfono</div>
+            <button id="installBtn" class="action-btn" style="background: white; color: #E8A5C4; margin: 0; font-weight: 600;">⬇️ Instalar Ahora</button>
+        </div>
+
         <div class="header">
             <h1>❤️ Primer Latido</h1>
         </div>
@@ -721,6 +726,31 @@
                 Notification.requestPermission();
             }, 500);
         }
+
+        // Botón de instalación
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            document.getElementById('installPrompt').style.display = 'block';
+        });
+
+        document.getElementById('installBtn').addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') {
+                    showNotification('✅ App instalada. Busca en tu pantalla de inicio');
+                }
+                deferredPrompt = null;
+                document.getElementById('installPrompt').style.display = 'none';
+            }
+        });
+
+        window.addEventListener('appinstalled', () => {
+            deferredPrompt = null;
+            document.getElementById('installPrompt').style.display = 'none';
+        });
 
         // Initialize
         setTimeout(() => {
