@@ -260,6 +260,126 @@
             line-height: 1.4;
         }
 
+        .gallery-container {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .upload-box {
+            border: 2px dashed var(--primary);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .upload-box:hover {
+            background: #FFF5FA;
+        }
+
+        .upload-box input {
+            display: none;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 12px;
+            overflow: hidden;
+            aspect-ratio: 1;
+            background: white;
+            border: 1px solid var(--border);
+        }
+
+        .gallery-item-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .gallery-item-delete {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: rgba(255,0,0,0.8);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .gallery-item-delete:hover {
+            background: rgba(255,0,0,1);
+        }
+
+        .week-selector-gallery {
+            background: #FFF5FA;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+        }
+
+        .week-selector-gallery label {
+            display: block;
+            font-size: 12px;
+            color: var(--text-light);
+            margin-bottom: 8px;
+        }
+
+        .week-selector-gallery input {
+            width: 100%;
+            accent-color: var(--primary);
+        }
+
+        .print-album {
+            background: white;
+            border-radius: 12px;
+            padding: 16px;
+            margin-top: 16px;
+            text-align: center;
+        }
+
+        .print-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            width: 100%;
+            margin-top: 8px;
+        }
+
+        .print-btn:active {
+            opacity: 0.8;
+        }
+
+        @media print {
+            .bottom-nav, .upload-box, .print-album, .gallery-item-delete {
+                display: none !important;
+            }
+            .gallery-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .gallery-item {
+                page-break-inside: avoid;
+            }
+        }
+
         .profile-section {
             background: white;
             border-radius: 12px;
@@ -385,6 +505,32 @@
                 <div class="pdf-grid" id="pdfGrid"></div>
             </div>
 
+            <!-- GALLERY SCREEN -->
+            <div id="gallery" class="screen">
+                <div class="gallery-container">
+                    <h2 id="gallery-title" style="margin-bottom: 16px;">📸 Mi Galería</h2>
+                    <div class="week-selector-gallery">
+                        <label id="gallery-week-label">Semana actual</label>
+                        <input type="range" id="galleryWeek" min="1" max="40" value="20">
+                        <div style="margin-top: 8px; font-size: 14px; font-weight: 600; color: var(--primary);">
+                            Semana <span id="galleryWeekDisplay">20</span>
+                        </div>
+                    </div>
+                    <div class="upload-box" onclick="document.getElementById('photoInput').click()">
+                        <div style="font-size: 32px; margin-bottom: 8px;">📷</div>
+                        <div style="font-size: 14px; font-weight: 500;">Toca para subir foto/video</div>
+                        <div id="photo-hint" style="font-size: 12px; color: var(--text-light); margin-top: 4px;">Máx 1-2 por semana</div>
+                        <input type="file" id="photoInput" accept="image/*,video/*" multiple>
+                    </div>
+                    <div class="gallery-grid" id="galleryGrid"></div>
+                </div>
+                <div class="print-album">
+                    <div style="font-size: 14px; color: var(--text-light); margin-bottom: 12px;">💝 Descargar & Imprimir</div>
+                    <button class="print-btn" onclick="downloadAsImage()">📥 Descargar Fotos</button>
+                    <button class="print-btn" onclick="window.print()">🖨️ Imprimir Álbum</button>
+                </div>
+            </div>
+
             <!-- REMINDERS SCREEN -->
             <div id="reminders" class="screen">
                 <h2 id="reminders-title">🔔 Recordatorios</h2>
@@ -436,6 +582,10 @@
                 <div class="nav-icon">📚</div>
                 <div id="nav-pdfs">PDFs</div>
             </button>
+            <button class="nav-button" onclick="showScreen('gallery')">
+                <div class="nav-icon">📸</div>
+                <div id="nav-gallery">Galería</div>
+            </button>
             <button class="nav-button" onclick="showScreen('reminders')">
                 <div class="nav-icon">🔔</div>
                 <div id="nav-reminders">Recordatorios</div>
@@ -474,8 +624,12 @@
                 'nav-home': 'Inicio',
                 'nav-weeks': 'Semanas',
                 'nav-pdfs': 'PDFs',
+                'nav-gallery': 'Galería',
                 'nav-reminders': 'Recordatorios',
-                'nav-profile': 'Perfil'
+                'nav-profile': 'Perfil',
+                'gallery-title': '📸 Mi Galería',
+                'gallery-week-label': 'Semana actual',
+                'photo-hint': 'Máx 1-2 por semana'
             },
             en: {
                 'week-label': 'Current Week',
@@ -499,8 +653,12 @@
                 'nav-home': 'Home',
                 'nav-weeks': 'Weeks',
                 'nav-pdfs': 'PDFs',
+                'nav-gallery': 'Gallery',
                 'nav-reminders': 'Reminders',
-                'nav-profile': 'Profile'
+                'nav-profile': 'Profile',
+                'gallery-title': '📸 My Gallery',
+                'gallery-week-label': 'Current Week',
+                'photo-hint': 'Max 1-2 per week'
             }
         };
 
@@ -627,11 +785,83 @@
             btn.classList.toggle('on');
         }
 
+        // Gallery Management
+        let galleryData = JSON.parse(localStorage.getItem('galleryData')) || {};
+
+        function saveGalleryPhoto(week, file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                if (!galleryData[week]) galleryData[week] = [];
+                if (galleryData[week].length < 2) {
+                    galleryData[week].push({
+                        data: e.target.result,
+                        type: file.type,
+                        name: file.name,
+                        date: new Date().toLocaleDateString()
+                    });
+                    localStorage.setItem('galleryData', JSON.stringify(galleryData));
+                    renderGalleryPhotos();
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function renderGalleryPhotos() {
+            const week = parseInt(document.getElementById('galleryWeek').value);
+            const grid = document.getElementById('galleryGrid');
+            const photos = galleryData[week] || [];
+
+            grid.innerHTML = photos.map((photo, idx) => `
+                <div class="gallery-item">
+                    ${photo.type.startsWith('image/') ?
+                        `<img src="${photo.data}" class="gallery-item-image">` :
+                        `<video src="${photo.data}" class="gallery-item-image" style="object-fit: cover;"></video>`
+                    }
+                    <button class="gallery-item-delete" onclick="deleteGalleryPhoto(${week}, ${idx})">×</button>
+                </div>
+            `).join('');
+        }
+
+        function deleteGalleryPhoto(week, idx) {
+            if (galleryData[week]) {
+                galleryData[week].splice(idx, 1);
+                localStorage.setItem('galleryData', JSON.stringify(galleryData));
+                renderGalleryPhotos();
+            }
+        }
+
+        function downloadAsImage() {
+            const week = parseInt(document.getElementById('galleryWeek').value);
+            const photos = galleryData[week] || [];
+            if (photos.length === 0) {
+                alert('No hay fotos para descargar');
+                return;
+            }
+
+            photos.forEach((photo, idx) => {
+                const link = document.createElement('a');
+                link.href = photo.data;
+                link.download = `Semana${week}_Foto${idx + 1}.jpg`;
+                link.click();
+            });
+        }
+
         // Initialize
         updateUI();
         document.getElementById('weekSlider').addEventListener('input', (e) => {
             currentWeek = parseInt(e.target.value);
             updateWeekInfo(currentWeek);
+        });
+
+        document.getElementById('galleryWeek').addEventListener('input', (e) => {
+            document.getElementById('galleryWeekDisplay').textContent = e.target.value;
+            renderGalleryPhotos();
+        });
+
+        document.getElementById('photoInput').addEventListener('change', (e) => {
+            const week = parseInt(document.getElementById('galleryWeek').value);
+            Array.from(e.target.files).forEach(file => saveGalleryPhoto(week, file));
+            e.target.value = '';
         });
 
         // Service Worker
