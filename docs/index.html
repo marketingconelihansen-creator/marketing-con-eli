@@ -1147,7 +1147,11 @@
         renderGalleryPhotos();
         renderBiblioteca();
 
-        if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/marketing-con-eli/docs/sw.js', {
+                scope: '/marketing-con-eli/docs/'
+            }).catch(err => console.log('SW registration error:', err));
+        }
     </script>
 </body>
 </html>

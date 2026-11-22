@@ -1,5 +1,5 @@
 const CACHE_NAME = 'primer-latido-v1';
-const urls = ['/', '/index.html', '/manifest.json'];
+const urls = ['/marketing-con-eli/docs/', '/marketing-con-eli/docs/index.html', '/marketing-con-eli/docs/manifest.json'];
 
 self.addEventListener('install', event => {
   event.waitUntil(

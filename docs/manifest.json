@@ -1,14 +1,15 @@
 {
   "name": "Primer Latido - Tu Embarazo Semana a Semana",
   "short_name": "Primer Latido",
-  "description": "App completa para acompañarte en tu embarazo. Movimientos, peso, síntomas, recordatorios, fotos, biblioteca con 40 libros, calendario y más.",
-  "start_url": "index.html",
+  "description": "App para mamás. Semana a semana, fotos, recordatorios, PDFs.",
+  "start_url": "/marketing-con-eli/docs/index.html",
   "scope": "/marketing-con-eli/docs/",
   "display": "standalone",
-  "orientation": "portrait-primary",
+  "orientation": "portrait",
   "background_color": "#ffffff",
   "theme_color": "#E8A5C4",
-  "categories": ["health", "medical"],
+  "categories": ["health"],
+  "prefer_related_applications": false,
   "screenshots": [
     {
       "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 540 720'><rect fill='%23E8A5C4' width='540' height='720'/><text x='270' y='360' font-size='200' text-anchor='middle' dominant-baseline='central'>❤️</text></svg>",
