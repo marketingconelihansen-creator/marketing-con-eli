@@ -65,7 +65,6 @@
         .pdf-content canvas {max-width: 100%; display: block; margin: 0 auto; margin-bottom: 16px;}
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-    <script>pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';</script>
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="apple-touch-icon.png">
     <meta name="theme-color" content="#E8A5C4">
@@ -407,12 +406,59 @@
             document.getElementById(tab).classList.remove('hidden');
         }
 
+        const BABY_WEEKS = [
+            ['🌱','una semilla','es microscópico','Tu cuerpo se prepara: todavía no hay un bebé, pero el ciclo ya está en marcha.'],
+            ['🌱','una semilla','es microscópico','Se acerca la ovulación y el óvulo espera ser fecundado.'],
+            ['🌱','una semilla','es microscópico','Ocurre la fecundación: se forma la primera célula de tu bebé.'],
+            ['🌱','una semilla de amapola','mide menos de 1 mm','El embrión se anida en el útero. Empieza a formarse la placenta.'],
+            ['🌱','una semilla de sésamo','mide unos 2 mm','Se forman el tubo neural (futuro cerebro y médula) y el corazón.'],
+            ['🫘','una lenteja','mide unos 5 mm','El corazón ya late. Aparecen los esbozos de brazos y piernas.'],
+            ['🫐','un arándano','mide unos 1,3 cm','Se forman la cara, los ojos y la nariz. El cerebro crece rápido.'],
+            ['🍇','una frambuesa','mide unos 1,6 cm','Se forman los deditos de manos y pies. Empieza a moverse.'],
+            ['🫒','una aceituna','mide unos 2,3 cm','Termina el período embrionario: ya están los órganos principales.'],
+            ['🍓','una frutilla','mide unos 3,1 cm','Los huesitos empiezan a endurecerse y se forman las uñas.'],
+            ['🍇','un higo','mide unos 4,1 cm','Ya tiene forma de bebé. Los deditos se separan por completo.'],
+            ['🍋','una lima','mide unos 5,4 cm','Tiene reflejos: abre y cierra los puñitos. Los riñones funcionan.'],
+            ['🫛','una vaina de arvejas','mide unos 7,4 cm','Se forman las huellas dactilares. Empieza el segundo trimestre.'],
+            ['🍋','un limón','mide unos 8,7 cm','Puede hacer gestos con la cara y chuparse el dedo.'],
+            ['🍎','una manzana','mide unos 10 cm','Su esqueleto se endurece y empieza a hacer movimientos más coordinados.'],
+            ['🥑','una palta','mide unos 11,6 cm','Escucha sonidos: tu voz y los latidos de tu corazón.'],
+            ['🍐','una pera','mide unos 13 cm','Empieza a acumular grasita y su corazón late más fuerte.'],
+            ['🍠','una batata','mide unos 14 cm','Se forma el sentido del oído y puede bostezar.'],
+            ['🥭','un mango','mide unos 15 cm','Se cubre de vérnix, una capa que protege su piel. Quizás sientas sus pataditas.'],
+            ['🍌','una banana','mide unos 16 cm','Escucha sonidos y ya puede responder a tu voz. ¡Mitad del embarazo!'],
+            ['🥕','una zanahoria','mide unos 26 cm','Tiene ciclos de sueño y vigilia. Sus movimientos se sienten más claros.'],
+            ['🍈','una papaya','mide unos 28 cm','Le salen cejas y pestañas. Aprende a tragar y a saborear.'],
+            ['🍊','un pomelo','mide unos 29 cm','Sus pulmones se preparan para respirar. Reconoce tu voz.'],
+            ['🌽','un choclo','mide unos 30 cm','Los pulmones siguen desarrollándose y puede tener hipo.'],
+            ['🥦','una coliflor','mide unos 35 cm','Sus sentidos se afinan y responde a la luz y a los ruidos.'],
+            ['🥬','una lechuga','mide unos 36 cm','Abre los ojos y su cerebro crece cada día.'],
+            ['🥦','un brócoli','mide unos 37 cm','Reconoce sonidos familiares y duerme con sueños.'],
+            ['🍆','una berenjena','mide unos 38 cm','Parpadea, y su cerebro es cada vez más activo.'],
+            ['🎃','un zapallo','mide unos 39 cm','Gira la cabeza hacia la luz. Empieza el tercer trimestre.'],
+            ['🥬','un repollo','mide unos 40 cm','Aumenta rápido de peso y su cerebro se desarrolla mucho.'],
+            ['🥥','un coco','mide unos 41 cm','Sus pulmones maduran y practica la respiración.'],
+            ['🍠','una jícama','mide unos 42 cm','Sus huesos se endurecen y se acomoda hacia abajo.'],
+            ['🍍','un ananá','mide unos 44 cm','Su sistema inmune se fortalece y sigue ganando peso.'],
+            ['🍈','un melón','mide unos 45 cm','Sus pulmones están casi listos. Mucho de su peso es grasita.'],
+            ['🍈','un melón dulce','mide unos 46 cm','Ya casi no tiene espacio para moverse, pero sigue activo.'],
+            ['🥬','una lechuga romana','mide unos 47 cm','Se considera casi a término. Sus órganos están listos.'],
+            ['🥬','una acelga','mide unos 49 cm','Practica reflejos como succionar y agarrar.'],
+            ['🥬','un puerro','mide unos 50 cm','Está completamente formado, a término. ¡Puede nacer cualquier día!'],
+            ['🍉','una mini sandía','mide unos 51 cm','Termina de acomodarse para el parto.'],
+            ['🍉','una sandía','mide unos 51 cm','¡Llegó el momento! Tu bebé está listo para conocerte.']
+        ];
+
         function updateUI() {
             const daysLeft = Math.max(0, (40 - currentWeek) * 7);
             const weeksLeft = Math.max(0, 40 - currentWeek);
             document.getElementById('mainWeek').textContent = currentWeek;
             document.getElementById('daysLeft').textContent = daysLeft;
             document.getElementById('weeksLeft').textContent = weeksLeft;
+            const bw = BABY_WEEKS[Math.min(Math.max(currentWeek,1),40)-1];
+            document.getElementById('baby3d').textContent = '👶' + bw[0];
+            document.getElementById('mainSize').textContent = 'Esta semana tu bebé tiene el tamaño de ' + bw[1] + ' y ' + bw[2] + '.';
+            document.getElementById('mainDev').textContent = bw[3];
 
             // Mostrar foto de la semana actual en el inicio
             const weekPhotos = (galleryData[currentWeek] || []);
@@ -722,7 +768,6 @@
         // Initialize
         setTimeout(() => {
             document.getElementById('mainSlider').addEventListener('input', (e) => {currentWeek = parseInt(e.target.value); updateUI(); renderWeekView();});
-            document.getElementById('mainSlider').addEventListener('input', (e) => {const w = parseInt(e.target.value); const data = {20: {size: '10cm', dev: 'El bebé escucha sonidos'}}[w] || {size: '10cm', dev: 'Desarrollo'}; document.getElementById('mainSize').textContent = 'Tu bebé mide ' + data.size; document.getElementById('mainDev').textContent = data.dev;});
             document.getElementById('gallerySlider').addEventListener('input', (e) => document.getElementById('galleryWeekNum').textContent = e.target.value);
 
             // Galería
