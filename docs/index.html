@@ -104,6 +104,11 @@
                 <div class="info-title">💚 Desarrollo</div>
                 <div class="info-text" id="mainDev">Los órganos continúan desarrollándose</div>
             </div>
+            <div id="mainPhotoContainer" style="display: none; margin-bottom: 10px;">
+                <div class="info-card" style="border: none; background: white; padding: 0;">
+                    <div id="mainPhoto" style="width: 100%; border-radius: 8px; overflow: hidden;"></div>
+                </div>
+            </div>
             <input type="range" id="mainSlider" min="1" max="40" value="20" style="width: 100%; margin-bottom: 16px;">
             <button class="action-btn" onclick="showTab('mas')">Ver más opciones ➜</button>
         </div>
@@ -318,6 +323,19 @@
             document.getElementById('mainWeek').textContent = currentWeek;
             document.getElementById('daysLeft').textContent = daysLeft;
             document.getElementById('weeksLeft').textContent = weeksLeft;
+
+            // Mostrar foto de la semana actual en el inicio
+            const weekPhotos = galleryData[currentWeek] || [];
+            if (weekPhotos.length > 0) {
+                const photo = weekPhotos[0];
+                const photoHtml = photo.type.startsWith('image/')
+                    ? '<img src="'+photo.data+'" style="width: 100%; height: auto; display: block;">'
+                    : '<video src="'+photo.data+'" style="width: 100%; height: auto; display: block;" controls></video>';
+                document.getElementById('mainPhoto').innerHTML = photoHtml;
+                document.getElementById('mainPhotoContainer').style.display = 'block';
+            } else {
+                document.getElementById('mainPhotoContainer').style.display = 'none';
+            }
             document.getElementById('mainSlider').value = currentWeek;
         }
 
