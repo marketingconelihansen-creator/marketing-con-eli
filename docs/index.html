@@ -662,27 +662,37 @@
         }
 
         // Initialize
-        document.getElementById('mainSlider').addEventListener('input', (e) => {currentWeek = parseInt(e.target.value); updateUI(); renderWeekView();});
-        document.getElementById('mainSlider').addEventListener('input', (e) => {const w = parseInt(e.target.value); const data = {20: {size: '10cm', dev: 'El bebé escucha sonidos'}}[w] || {size: '10cm', dev: 'Desarrollo'}; document.getElementById('mainSize').textContent = 'Tu bebé mide ' + data.size; document.getElementById('mainDev').textContent = data.dev;});
-        document.getElementById('gallerySlider').addEventListener('input', (e) => document.getElementById('galleryWeekNum').textContent = e.target.value);
-        // Galería mejorada
-        let pendingPhotoData = null;
+        setTimeout(() => {
+            document.getElementById('mainSlider').addEventListener('input', (e) => {currentWeek = parseInt(e.target.value); updateUI(); renderWeekView();});
+            document.getElementById('mainSlider').addEventListener('input', (e) => {const w = parseInt(e.target.value); const data = {20: {size: '10cm', dev: 'El bebé escucha sonidos'}}[w] || {size: '10cm', dev: 'Desarrollo'}; document.getElementById('mainSize').textContent = 'Tu bebé mide ' + data.size; document.getElementById('mainDev').textContent = data.dev;});
+            document.getElementById('gallerySlider').addEventListener('input', (e) => document.getElementById('galleryWeekNum').textContent = e.target.value);
 
-        document.getElementById('uploadBox').addEventListener('click', () => document.getElementById('photoInput').click());
-        document.getElementById('photoInput').addEventListener('change', (e) => {
-            const file = e.target.files[0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = (evt) => {
-                pendingPhotoData = {data: evt.target.result, type: file.type};
-                document.getElementById('photoFormContainer').style.display = 'block';
-                document.getElementById('babyNote').value = '';
-                document.getElementById('momFeeling').value = '';
-                window.scrollTo(0, 0);
-            };
-            reader.readAsDataURL(file);
-            e.target.value = '';
-        });
+            // Galería
+            let pendingPhotoData = null;
+            const uploadBox = document.getElementById('uploadBox');
+            const photoInput = document.getElementById('photoInput');
+            const photoFormContainer = document.getElementById('photoFormContainer');
+
+            if (uploadBox && photoInput) {
+                uploadBox.addEventListener('click', () => photoInput.click());
+                photoInput.addEventListener('change', (e) => {
+                    const file = e.target.files[0];
+                    if (!file) return;
+                    const reader = new FileReader();
+                    reader.onload = (evt) => {
+                        pendingPhotoData = {data: evt.target.result, type: file.type};
+                        if (photoFormContainer) {
+                            photoFormContainer.style.display = 'block';
+                            document.getElementById('babyNote').value = '';
+                            document.getElementById('momFeeling').value = '';
+                            window.scrollTo(0, 0);
+                        }
+                    };
+                    reader.readAsDataURL(file);
+                    e.target.value = '';
+                });
+            }
+        }, 100);
 
         function savePhotoWithNotes() {
             if (!pendingPhotoData) return;
