@@ -66,6 +66,12 @@
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
     <script>pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';</script>
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="apple-touch-icon.png">
+    <meta name="theme-color" content="#E8A5C4">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="Primer Latido">
 </head>
 <body>
     <div class="container">
@@ -1160,9 +1166,7 @@
         renderBiblioteca();
 
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/marketing-con-eli/docs/sw.js', {
-                scope: '/marketing-con-eli/docs/'
-            }).catch(err => console.log('SW registration error:', err));
+            navigator.serviceWorker.register('sw.js').catch(err => console.log('SW registration error:', err));
         }
     </script>
 </body>
