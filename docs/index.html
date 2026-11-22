@@ -684,23 +684,28 @@
             const photoFormContainer = document.getElementById('photoFormContainer');
 
             if (uploadBox && photoInput) {
-                uploadBox.addEventListener('click', () => photoInput.click());
-                photoInput.addEventListener('change', (e) => {
-                    const file = e.target.files[0];
+                uploadBox.style.cursor = 'pointer';
+                uploadBox.onclick = () => {
+                    photoInput.click();
+                };
+                photoInput.onchange = function(e) {
+                    const file = this.files[0];
                     if (!file) return;
+
                     const reader = new FileReader();
-                    reader.onload = (evt) => {
+                    reader.onerror = () => showNotification('❌ Error al leer foto');
+                    reader.onload = function(evt) {
                         pendingPhotoData = {data: evt.target.result, type: file.type};
                         if (photoFormContainer) {
                             photoFormContainer.style.display = 'block';
                             document.getElementById('babyNote').value = '';
                             document.getElementById('momFeeling').value = '';
-                            window.scrollTo(0, 0);
+                            setTimeout(() => window.scrollTo(0, 0), 100);
                         }
+                        showNotification('✅ Foto seleccionada');
                     };
                     reader.readAsDataURL(file);
-                    e.target.value = '';
-                });
+                };
             }
         }, 100);
 
