@@ -746,7 +746,6 @@
             document.getElementById('gallerySlider').addEventListener('input', (e) => document.getElementById('galleryWeekNum').textContent = e.target.value);
 
             // Galería
-            let pendingPhotoData = null;
             const uploadBox = document.getElementById('uploadBox');
             const photoInput = document.getElementById('photoInput');
             const photoFormContainer = document.getElementById('photoFormContainer');
@@ -841,6 +840,7 @@
 
         // Variables globales - Fotos guardadas por semana
         let galleryData = JSON.parse(localStorage.getItem('galleryPhotos') || '{}');
+        let pendingPhotoData = null;
 
         // Biblioteca - PDFs desde Google Drive
         const pdfsBibles = {
