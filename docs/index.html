@@ -75,13 +75,7 @@
 </head>
 <body>
     <div class="container">
-        <div id="installPrompt" style="background: linear-gradient(135deg, #E8A5C4 0%, #D48BB0 100%); color: white; padding: 12px; border-radius: 12px; margin-bottom: 16px; text-align: center;">
-            <div style="font-size: 12px; margin-bottom: 8px;">📱 Descargar como app en tu teléfono</div>
-            <button id="installBtn" class="action-btn" style="background: white; color: #E8A5C4; margin: 0; font-weight: 600;">⬇️ Instalar Ahora</button>
-            <div style="font-size: 10px; margin-top: 8px; color: rgba(255,255,255,0.9);">
-                🤖 Si no funciona: en tu navegador presiona ⋮ (menú) > Instalar app
-            </div>
-        </div>
+
 
         <div class="header">
             <h1>❤️ Primer Latido</h1>
@@ -723,42 +717,7 @@
             }, 500);
         }
 
-        // Botón de instalación
-        let deferredPrompt;
-        window.addEventListener('beforeinstallprompt', (e) => {
-            console.log('beforeinstallprompt event fired');
-            e.preventDefault();
-            deferredPrompt = e;
-            document.getElementById('installPrompt').style.display = 'block';
-        });
-
-        document.getElementById('installBtn').addEventListener('click', async () => {
-            console.log('Install button clicked, deferredPrompt:', !!deferredPrompt);
-            if (deferredPrompt) {
-                try {
-                    deferredPrompt.prompt();
-                    const { outcome } = await deferredPrompt.userChoice;
-                    console.log('Install outcome:', outcome);
-                    if (outcome === 'accepted') {
-                        showNotification('✅ App instalada. Busca en tu pantalla de inicio');
-                    }
-                    deferredPrompt = null;
-                    document.getElementById('installPrompt').style.display = 'none';
-                } catch (err) {
-                    console.error('Install error:', err);
-                    showNotification('❌ Error en instalación');
-                }
-            } else {
-                console.log('No deferredPrompt available');
-                showNotification('📱 Ve a: Menú (⋮) > Instalar app');
-            }
-        });
-
-        window.addEventListener('appinstalled', () => {
-            console.log('App installed');
-            deferredPrompt = null;
-            document.getElementById('installPrompt').style.display = 'none';
-        });
+        
 
         // Initialize
         setTimeout(() => {
