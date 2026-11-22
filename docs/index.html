@@ -4,333 +4,54 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Primer Latido</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --primary: #E8A5C4;
-            --primary-dark: #D48BB0;
-            --bg: #FAFAFA;
-            --text: #333;
-            --text-light: #666;
-            --border: #DDD;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-            min-height: 100vh;
-            padding: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .container {
-            background: white;
-            border-radius: 24px;
-            padding: 32px 24px;
-            max-width: 400px;
-            width: 100%;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-        }
-
-        .header {
-            text-align: center;
-            margin-bottom: 32px;
-        }
-
-        .header h1 {
-            font-size: 28px;
-            color: var(--primary);
-            margin-bottom: 8px;
-        }
-
-        .week-display {
-            text-align: center;
-            padding: 16px;
-            background: #FFF5FA;
-            border-radius: 12px;
-            margin-bottom: 24px;
-        }
-
-        .week-number {
-            font-size: 48px;
-            font-weight: bold;
-            color: var(--primary);
-        }
-
-        .week-label {
-            font-size: 12px;
-            color: var(--text-light);
-            text-transform: uppercase;
-        }
-
-        .info-cards {
-            margin-bottom: 24px;
-        }
-
-        .info-card {
-            background: #FFF5FA;
-            border-left: 4px solid var(--primary);
-            padding: 12px 16px;
-            margin-bottom: 12px;
-            border-radius: 8px;
-        }
-
-        .info-title {
-            font-weight: 600;
-            font-size: 14px;
-            color: var(--primary);
-            margin-bottom: 4px;
-        }
-
-        .info-text {
-            font-size: 13px;
-            color: var(--text-light);
-            line-height: 1.5;
-        }
-
-        .nav-buttons {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 20px;
-            justify-content: center;
-        }
-
-        .nav-btn {
-            padding: 10px 16px;
-            border: none;
-            background: var(--primary);
-            color: white;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .nav-btn:active {
-            background: var(--primary-dark);
-            transform: scale(0.95);
-        }
-
-        .action-buttons {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .action-btn {
-            padding: 14px;
-            border: none;
-            background: var(--primary);
-            color: white;
-            border-radius: 12px;
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .action-btn:active {
-            background: var(--primary-dark);
-            transform: scale(0.98);
-        }
-
-        .slider-container {
-            margin-bottom: 24px;
-        }
-
-        .slider-container label {
-            display: block;
-            font-size: 12px;
-            color: var(--text-light);
-            margin-bottom: 8px;
-            font-weight: 600;
-        }
-
-        .slider-container input[type="range"] {
-            width: 100%;
-            accent-color: var(--primary);
-        }
-
-        .input-field {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            font-size: 14px;
-            margin-bottom: 12px;
-            font-family: inherit;
-        }
-
-        .input-field:focus {
-            outline: none;
-            border-color: var(--primary);
-            background: #FFF5FA;
-        }
-
-        .textarea-field {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            font-size: 14px;
-            margin-bottom: 12px;
-            font-family: inherit;
-            height: 80px;
-            resize: vertical;
-        }
-
-        .textarea-field:focus {
-            outline: none;
-            border-color: var(--primary);
-            background: #FFF5FA;
-        }
-
-        .week-grid {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 6px;
-            margin-bottom: 20px;
-        }
-
-        .week-box {
-            background: white;
-            border: 2px solid var(--border);
-            border-radius: 8px;
-            padding: 6px;
-            text-align: center;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 11px;
-            transition: all 0.2s;
-        }
-
-        .week-box:active {
-            border-color: var(--primary);
-            background: #FFF5FA;
-        }
-
-        .upload-box {
-            border: 2px dashed var(--primary);
-            border-radius: 12px;
-            padding: 20px;
-            text-align: center;
-            cursor: pointer;
-            margin-bottom: 12px;
-        }
-
-        .upload-box:active {
-            background: #FFF5FA;
-        }
-
-        .upload-box input {
-            display: none;
-        }
-
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            margin-bottom: 12px;
-        }
-
-        .gallery-item {
-            position: relative;
-            border-radius: 8px;
-            overflow: hidden;
-            aspect-ratio: 1;
-            background: #f0f0f0;
-        }
-
-        .gallery-item img, .gallery-item video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .gallery-delete {
-            position: absolute;
-            top: 4px;
-            right: 4px;
-            background: rgba(255,0,0,0.9);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 24px;
-            height: 24px;
-            cursor: pointer;
-            font-size: 14px;
-        }
-
-        .book-item {
-            background: #FFF5FA;
-            border-left: 4px solid var(--primary);
-            padding: 12px;
-            margin-bottom: 10px;
-            border-radius: 4px;
-        }
-
-        .book-title {
-            font-weight: 600;
-            color: var(--text);
-            font-size: 13px;
-        }
-
-        .book-desc {
-            font-size: 12px;
-            color: var(--text-light);
-            margin-top: 2px;
-        }
-
-        .note-item {
-            background: #FFF5FA;
-            border-left: 4px solid var(--primary);
-            padding: 10px;
-            margin-bottom: 10px;
-            border-radius: 4px;
-        }
-
-        .note-date {
-            font-size: 11px;
-            color: var(--text-light);
-        }
-
-        .note-text {
-            font-size: 12px;
-            color: var(--text);
-            margin-top: 4px;
-            white-space: pre-wrap;
-        }
-
-        .note-delete {
-            font-size: 11px;
-            color: #ff4444;
-            cursor: pointer;
-            margin-top: 4px;
-        }
-
-        .footer {
-            text-align: center;
-            margin-top: 20px;
-            font-size: 11px;
-            color: var(--text-light);
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        @media print {
-            body { background: white; }
-            .nav-buttons, .action-buttons { display: none; }
-        }
+        * {margin: 0; padding: 0; box-sizing: border-box;}
+        :root {--primary: #E8A5C4; --primary-dark: #D48BB0; --text: #333; --text-light: #666; --border: #DDD;}
+        body {font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); min-height: 100vh; padding: 20px; display: flex; align-items: center; justify-content: center;}
+        .container {background: white; border-radius: 24px; padding: 32px 24px; max-width: 400px; width: 100%; box-shadow: 0 10px 40px rgba(0,0,0,0.2);}
+        .header {text-align: center; margin-bottom: 24px;}
+        .header h1 {font-size: 28px; color: var(--primary); margin-bottom: 8px;}
+        .week-display {text-align: center; padding: 16px; background: #FFF5FA; border-radius: 12px; margin-bottom: 20px;}
+        .week-number {font-size: 48px; font-weight: bold; color: var(--primary);}
+        .week-label {font-size: 12px; color: var(--text-light); text-transform: uppercase;}
+        .baby-3d {width: 100%; height: 300px; margin-bottom: 20px; border-radius: 12px; background: linear-gradient(135deg, #FFF5FA 0%, #fff 100%);}
+        .info-cards {margin-bottom: 20px;}
+        .info-card {background: #FFF5FA; border-left: 4px solid var(--primary); padding: 12px 16px; margin-bottom: 12px; border-radius: 8px;}
+        .info-title {font-weight: 600; font-size: 14px; color: var(--primary); margin-bottom: 4px;}
+        .info-text {font-size: 13px; color: var(--text-light); line-height: 1.5;}
+        .slider-container {margin-bottom: 20px;}
+        .slider-container label {display: block; font-size: 12px; color: var(--text-light); margin-bottom: 8px; font-weight: 600;}
+        .slider-container input[type="range"] {width: 100%; accent-color: var(--primary);}
+        .nav-buttons {display: flex; gap: 8px; margin-bottom: 16px; justify-content: center;}
+        .nav-btn {padding: 10px 16px; border: none; background: var(--primary); color: white; border-radius: 20px; font-size: 12px; font-weight: 600; cursor: pointer;}
+        .nav-btn:active {background: var(--primary-dark); transform: scale(0.95);}
+        .action-buttons {display: flex; flex-direction: column; gap: 12px;}
+        .action-btn {padding: 14px; border: none; background: var(--primary); color: white; border-radius: 12px; font-size: 14px; font-weight: 600; cursor: pointer;}
+        .action-btn:active {background: var(--primary-dark); transform: scale(0.98);}
+        .input-field {width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px; margin-bottom: 12px; font-family: inherit;}
+        .input-field:focus {outline: none; border-color: var(--primary); background: #FFF5FA;}
+        .textarea-field {width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 8px; font-size: 14px; margin-bottom: 12px; font-family: inherit; height: 80px; resize: vertical;}
+        .week-grid {display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; margin-bottom: 20px;}
+        .week-box {background: white; border: 2px solid var(--border); border-radius: 8px; padding: 6px; text-align: center; cursor: pointer; font-weight: 600; font-size: 11px;}
+        .week-box:active {border-color: var(--primary); background: #FFF5FA;}
+        .upload-box {border: 2px dashed var(--primary); border-radius: 12px; padding: 20px; text-align: center; cursor: pointer; margin-bottom: 12px;}
+        .upload-box:active {background: #FFF5FA;}
+        .upload-box input {display: none;}
+        .gallery-grid {display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px;}
+        .gallery-item {position: relative; border-radius: 8px; overflow: hidden; aspect-ratio: 1; background: #f0f0f0;}
+        .gallery-item img, .gallery-item video {width: 100%; height: 100%; object-fit: cover;}
+        .gallery-delete {position: absolute; top: 4px; right: 4px; background: rgba(255,0,0,0.9); color: white; border: none; border-radius: 50%; width: 24px; height: 24px; cursor: pointer; font-size: 14px;}
+        .book-item {background: #FFF5FA; border-left: 4px solid var(--primary); padding: 12px; margin-bottom: 10px; border-radius: 4px;}
+        .book-title {font-weight: 600; color: var(--text); font-size: 13px;}
+        .book-desc {font-size: 12px; color: var(--text-light); margin-top: 2px;}
+        .note-item {background: #FFF5FA; border-left: 4px solid var(--primary); padding: 10px; margin-bottom: 10px; border-radius: 4px;}
+        .note-date {font-size: 11px; color: var(--text-light);}
+        .note-text {font-size: 12px; color: var(--text); margin-top: 4px; white-space: pre-wrap;}
+        .note-delete {font-size: 11px; color: #ff4444; cursor: pointer; margin-top: 4px;}
+        .footer {text-align: center; margin-top: 20px; font-size: 11px; color: var(--text-light);}
+        .hidden {display: none;}
+        @media print {body {background: white;} .nav-buttons, .action-buttons {display: none;}}
     </style>
 </head>
 <body>
@@ -340,11 +61,13 @@
         </div>
 
         <!-- INICIO -->
-        <div id="inicio" class="screen">
+        <div id="inicio">
             <div class="week-display">
                 <div class="week-label">Semana actual</div>
                 <div class="week-number" id="mainWeek">20</div>
             </div>
+
+            <div class="baby-3d" id="baby3d"></div>
 
             <div class="info-cards">
                 <div class="info-card">
@@ -363,31 +86,31 @@
 
             <div class="slider-container">
                 <label>Cambiar semana</label>
-                <input type="range" id="mainSlider" min="1" max="40" value="20" onchange="updateWeek(this.value)">
+                <input type="range" id="mainSlider" min="1" max="40" value="20">
             </div>
 
             <div class="nav-buttons">
-                <button class="nav-btn" onclick="showScreen('calendario')">📅 Calendario</button>
-                <button class="nav-btn" onclick="showScreen('perfil')">👤 Perfil</button>
+                <button class="nav-btn" id="btnCalendario">📅 Calendario</button>
+                <button class="nav-btn" id="btnPerfil">👤 Perfil</button>
             </div>
 
             <div class="action-buttons">
-                <button class="action-btn" onclick="showScreen('libros')">👀 Ver Libros</button>
-                <button class="action-btn" onclick="showScreen('galeria')">📸 Mi Galería</button>
-                <button class="action-btn" onclick="showScreen('doctor')">🏥 Notas Médico</button>
-                <button class="action-btn" onclick="showScreen('recordatorios')">🔔 Recordatorios</button>
+                <button class="action-btn" id="btnLibros">👀 Ver Libros</button>
+                <button class="action-btn" id="btnGaleria">📸 Mi Galería</button>
+                <button class="action-btn" id="btnDoctor">🏥 Notas Médico</button>
+                <button class="action-btn" id="btnRecordatorios">🔔 Recordatorios</button>
             </div>
         </div>
 
         <!-- CALENDARIO -->
-        <div id="calendario" class="screen hidden">
+        <div id="calendario" class="hidden">
             <h2 style="color: var(--primary); margin-bottom: 16px;">📅 Calendario (40 Semanas)</h2>
             <div class="week-grid" id="calendarGrid"></div>
-            <button class="action-btn" onclick="showScreen('inicio')">← Anterior</button>
+            <button class="action-btn" id="btnVolverCal">← Anterior</button>
         </div>
 
         <!-- PERFIL -->
-        <div id="perfil" class="screen hidden">
+        <div id="perfil" class="hidden">
             <h2 style="color: var(--primary); margin-bottom: 16px;">👤 Tu Perfil</h2>
             <div class="slider-container">
                 <label>Tu nombre</label>
@@ -399,50 +122,50 @@
             </div>
             <div class="slider-container">
                 <label>Semana actual</label>
-                <input type="range" id="profileSlider" min="1" max="40" value="20" onchange="document.getElementById('profileWeekNum').textContent = this.value">
+                <input type="range" id="profileSlider" min="1" max="40" value="20">
                 <div style="text-align: center; color: var(--primary); font-weight: 600; margin-top: 8px;">Semana <span id="profileWeekNum">20</span></div>
             </div>
-            <button class="action-btn" onclick="saveProfile()">💾 Guardar</button>
+            <button class="action-btn" id="btnSaveProf">💾 Guardar</button>
             <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--border);">
                 <div style="margin-bottom: 8px;"><span style="color: var(--text-light);">Nombre:</span> <strong id="displayMom">-</strong></div>
                 <div style="margin-bottom: 8px;"><span style="color: var(--text-light);">Bebé:</span> <strong id="displayBaby">-</strong></div>
                 <div><span style="color: var(--text-light);">Semana:</span> <strong id="displayWeekProf">20</strong></div>
             </div>
-            <button class="action-btn" style="margin-top: 16px;" onclick="showScreen('inicio')">← Anterior</button>
+            <button class="action-btn" style="margin-top: 16px;" id="btnVolverProf">← Anterior</button>
         </div>
 
         <!-- LIBROS -->
-        <div id="libros" class="screen hidden">
+        <div id="libros" class="hidden">
             <h2 style="color: var(--primary); margin-bottom: 16px;">👀 Ver Libros - Semana <span id="booksWeek">20</span></h2>
             <div class="slider-container">
                 <label>Semana</label>
-                <input type="range" id="booksSlider" min="1" max="40" value="20" onchange="updateBooks(this.value)">
+                <input type="range" id="booksSlider" min="1" max="40" value="20">
             </div>
             <div id="booksList"></div>
-            <button class="action-btn" onclick="showScreen('inicio')">← Anterior</button>
+            <button class="action-btn" id="btnVolverLib">← Anterior</button>
         </div>
 
         <!-- GALERÍA -->
-        <div id="galeria" class="screen hidden">
+        <div id="galeria" class="hidden">
             <h2 style="color: var(--primary); margin-bottom: 16px;">📸 Mi Galería</h2>
             <div class="slider-container">
                 <label>Semana</label>
-                <input type="range" id="gallerySlider" min="1" max="40" value="20" onchange="updateGallery(this.value)">
+                <input type="range" id="gallerySlider" min="1" max="40" value="20">
                 <div style="text-align: center; color: var(--primary); font-weight: 600; margin-top: 8px;">Semana <span id="galleryWeekNum">20</span></div>
             </div>
-            <div class="upload-box" onclick="document.getElementById('photoInput').click()">
+            <div class="upload-box" id="uploadBoxBtn">
                 <div style="font-size: 32px; margin-bottom: 8px;">📷</div>
                 <div style="font-weight: 500;">Toca para subir fotos/videos</div>
                 <div style="font-size: 11px; color: var(--text-light); margin-top: 4px;">Máx 2 por semana</div>
-                <input type="file" id="photoInput" accept="image/*,video/*" multiple onchange="uploadPhoto(event)">
+                <input type="file" id="photoInput" accept="image/*,video/*" multiple>
             </div>
             <div class="gallery-grid" id="galleryGrid"></div>
-            <button class="action-btn" onclick="window.print()">🖨️ Imprimir</button>
-            <button class="action-btn" onclick="showScreen('inicio')">← Anterior</button>
+            <button class="action-btn" id="btnPrintGal">🖨️ Imprimir</button>
+            <button class="action-btn" id="btnVolverGal">← Anterior</button>
         </div>
 
         <!-- DOCTOR -->
-        <div id="doctor" class="screen hidden">
+        <div id="doctor" class="hidden">
             <h2 style="color: var(--primary); margin-bottom: 16px;">🏥 Notas del Médico</h2>
             <div class="slider-container">
                 <label>Semana</label>
@@ -454,16 +177,16 @@
                 <label>Nota</label>
                 <textarea id="doctorText" class="textarea-field" placeholder="Escribe tu nota..."></textarea>
             </div>
-            <button class="action-btn" onclick="saveDoctorNote()">💾 Guardar</button>
+            <button class="action-btn" id="btnSaveDoc">💾 Guardar</button>
             <div id="doctorList"></div>
-            <button class="action-btn" onclick="showScreen('inicio')">← Anterior</button>
+            <button class="action-btn" id="btnVolverDoc">← Anterior</button>
         </div>
 
         <!-- RECORDATORIOS -->
-        <div id="recordatorios" class="screen hidden">
+        <div id="recordatorios" class="hidden">
             <h2 style="color: var(--primary); margin-bottom: 16px;">🔔 Recordatorios</h2>
             <div id="remindersList"></div>
-            <button class="action-btn" onclick="showScreen('inicio')">← Anterior</button>
+            <button class="action-btn" id="btnVolverRec">← Anterior</button>
         </div>
 
         <div class="footer">
@@ -473,9 +196,10 @@
     </div>
 
     <script>
-        const weekData = {1:{size:'2mm',dev:'Comienza la fertilización',symptoms:'Cambios leves'},5:{size:'7mm',dev:'El corazón comenzó a latir',symptoms:'Náuseas'},10:{size:'3cm',dev:'Se forman los órganos',symptoms:'Cambios de apetito'},13:{size:'7cm',dev:'El bebé se mueve',symptoms:'Mareos'},20:{size:'10cm',dev:'El bebé escucha sonidos',symptoms:'Fatiga'},26:{size:'35cm',dev:'Los pulmones se preparan',symptoms:'Dolor de espalda'},30:{size:'39cm',dev:'El cerebro se desarrolla',symptoms:'Calambres'},36:{size:'47cm',dev:'El bebé se posiciona',symptoms:'Contracciones falsas'},40:{size:'51cm',dev:'El bebé está listo',symptoms:'Pueden comenzar contracciones'}};
+        const weekData = {1:{size:'2mm',emoji:'🫐',dev:'Comienza la fertilización',symptoms:'Cambios leves'},5:{size:'7mm',emoji:'🫐',dev:'El corazón comenzó a latir',symptoms:'Náuseas'},10:{size:'3cm',emoji:'🍓',dev:'Se forman los órganos',symptoms:'Cambios de apetito'},13:{size:'7cm',emoji:'🍑',dev:'El bebé se mueve',symptoms:'Mareos'},20:{size:'10cm',emoji:'🍌',dev:'El bebé escucha sonidos',symptoms:'Fatiga'},26:{size:'35cm',emoji:'🥬',dev:'Los pulmones se preparan',symptoms:'Dolor de espalda'},30:{size:'39cm',emoji:'🥦',dev:'El cerebro se desarrolla',symptoms:'Calambres'},36:{size:'47cm',emoji:'🍈',dev:'El bebé se posiciona',symptoms:'Contracciones falsas'},40:{size:'51cm',emoji:'🍉',dev:'El bebé está listo',symptoms:'Pueden comenzar contracciones'}};
         const booksByWeek = {1:[{title:'Primeros Pasos',desc:'Guía inicial del embarazo'}],5:[{title:'El Corazón Late',desc:'Semanas 5-8: desarrollo temprano'}],10:[{title:'Trimestre Mágico',desc:'Semanas 9-12'}],13:[{title:'El Movimiento',desc:'Semanas 13-16'}],20:[{title:'A Mitad del Camino',desc:'Semanas 17-20'}],26:[{title:'Preparándose',desc:'Semanas 25-28'}],30:[{title:'La Recta Final',desc:'Semanas 29-32'}],36:[{title:'Casi Lista',desc:'Semanas 36-40'}],40:[{title:'Bienvenido Bebé',desc:'Información postparto'}]};
         const reminders = ['💧 Tomar agua (8 vasos)','🏃 Ejercicio moderado','💊 Vitaminas','🏥 Control médico','🥗 Nutrición','😴 Descanso','🧘 Meditación','🌿 Ácido fólico','🥛 Calcio','📋 Registros'];
+        let currentScreen = 'inicio';
         let userProfile = JSON.parse(localStorage.getItem('userProfile')) || {momName:'',babyName:'',week:20};
         let galleryData = JSON.parse(localStorage.getItem('galleryData')) || {};
         let doctorNotes = JSON.parse(localStorage.getItem('doctorNotes')) || [];
@@ -494,18 +218,30 @@
             document.getElementById('mainSize').textContent = 'Tu bebé mide aproximadamente '+data.size;
             document.getElementById('mainDev').textContent = data.dev;
             document.getElementById('mainSymptoms').textContent = data.symptoms;
+            document.getElementById('mainSlider').value = w;
+            render3dBaby(data.emoji);
         }
 
-        function showScreen(id) {
-            document.querySelectorAll('.screen').forEach(s => s.classList.add('hidden'));
-            document.getElementById(id).classList.remove('hidden');
-            if (id === 'calendario') renderCalendar();
-            if (id === 'perfil') loadProfile();
-            if (id === 'libros') updateBooks(20);
-            if (id === 'galeria') updateGallery(20);
-            if (id === 'doctor') renderDoctor();
-            if (id === 'recordatorios') renderReminders();
+        function showScreen(name) {
+            document.getElementById(currentScreen).classList.add('hidden');
+            document.getElementById(name).classList.remove('hidden');
+            currentScreen = name;
+            if (name === 'calendario') renderCalendar();
+            if (name === 'perfil') loadProfile();
+            if (name === 'libros') {document.getElementById('booksSlider').value = 20; updateBooks(20);}
+            if (name === 'galeria') {document.getElementById('gallerySlider').value = 20; updateGallery(20);}
+            if (name === 'doctor') renderDoctor();
+            if (name === 'recordatorios') renderReminders();
         }
+
+        function render3dBaby(emoji) {
+            const container = document.getElementById('baby3d');
+            container.innerHTML = '<div style="display: flex; align-items: center; justify-content: center; height: 100%; font-size: 120px; transform: perspective(1000px) rotateX(10deg) rotateY(-10deg); animation: float 3s ease-in-out infinite;">'+emoji+'👶</div>';
+        }
+
+        const style = document.createElement('style');
+        style.textContent = '@keyframes float {0%, 100% {transform: perspective(1000px) rotateX(10deg) rotateY(-10deg) translateY(0px);} 50% {transform: perspective(1000px) rotateX(10deg) rotateY(-10deg) translateY(-20px);}}';
+        document.head.appendChild(style);
 
         function renderCalendar() {
             let html = '';
@@ -540,7 +276,8 @@
             document.getElementById('galleryGrid').innerHTML = html;
         }
 
-        function uploadPhoto(e) {
+        document.getElementById('uploadBoxBtn').addEventListener('click', () => document.getElementById('photoInput').click());
+        document.getElementById('photoInput').addEventListener('change', (e) => {
             const w = parseInt(document.getElementById('gallerySlider').value);
             if (!galleryData[w]) galleryData[w] = [];
             for (let f of e.target.files) {
@@ -554,7 +291,7 @@
                 r.readAsDataURL(f);
             }
             e.target.value = '';
-        }
+        });
 
         function deletePhoto(w, i) {
             galleryData[w].splice(i, 1);
@@ -611,6 +348,31 @@
             document.getElementById('remindersList').innerHTML = html;
         }
 
+        // Event listeners
+        document.getElementById('mainSlider').addEventListener('input', (e) => updateWeek(e.target.value));
+        document.getElementById('profileSlider').addEventListener('input', (e) => document.getElementById('profileWeekNum').textContent = e.target.value);
+        document.getElementById('booksSlider').addEventListener('input', (e) => updateBooks(e.target.value));
+        document.getElementById('gallerySlider').addEventListener('input', (e) => updateGallery(e.target.value));
+
+        document.getElementById('btnCalendario').addEventListener('click', () => showScreen('calendario'));
+        document.getElementById('btnPerfil').addEventListener('click', () => showScreen('perfil'));
+        document.getElementById('btnLibros').addEventListener('click', () => showScreen('libros'));
+        document.getElementById('btnGaleria').addEventListener('click', () => showScreen('galeria'));
+        document.getElementById('btnDoctor').addEventListener('click', () => showScreen('doctor'));
+        document.getElementById('btnRecordatorios').addEventListener('click', () => showScreen('recordatorios'));
+
+        document.getElementById('btnVolverCal').addEventListener('click', () => showScreen('inicio'));
+        document.getElementById('btnVolverProf').addEventListener('click', () => showScreen('inicio'));
+        document.getElementById('btnVolverLib').addEventListener('click', () => showScreen('inicio'));
+        document.getElementById('btnVolverGal').addEventListener('click', () => showScreen('inicio'));
+        document.getElementById('btnVolverDoc').addEventListener('click', () => showScreen('inicio'));
+        document.getElementById('btnVolverRec').addEventListener('click', () => showScreen('inicio'));
+
+        document.getElementById('btnSaveProf').addEventListener('click', saveProfile);
+        document.getElementById('btnSaveDoc').addEventListener('click', saveDoctorNote);
+        document.getElementById('btnPrintGal').addEventListener('click', () => window.print());
+
+        // Initialize
         updateWeek(20);
         loadProfile();
         if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(()=>{});
