@@ -43,6 +43,9 @@
         .table th {background: #FFF5FA; color: var(--primary); padding: 8px; text-align: left; font-size: 12px; font-weight: 600;}
         .table td {padding: 8px; border-bottom: 1px solid var(--border); font-size: 12px;}
         .footer {text-align: center; margin-top: 20px; font-size: 10px; color: var(--text-light);}
+        .notification {position: fixed; top: 20px; left: 50%; transform: translateX(-50%); background: var(--primary); color: white; padding: 12px 24px; border-radius: 20px; box-shadow: 0 4px 12px rgba(0,0,0,0.2); font-weight: 600; font-size: 13px; z-index: 1000; animation: slideDown 0.3s, slideUp 0.3s 2s forwards;}
+        @keyframes slideDown {from {transform: translateX(-50%) translateY(-30px); opacity: 0;} to {transform: translateX(-50%) translateY(0); opacity: 1;}}
+        @keyframes slideUp {from {transform: translateX(-50%) translateY(0); opacity: 1;} to {transform: translateX(-50%) translateY(-30px); opacity: 0;}}
         .chart-simple {height: 100px; border: 1px solid var(--border); border-radius: 8px; margin: 10px 0; position: relative;}
         .chart-bar {position: absolute; bottom: 0; background: var(--primary); border-radius: 4px 4px 0 0;}
     </style>
@@ -196,7 +199,7 @@
             <div id="booksList"></div>
         </div>
 
-        <!-- GALERÍA (from before) -->
+        <!-- GALERÍA -->
         <div id="galeria" class="tab-content hidden">
             <h3 style="color: var(--primary); margin-bottom: 10px;">📸 Mi Galería</h3>
             <input type="range" id="gallerySlider" min="1" max="40" value="20" style="width: 100%; margin-bottom: 10px;">
@@ -206,6 +209,17 @@
                 <div style="font-size: 13px;">Toca para subir foto</div>
                 <input type="file" id="photoInput" accept="image/*,video/*" style="display: none;">
             </div>
+
+            <!-- Form para agregar notas (aparece después de subir) -->
+            <div id="photoFormContainer" style="display: none; margin-bottom: 16px; padding: 16px; background: #FFF5FA; border-radius: 12px;">
+                <h4 style="color: var(--primary); margin-bottom: 10px;">📝 Escribe sobre esta foto</h4>
+                <label style="font-size: 12px; color: var(--text-light); display: block; margin-bottom: 8px;">💬 Algo para el bebé</label>
+                <textarea id="babyNote" class="textarea-field" placeholder="Ej: Te quiero muchísimo..."></textarea>
+                <label style="font-size: 12px; color: var(--text-light); display: block; margin-bottom: 8px;">💚 Cómo me siento</label>
+                <textarea id="momFeeling" class="textarea-field" placeholder="Ej: Hoy me siento feliz y ansiosa..."></textarea>
+                <button class="action-btn" onclick="savePhotoWithNotes()" style="margin-bottom: 0;">💾 Guardar Foto</button>
+            </div>
+
             <div id="galleryList"></div>
         </div>
 
@@ -277,6 +291,7 @@
             localStorage.setItem('movimientos', JSON.stringify(movimientos));
             document.getElementById('timeMovimiento').value = '';
             renderMovimientos();
+            showNotification('✅ Movimiento registrado');
         }
 
         function renderMovimientos() {
@@ -300,6 +315,7 @@
             localStorage.setItem('pesos', JSON.stringify(pesos));
             document.getElementById('pesoInput').value = '';
             renderPeso();
+            showNotification('✅ Peso registrado');
         }
 
         function renderPeso() {
@@ -335,6 +351,7 @@
             localStorage.setItem('sintomas', JSON.stringify(sintomas));
             document.getElementById('sintomaText').value = '';
             renderSintomas();
+            showNotification('✅ Síntoma guardado');
         }
 
         function renderSintomas() {
@@ -358,6 +375,7 @@
             localStorage.setItem('tareas', JSON.stringify(tareas));
             document.getElementById('tareaText').value = '';
             renderTareas();
+            showNotification('✅ Tarea agregada');
         }
 
         function renderTareas() {
@@ -390,6 +408,7 @@
             document.getElementById('doctorTel').value = '';
             document.getElementById('doctorCard').style.display = 'block';
             document.getElementById('doctorInfo').innerHTML = '<strong>🏥 '+nombre+'</strong><br>📞 '+tel;
+            showNotification('✅ Médico guardado');
         }
 
         function saveHospitalContact() {
@@ -404,6 +423,7 @@
             document.getElementById('hospitalDir').value = '';
             document.getElementById('hospitalCard').style.display = 'block';
             document.getElementById('hospitalInfo').innerHTML = '<strong>🏥 '+nombre+'</strong><br>📞 '+tel+'<br>📍 '+dir;
+            showNotification('✅ Hospital guardado');
         }
 
         function addPresupuesto() {
@@ -415,6 +435,7 @@
             document.getElementById('itemNombre').value = '';
             document.getElementById('itemCosto').value = '';
             renderPresupuesto();
+            showNotification('✅ Gasto agregado');
         }
 
         function renderPresupuesto() {
@@ -496,8 +517,87 @@
         document.getElementById('mainSlider').addEventListener('input', (e) => {currentWeek = parseInt(e.target.value); updateUI();});
         document.getElementById('mainSlider').addEventListener('input', (e) => {const w = parseInt(e.target.value); const data = {20: {size: '10cm', dev: 'El bebé escucha sonidos'}}[w] || {size: '10cm', dev: 'Desarrollo'}; document.getElementById('mainSize').textContent = 'Tu bebé mide ' + data.size; document.getElementById('mainDev').textContent = data.dev;});
         document.getElementById('gallerySlider').addEventListener('input', (e) => document.getElementById('galleryWeekNum').textContent = e.target.value);
+        // Galería mejorada
+        let pendingPhotoData = null;
+
         document.getElementById('uploadBox').addEventListener('click', () => document.getElementById('photoInput').click());
-        
+        document.getElementById('photoInput').addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (evt) => {
+                pendingPhotoData = {data: evt.target.result, type: file.type};
+                document.getElementById('photoFormContainer').style.display = 'block';
+                document.getElementById('babyNote').value = '';
+                document.getElementById('momFeeling').value = '';
+                window.scrollTo(0, 0);
+            };
+            reader.readAsDataURL(file);
+            e.target.value = '';
+        });
+
+        function savePhotoWithNotes() {
+            if (!pendingPhotoData) return;
+            const week = parseInt(document.getElementById('gallerySlider').value);
+            if (!galleryData) galleryData = {};
+            if (!galleryData[week]) galleryData[week] = [];
+            if (galleryData[week].length >= 2) {showNotification('⚠️ Máximo 2 fotos por semana'); return;}
+
+            const babyNote = document.getElementById('babyNote').value.trim();
+            const momFeeling = document.getElementById('momFeeling').value.trim();
+
+            galleryData[week].push({
+                data: pendingPhotoData.data,
+                type: pendingPhotoData.type,
+                date: new Date().toLocaleDateString('es-ES'),
+                babyNote,
+                momFeeling
+            });
+
+            localStorage.setItem('galleryData', JSON.stringify(galleryData));
+            pendingPhotoData = null;
+            document.getElementById('photoFormContainer').style.display = 'none';
+            showNotification('✅ Foto guardada');
+            renderGalleryPhotos();
+        }
+
+        function renderGalleryPhotos() {
+            const week = parseInt(document.getElementById('gallerySlider').value);
+            const photos = galleryData[week] || [];
+            let html = '';
+            photos.forEach((p, i) => {
+                html += '<div class="info-card">';
+                if (p.type.startsWith('image/')) html += '<img src="'+p.data+'" style="width: 100%; border-radius: 8px; margin-bottom: 8px;">';
+                else html += '<video src="'+p.data+'" style="width: 100%; border-radius: 8px; margin-bottom: 8px;" controls></video>';
+                html += '<div style="font-size: 11px; color: var(--text-light); margin-bottom: 8px;">'+p.date+'</div>';
+                if (p.babyNote) html += '<div style="font-size: 12px; color: var(--primary); font-weight: 600; margin-bottom: 4px;">💬 Al bebé:</div><div style="font-size: 12px; color: var(--text); margin-bottom: 8px; white-space: pre-wrap;">'+p.babyNote+'</div>';
+                if (p.momFeeling) html += '<div style="font-size: 12px; color: var(--primary); font-weight: 600; margin-bottom: 4px;">💚 Cómo me siento:</div><div style="font-size: 12px; color: var(--text); margin-bottom: 8px; white-space: pre-wrap;">'+p.momFeeling+'</div>';
+                html += '<button class="item-delete" onclick="deleteGalleryPhoto('+i+')" style="width: 100%;">🗑️ Eliminar</button></div>';
+            });
+            document.getElementById('galleryList').innerHTML = html;
+        }
+
+        function deleteGalleryPhoto(i) {
+            const week = parseInt(document.getElementById('gallerySlider').value);
+            if (galleryData[week]) {
+                galleryData[week].splice(i, 1);
+                localStorage.setItem('galleryData', JSON.stringify(galleryData));
+                renderGalleryPhotos();
+                showNotification('✅ Foto eliminada');
+            }
+        }
+
+        function showNotification(message) {
+            const notif = document.createElement('div');
+            notif.className = 'notification';
+            notif.textContent = message;
+            document.body.appendChild(notif);
+            setTimeout(() => notif.remove(), 2500);
+        }
+
+        // Variables globales
+        let galleryData = JSON.parse(localStorage.getItem('galleryData')) || {};
+
         updateUI();
         renderMovimientos();
         renderPeso();
