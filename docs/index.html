@@ -18,7 +18,7 @@
         .week-display {text-align: center; padding: 16px; background: #FFF5FA; border-radius: 12px; margin-bottom: 20px;}
         .week-number {font-size: 48px; font-weight: bold; color: var(--primary);}
         .week-label {font-size: 12px; color: var(--text-light); text-transform: uppercase;}
-        .baby-3d {width: 100%; height: 300px; margin-bottom: 20px; border-radius: 12px; background: linear-gradient(135deg, #FFF5FA 0%, #fff 100%);}
+        .baby-3d {width: 100%; height: 80px; margin-bottom: 20px; border-radius: 12px; background: linear-gradient(135deg, #FFF5FA 0%, #fff 100%);}
         .info-cards {margin-bottom: 20px;}
         .info-card {background: #FFF5FA; border-left: 4px solid var(--primary); padding: 12px 16px; margin-bottom: 12px; border-radius: 8px;}
         .info-title {font-weight: 600; font-size: 14px; color: var(--primary); margin-bottom: 4px;}
@@ -53,6 +53,14 @@
         .note-text {font-size: 12px; color: var(--text); margin-top: 4px; white-space: pre-wrap;}
         .note-delete {font-size: 11px; color: #ff4444; cursor: pointer; margin-top: 4px;}
         .footer {text-align: center; margin-top: 20px; font-size: 11px; color: var(--text-light);}
+        .month-calendar {display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin-bottom: 20px;}
+        .day-header {font-weight: 600; font-size: 11px; color: var(--primary); text-align: center; padding: 4px;}
+        .day-cell {border: 1px solid var(--border); border-radius: 6px; padding: 4px; text-align: center; font-size: 11px; cursor: pointer; min-height: 30px; display: flex; align-items: center; justify-content: center;}
+        .day-cell:active {background: #FFF5FA; border-color: var(--primary);}
+        .event-item {background: #FFF5FA; border-left: 4px solid var(--primary); padding: 10px; margin-bottom: 10px; border-radius: 4px;}
+        .event-title {font-weight: 600; font-size: 13px; color: var(--text);}
+        .event-detail {font-size: 11px; color: var(--text-light); margin-top: 2px;}
+        .event-delete {font-size: 11px; color: #ff4444; cursor: pointer; margin-top: 4px;}
         .hidden {display: none;}
         @media print {body {background: white;} .nav-buttons, .action-buttons {display: none;}}
     </style>
@@ -68,6 +76,10 @@
             <div class="week-display">
                 <div class="week-label">Semana actual</div>
                 <div class="week-number" id="mainWeek">20</div>
+                <div style="font-size: 12px; color: var(--text-light); margin-top: 12px;">
+                    <div>📅 <span id="daysLeft">140</span> días restantes</div>
+                    <div>⏳ <span id="weeksLeft">20</span> semanas restantes</div>
+                </div>
             </div>
 
             <div class="baby-3d" id="baby3d"></div>
@@ -107,8 +119,46 @@
 
         <!-- CALENDARIO -->
         <div id="calendario" class="hidden">
-            <h2 style="color: var(--primary); margin-bottom: 16px;">📅 Calendario (40 Semanas)</h2>
-            <div class="week-grid" id="calendarGrid"></div>
+            <div style="display: flex; gap: 8px; margin-bottom: 16px;">
+                <button class="action-btn" style="flex: 1; padding: 10px;" id="btnWeekPhotos">📸 Fotos/Semana</button>
+                <button class="action-btn" style="flex: 1; padding: 10px;" id="btnEventos">📋 Eventos/Día</button>
+            </div>
+
+            <!-- Semanas -->
+            <div id="calendarWeeks">
+                <h2 style="color: var(--primary); margin-bottom: 16px;">📅 Calendario (40 Semanas)</h2>
+                <div class="week-grid" id="calendarGrid"></div>
+            </div>
+
+            <!-- Eventos -->
+            <div id="calendarEvents" class="hidden">
+                <h2 style="color: var(--primary); margin-bottom: 16px;">📋 Eventos del Embarazo</h2>
+                <div style="margin-bottom: 16px;">
+                    <label style="font-size: 12px; color: var(--text-light); display: block; margin-bottom: 8px;">Mes</label>
+                    <select id="eventMonth" class="input-field" style="margin-bottom: 0;">
+                        <option value="11">Noviembre 2026</option>
+                        <option value="12">Diciembre 2026</option>
+                        <option value="1">Enero 2027</option>
+                        <option value="2">Febrero 2027</option>
+                        <option value="3">Marzo 2027</option>
+                    </select>
+                </div>
+                <div class="month-calendar" id="monthCalendar"></div>
+                <div style="margin-bottom: 16px; padding: 16px; background: #FFF5FA; border-radius: 12px;">
+                    <label style="font-size: 12px; color: var(--text-light); display: block; margin-bottom: 8px;">Evento (ecografía, control, etc.)</label>
+                    <input type="text" id="eventName" class="input-field" placeholder="Ej: Ecografía">
+                    <label style="font-size: 12px; color: var(--text-light); display: block; margin-bottom: 8px;">Día</label>
+                    <select id="eventDay" class="input-field" style="margin-bottom: 0;"></select>
+                    <label style="font-size: 12px; color: var(--text-light); display: block; margin: 12px 0 8px 0;">Hora (opcional)</label>
+                    <input type="time" id="eventTime" class="input-field">
+                    <label style="font-size: 12px; color: var(--text-light); display: block; margin-bottom: 8px;">Lugar (opcional)</label>
+                    <input type="text" id="eventPlace" class="input-field" placeholder="Ej: Hospital Central">
+                    <button class="action-btn" id="btnAddEvent" style="margin-top: 12px;">➕ Agregar Evento</button>
+                </div>
+                <h3 style="color: var(--primary); font-size: 14px; margin-bottom: 12px;">Eventos</h3>
+                <div id="eventsList"></div>
+            </div>
+
             <button class="action-btn" id="btnVolverCal">← Anterior</button>
         </div>
 
@@ -206,6 +256,8 @@
         let userProfile = JSON.parse(localStorage.getItem('userProfile')) || {momName:'',babyName:'',week:20};
         let galleryData = JSON.parse(localStorage.getItem('galleryData')) || {};
         let doctorNotes = JSON.parse(localStorage.getItem('doctorNotes')) || [];
+        let calendarEvents = JSON.parse(localStorage.getItem('calendarEvents')) || {};
+        let currentEventMonth = new Date().getMonth();
 
         function getWeekData(w) {
             const weeks = Object.keys(weekData).map(Number).sort((a,b)=>a-b);
@@ -217,7 +269,11 @@
         function updateWeek(w) {
             w = parseInt(w);
             const data = getWeekData(w);
+            const daysLeft = Math.max(0, (40 - w) * 7);
+            const weeksLeft = Math.max(0, 40 - w);
             document.getElementById('mainWeek').textContent = w;
+            document.getElementById('daysLeft').textContent = daysLeft;
+            document.getElementById('weeksLeft').textContent = weeksLeft;
             document.getElementById('mainSize').textContent = 'Tu bebé mide aproximadamente '+data.size;
             document.getElementById('mainDev').textContent = data.dev;
             document.getElementById('mainSymptoms').textContent = data.symptoms;
@@ -351,13 +407,109 @@
             document.getElementById('remindersList').innerHTML = html;
         }
 
+        // Calendar Events Functions
+        function renderMonthCalendar(month) {
+            const year = month <= 10 ? 2026 : 2027;
+            const days = new Date(year, month + 1, 0).getDate();
+            const firstDay = new Date(year, month, 1).getDay();
+            let html = '';
+            const dayNames = ['Dom','Lun','Mar','Mié','Jue','Vie','Sab'];
+            for (let dn of dayNames) html += '<div class="day-header">'+dn+'</div>';
+            for (let i = 0; i < firstDay; i++) html += '<div></div>';
+            for (let d = 1; d <= days; d++) {
+                const dateStr = year+'-'+(month+1).toString().padStart(2,'0')+'-'+d.toString().padStart(2,'0');
+                html += '<div class="day-cell" onclick="selectEventDay('+d+')">'+d+'</div>';
+            }
+            document.getElementById('monthCalendar').innerHTML = html;
+
+            let dayOptions = '<option value="">Seleccionar día</option>';
+            for (let d = 1; d <= days; d++) dayOptions += '<option value="'+d+'">'+d+'</option>';
+            document.getElementById('eventDay').innerHTML = dayOptions;
+        }
+
+        function selectEventDay(day) {
+            document.getElementById('eventDay').value = day;
+        }
+
+        function addEvent() {
+            const name = document.getElementById('eventName').value.trim();
+            const day = document.getElementById('eventDay').value;
+            const time = document.getElementById('eventTime').value;
+            const place = document.getElementById('eventPlace').value.trim();
+            if (!name || !day) {alert('Escribe el evento y selecciona el día'); return;}
+            const key = currentEventMonth+'-'+day;
+            if (!calendarEvents[key]) calendarEvents[key] = [];
+            calendarEvents[key].push({name, time, place});
+            localStorage.setItem('calendarEvents', JSON.stringify(calendarEvents));
+            document.getElementById('eventName').value = '';
+            document.getElementById('eventDay').value = '';
+            document.getElementById('eventTime').value = '';
+            document.getElementById('eventPlace').value = '';
+            renderEvents();
+        }
+
+        function renderEvents() {
+            let html = '';
+            const eventsToShow = [];
+            for (let key in calendarEvents) {
+                const [month, day] = key.split('-');
+                if (parseInt(month) === currentEventMonth) {
+                    for (let e of calendarEvents[key]) {
+                        eventsToShow.push({day, ...e, key});
+                    }
+                }
+            }
+            eventsToShow.sort((a,b) => parseInt(a.day) - parseInt(b.day));
+            for (let i = 0; i < eventsToShow.length; i++) {
+                const e = eventsToShow[i];
+                html += '<div class="event-item"><div class="event-title">'+e.name+'</div>';
+                html += '<div class="event-detail">📅 Día '+e.day;
+                if (e.time) html += ' - '+e.time;
+                html += '</div>';
+                if (e.place) html += '<div class="event-detail">📍 '+e.place+'</div>';
+                html += '<div class="event-delete" onclick="deleteEvent(\''+e.key+'\', '+i+')">🗑️ Eliminar</div></div>';
+            }
+            document.getElementById('eventsList').innerHTML = html;
+        }
+
+        function deleteEvent(key, idx) {
+            if (calendarEvents[key]) {
+                calendarEvents[key].splice(idx, 1);
+                if (calendarEvents[key].length === 0) delete calendarEvents[key];
+                localStorage.setItem('calendarEvents', JSON.stringify(calendarEvents));
+                renderEvents();
+            }
+        }
+
         // Event listeners
         document.getElementById('mainSlider').addEventListener('input', (e) => updateWeek(e.target.value));
         document.getElementById('profileSlider').addEventListener('input', (e) => document.getElementById('profileWeekNum').textContent = e.target.value);
         document.getElementById('booksSlider').addEventListener('input', (e) => updateBooks(e.target.value));
         document.getElementById('gallerySlider').addEventListener('input', (e) => updateGallery(e.target.value));
 
-        document.getElementById('btnCalendario').addEventListener('click', () => showScreen('calendario'));
+        document.getElementById('btnCalendario').addEventListener('click', () => {
+            showScreen('calendario');
+            document.getElementById('calendarWeeks').classList.remove('hidden');
+            document.getElementById('calendarEvents').classList.add('hidden');
+        });
+        document.getElementById('btnWeekPhotos').addEventListener('click', () => {
+            document.getElementById('calendarWeeks').classList.remove('hidden');
+            document.getElementById('calendarEvents').classList.add('hidden');
+        });
+        document.getElementById('btnEventos').addEventListener('click', () => {
+            document.getElementById('calendarWeeks').classList.add('hidden');
+            document.getElementById('calendarEvents').classList.remove('hidden');
+            currentEventMonth = 11;
+            document.getElementById('eventMonth').value = '11';
+            renderMonthCalendar(11);
+            renderEvents();
+        });
+        document.getElementById('eventMonth').addEventListener('change', (e) => {
+            currentEventMonth = parseInt(e.target.value);
+            renderMonthCalendar(currentEventMonth);
+            renderEvents();
+        });
+        document.getElementById('btnAddEvent').addEventListener('click', addEvent);
         document.getElementById('btnPerfil').addEventListener('click', () => showScreen('perfil'));
         document.getElementById('btnLibros').addEventListener('click', () => showScreen('libros'));
         document.getElementById('btnGaleria').addEventListener('click', () => showScreen('galeria'));
