@@ -268,10 +268,55 @@
             <div id="galleryList"></div>
         </div>
 
-        <!-- CALENDARIO (from before) -->
+        <!-- CALENDARIO -->
         <div id="calendario" class="tab-content hidden">
-            <h3 style="color: var(--primary); margin-bottom: 10px;">📅 Eventos</h3>
-            <div id="eventsList"></div>
+            <h3 style="color: var(--primary); margin-bottom: 10px;">📅 Calendario de Embarazo</h3>
+
+            <div style="display: flex; gap: 8px; margin-bottom: 12px;">
+                <button class="category-btn active" id="calViewWeek" onclick="switchCalendarView('week')" style="flex: 1;">📆 Semana</button>
+                <button class="category-btn" id="calViewMonth" onclick="switchCalendarView('month')" style="flex: 1;">🗓️ Mes</button>
+            </div>
+
+            <!-- VISTA SEMANA -->
+            <div id="weekView" style="display: block;">
+                <div style="text-align: center; padding: 12px; background: #FFF5FA; border-radius: 8px; margin-bottom: 12px;">
+                    <div style="font-size: 20px; color: var(--primary); font-weight: 600;">Semana <span id="weekNum">20</span></div>
+                    <div style="font-size: 12px; color: var(--text-light); margin-top: 4px;">de tu embarazo</div>
+                </div>
+
+                <div class="info-card" id="weekSuggestion" style="margin-bottom: 12px; border: none; background: linear-gradient(135deg, #FFF5FA 0%, #fff 100%);"></div>
+
+                <label style="font-size: 12px; color: var(--text-light); display: block; margin-bottom: 8px;">📝 Qué leíste esta semana</label>
+                <textarea id="weekReading" class="textarea-field" placeholder="Ej: Leí sobre desarrollo del bebé..." style="height: 60px; margin-bottom: 10px;"></textarea>
+                <button class="action-btn" onclick="saveWeekReading()" style="margin-bottom: 12px;">💾 Guardar Lectura</button>
+
+                <label style="font-size: 12px; color: var(--text-light); display: block; margin-bottom: 8px;">💭 Notas de la semana</label>
+                <textarea id="weekNotes" class="textarea-field" placeholder="Ej: Cómo me sentí, cambios, etc..." style="height: 60px; margin-bottom: 10px;"></textarea>
+                <button class="action-btn" onclick="saveWeekNotes()" style="margin-bottom: 12px;">💾 Guardar Notas</button>
+
+                <div id="weekReadingDisplay" style="margin-top: 12px;"></div>
+            </div>
+
+            <!-- VISTA MES -->
+            <div id="monthView" style="display: none;">
+                <div style="display: flex; gap: 8px; margin-bottom: 12px; align-items: center;">
+                    <button onclick="prevMonth()" style="padding: 6px 12px; border: 1px solid var(--primary); background: white; color: var(--primary); border-radius: 6px; cursor: pointer;">◀</button>
+                    <div style="flex: 1; text-align: center; color: var(--primary); font-weight: 600;"><span id="monthName">Noviembre</span> 2026</div>
+                    <button onclick="nextMonth()" style="padding: 6px 12px; border: 1px solid var(--primary); background: white; color: var(--primary); border-radius: 6px; cursor: pointer;">▶</button>
+                </div>
+
+                <div id="calendarGrid" style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin-bottom: 12px;"></div>
+
+                <div style="margin-bottom: 12px;">
+                    <label style="font-size: 12px; color: var(--text-light); display: block; margin-bottom: 8px;">➕ Agregar Evento</label>
+                    <input type="date" id="eventDate" class="input-field" style="margin-bottom: 8px;">
+                    <input type="time" id="eventTime" class="input-field" style="margin-bottom: 8px;" placeholder="Hora (opcional)">
+                    <textarea id="eventText" class="textarea-field" placeholder="Ej: Cita médica, comprar algo..." style="height: 60px; margin-bottom: 8px;"></textarea>
+                    <button class="action-btn" onclick="addCalendarEvent()" style="margin-bottom: 0;">➕ Agregar</button>
+                </div>
+
+                <div id="eventsDisplay"></div>
+            </div>
         </div>
 
         <!-- PERFIL -->
@@ -572,7 +617,7 @@
         }
 
         // Initialize
-        document.getElementById('mainSlider').addEventListener('input', (e) => {currentWeek = parseInt(e.target.value); updateUI();});
+        document.getElementById('mainSlider').addEventListener('input', (e) => {currentWeek = parseInt(e.target.value); updateUI(); renderWeekView();});
         document.getElementById('mainSlider').addEventListener('input', (e) => {const w = parseInt(e.target.value); const data = {20: {size: '10cm', dev: 'El bebé escucha sonidos'}}[w] || {size: '10cm', dev: 'Desarrollo'}; document.getElementById('mainSize').textContent = 'Tu bebé mide ' + data.size; document.getElementById('mainDev').textContent = data.dev;});
         document.getElementById('gallerySlider').addEventListener('input', (e) => document.getElementById('galleryWeekNum').textContent = e.target.value);
         // Galería mejorada
@@ -707,6 +752,55 @@
         let pdfLibrary = JSON.parse(localStorage.getItem('pdfLibrary')) || {books: [], currentLanguage: 'es'};
         let currentLanguage = pdfLibrary.currentLanguage || 'es';
 
+        // Calendario
+        let calendarData = JSON.parse(localStorage.getItem('calendarData')) || {events: [], weekReadings: {}, weekNotes: {}};
+        let calendarView = 'week';
+        let currentMonth = new Date().getMonth();
+        let currentYear = new Date().getFullYear();
+
+        const weekSuggestions = {
+            1: '📖 Lee sobre cambios iniciales en tu cuerpo',
+            2: '📖 Aprende sobre alimentación en embarazo',
+            3: '📖 Conoce los cambios de cada trimestre',
+            4: '📖 Prepárate para los primeros síntomas',
+            5: '📖 Lee sobre chequeos prenatales',
+            6: '📖 Descubre ejercicios seguros',
+            7: '📖 Aprende sobre derechos en el embarazo',
+            8: '📖 Planifica el presupuesto del bebé',
+            9: '📖 Lee sobre el plan de parto',
+            10: '📖 Prepárate para el parto',
+            11: '📖 Haz la lista del hospital',
+            12: '📖 Aprende sobre el acompañante en el parto',
+            13: '📖 Prepárate para el posparto',
+            14: '📖 Lee sobre lactancia',
+            15: '📖 Descubre las primeras 6 semanas',
+            16: '📖 Aprende sobre salud emocional posparto',
+            17: '📖 Conoce sobre vacunas del bebé',
+            18: '📖 Lee sobre alimentación del bebé',
+            19: '📖 Planifica el baby shower',
+            20: '📖 Lee el viaje de primeriza',
+            21: '📖 Repasa cambios del bebé',
+            22: '📖 Lee sobre desarrollo mental',
+            23: '📖 Aprende nuevas técnicas de sueño',
+            24: '📖 Lee sobre comunicación con bebé',
+            25: '📖 Descubre actividades para bebé',
+            26: '📖 Lee sobre seguimiento de desarrollo',
+            27: '📖 Aprende sobre alimentación sólida',
+            28: '📖 Lee sobre dentición del bebé',
+            29: '📖 Descubre juegos para bebé',
+            30: '📖 Lee sobre independencia del bebé',
+            31: '📖 Aprende nuevas habilidades',
+            32: '📖 Lee sobre hermanos mayores',
+            33: '📖 Descubre cuidado de piel de bebé',
+            34: '📖 Lee sobre seguridad del bebé',
+            35: '📖 Aprende sobre viajes con bebé',
+            36: '📖 Lee sobre rutinas de bebé',
+            37: '📖 Descubre desarrollo del lenguaje',
+            38: '📖 Lee sobre disciplina gentil',
+            39: '📖 Aprende sobre transiciones',
+            40: '📖 Lee sobre vida después del embarazo'
+        };
+
         // Cargar PDFs al inicializar
         document.getElementById('pdfInput').addEventListener('change', (e) => {
             const file = e.target.files[0];
@@ -779,6 +873,130 @@
         function closePdfViewer() {
             document.getElementById('pdfViewerContainer').classList.remove('active');
             document.getElementById('pdfContent').innerHTML = '';
+        }
+
+        // Funciones Calendario
+        function switchCalendarView(view) {
+            calendarView = view;
+            document.getElementById('weekView').style.display = view === 'week' ? 'block' : 'none';
+            document.getElementById('monthView').style.display = view === 'month' ? 'block' : 'none';
+            document.getElementById('calViewWeek').classList.toggle('active', view === 'week');
+            document.getElementById('calViewMonth').classList.toggle('active', view === 'month');
+            if (view === 'week') renderWeekView();
+            if (view === 'month') renderMonthView();
+        }
+
+        function renderWeekView() {
+            const week = currentWeek;
+            document.getElementById('weekNum').textContent = week;
+
+            const suggestion = weekSuggestions[week] || '📖 Continúa aprendiendo sobre el embarazo';
+            document.getElementById('weekSuggestion').innerHTML = '<div style="color: var(--primary); font-weight: 600; font-size: 13px;">'+suggestion+'</div>';
+
+            const reading = calendarData.weekReadings[week] || '';
+            document.getElementById('weekReading').value = reading;
+
+            const notes = calendarData.weekNotes[week] || '';
+            document.getElementById('weekNotes').value = notes;
+
+            let display = '';
+            if (reading) display += '<div class="info-card"><div class="info-title">📖 Lectura</div><div style="font-size: 12px; color: var(--text); white-space: pre-wrap;">'+reading+'</div></div>';
+            if (notes) display += '<div class="info-card"><div class="info-title">📝 Notas</div><div style="font-size: 12px; color: var(--text); white-space: pre-wrap;">'+notes+'</div></div>';
+            document.getElementById('weekReadingDisplay').innerHTML = display;
+        }
+
+        function saveWeekReading() {
+            const week = currentWeek;
+            const text = document.getElementById('weekReading').value.trim();
+            calendarData.weekReadings[week] = text;
+            localStorage.setItem('calendarData', JSON.stringify(calendarData));
+            showNotification('✅ Lectura guardada');
+            renderWeekView();
+        }
+
+        function saveWeekNotes() {
+            const week = currentWeek;
+            const text = document.getElementById('weekNotes').value.trim();
+            calendarData.weekNotes[week] = text;
+            localStorage.setItem('calendarData', JSON.stringify(calendarData));
+            showNotification('✅ Notas guardadas');
+            renderWeekView();
+        }
+
+        function renderMonthView() {
+            const monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+            document.getElementById('monthName').textContent = monthNames[currentMonth];
+
+            const firstDay = new Date(currentYear, currentMonth, 1).getDay();
+            const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+
+            let calHtml = '<div style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; text-align: center;">';
+            const dayNames = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
+            dayNames.forEach(d => calHtml += '<div style="font-weight: 600; font-size: 11px; padding: 4px; color: var(--primary);">'+d+'</div>');
+
+            for (let i = 0; i < firstDay; i++) calHtml += '<div></div>';
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dateStr = currentYear+'-'+String(currentMonth+1).padStart(2,'0')+'-'+String(day).padStart(2,'0');
+                const hasEvent = calendarData.events.some(e => e.date === dateStr);
+                calHtml += '<div style="padding: 6px; background: '+(hasEvent ? 'var(--primary)' : '#f0f0f0')+'; color: '+(hasEvent ? 'white' : 'var(--text)')+'; border-radius: 4px; font-size: 12px; font-weight: 600; cursor: pointer;" onclick="selectDate(\''+dateStr+'\')" title="'+(hasEvent ? 'Tiene evento' : 'Sin evento')+'">'+day+'</div>';
+            }
+            calHtml += '</div>';
+            document.getElementById('calendarGrid').innerHTML = calHtml;
+
+            renderEventsList();
+        }
+
+        function prevMonth() {
+            currentMonth--;
+            if (currentMonth < 0) {currentMonth = 11; currentYear--;}
+            renderMonthView();
+        }
+
+        function nextMonth() {
+            currentMonth++;
+            if (currentMonth > 11) {currentMonth = 0; currentYear++;}
+            renderMonthView();
+        }
+
+        function selectDate(dateStr) {
+            document.getElementById('eventDate').value = dateStr;
+            document.getElementById('eventText').focus();
+        }
+
+        function addCalendarEvent() {
+            const date = document.getElementById('eventDate').value;
+            const time = document.getElementById('eventTime').value;
+            const text = document.getElementById('eventText').value.trim();
+            if (!date || !text) {alert('Completa fecha y evento'); return;}
+
+            calendarData.events.push({date, time, text, id: Date.now()});
+            localStorage.setItem('calendarData', JSON.stringify(calendarData));
+            document.getElementById('eventDate').value = '';
+            document.getElementById('eventTime').value = '';
+            document.getElementById('eventText').value = '';
+            showNotification('✅ Evento agregado');
+            renderMonthView();
+        }
+
+        function renderEventsList() {
+            const events = calendarData.events.sort((a, b) => a.date.localeCompare(b.date));
+            let html = '<div class="info-card" style="border: none;"><div class="info-title">📌 Próximos eventos</div>';
+            if (events.length === 0) {
+                html += '<div style="font-size: 12px; color: var(--text-light);">Sin eventos</div>';
+            } else {
+                events.slice(0, 5).forEach(e => {
+                    html += '<div style="font-size: 12px; padding: 6px 0; border-bottom: 1px solid #EEE; display: flex; justify-content: space-between; align-items: center;"><div><strong>'+e.date+'</strong> '+(e.time ? e.time : '')+'<br/>'+e.text+'</div><button class="item-delete" style="padding: 2px 6px;" onclick="deleteEvent('+e.id+')">🗑️</button></div>';
+                });
+            }
+            html += '</div>';
+            document.getElementById('eventsDisplay').innerHTML = html;
+        }
+
+        function deleteEvent(id) {
+            calendarData.events = calendarData.events.filter(e => e.id !== id);
+            localStorage.setItem('calendarData', JSON.stringify(calendarData));
+            showNotification('✅ Evento eliminado');
+            renderMonthView();
         }
 
         updateUI();
