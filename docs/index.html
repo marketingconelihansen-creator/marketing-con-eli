@@ -844,30 +844,8 @@
         function openGoogleDrivePdf(fileId, title) {
             document.getElementById('pdfTitle').textContent = title;
             document.getElementById('pdfViewerContainer').classList.add('active');
-            document.getElementById('pdfContent').innerHTML = '<div style="text-align: center; padding: 20px;">Cargando PDF...</div>';
-
-            const pdfUrl = 'https://drive.google.com/uc?export=download&id=' + fileId;
-            fetch(pdfUrl).then(r => r.arrayBuffer()).then(data => {
-                pdfjsLib.getDocument(new Uint8Array(data)).promise.then(pdf => {
-                    document.getElementById('pdfContent').innerHTML = '';
-                    for (let i = 1; i <= Math.min(pdf.numPages, 15); i++) {
-                        pdf.getPage(i).then(page => {
-                            const canvas = document.createElement('canvas');
-                            const ctx = canvas.getContext('2d');
-                            const viewport = page.getViewport({scale: 1.5});
-                            canvas.width = viewport.width;
-                            canvas.height = viewport.height;
-                            page.render({canvasContext: ctx, viewport: viewport}).promise.then(() => {
-                                document.getElementById('pdfContent').appendChild(canvas);
-                            });
-                        });
-                    }
-                }).catch(() => {
-                    document.getElementById('pdfContent').innerHTML = '<div style="text-align: center; padding: 20px; color: red;">Error al abrir PDF</div>';
-                });
-            }).catch(() => {
-                document.getElementById('pdfContent').innerHTML = '<div style="text-align: center; padding: 20px; color: red;">Error al descargar PDF</div>';
-            });
+            const viewUrl = 'https://drive.google.com/file/d/' + fileId + '/preview';
+            document.getElementById('pdfContent').innerHTML = '<iframe src="'+viewUrl+'" style="width: 100%; height: 100%; border: none; border-radius: 8px;" allow="autoplay"></iframe>';
         }
 
         function closePdfViewer() {
