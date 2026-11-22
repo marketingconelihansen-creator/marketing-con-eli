@@ -69,9 +69,12 @@
 </head>
 <body>
     <div class="container">
-        <div id="installPrompt" style="display: none; background: linear-gradient(135deg, #E8A5C4 0%, #D48BB0 100%); color: white; padding: 12px; border-radius: 12px; margin-bottom: 16px; text-align: center;">
+        <div id="installPrompt" style="background: linear-gradient(135deg, #E8A5C4 0%, #D48BB0 100%); color: white; padding: 12px; border-radius: 12px; margin-bottom: 16px; text-align: center;">
             <div style="font-size: 12px; margin-bottom: 8px;">📱 Descargar como app en tu teléfono</div>
             <button id="installBtn" class="action-btn" style="background: white; color: #E8A5C4; margin: 0; font-weight: 600;">⬇️ Instalar Ahora</button>
+            <div style="font-size: 10px; margin-top: 8px; color: rgba(255,255,255,0.9);">
+                🤖 Si no funciona: en tu navegador presiona ⋮ (menú) > Instalar app
+            </div>
         </div>
 
         <div class="header">
@@ -777,30 +780,44 @@
         }, 100);
 
         function savePhotoWithNotes() {
-            if (!pendingPhotoData) return;
+            if (!pendingPhotoData) {showNotification('❌ Sin foto seleccionada'); return;}
             const week = parseInt(document.getElementById('gallerySlider').value);
             if (!galleryData[week]) galleryData[week] = [];
 
             const img = new Image();
+            img.onerror = () => {
+                console.error('Error loading image', pendingPhotoData);
+                showNotification('❌ Error al procesar foto');
+            };
             img.onload = () => {
-                const canvas = document.createElement('canvas');
-                canvas.width = 300;
-                canvas.height = (img.height / img.width) * 300;
-                canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
-                
-                galleryData[week].push({
-                    data: canvas.toDataURL('image/jpeg', 0.5),
-                    date: new Date().toLocaleDateString('es-ES'),
-                    babyNote: document.getElementById('babyNote').value.trim(),
-                    momFeeling: document.getElementById('momFeeling').value.trim()
-                });
-                
-                localStorage.setItem('galleryPhotos', JSON.stringify(galleryData));
-                pendingPhotoData = null;
-                document.getElementById('photoFormContainer').style.display = 'none';
-                showNotification('✅ Foto guardada');
-                renderGalleryPhotos();
-                updateUI();
+                try {
+                    const canvas = document.createElement('canvas');
+                    canvas.width = 300;
+                    canvas.height = (img.height / img.width) * 300;
+                    canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+
+                    const compressed = canvas.toDataURL('image/jpeg', 0.5);
+                    console.log('Photo compressed, size:', compressed.length);
+
+                    galleryData[week].push({
+                        data: compressed,
+                        date: new Date().toLocaleDateString('es-ES'),
+                        babyNote: document.getElementById('babyNote').value.trim(),
+                        momFeeling: document.getElementById('momFeeling').value.trim()
+                    });
+
+                    localStorage.setItem('galleryPhotos', JSON.stringify(galleryData));
+                    console.log('Photo saved to localStorage. Week', week, 'now has', galleryData[week].length, 'photos');
+
+                    pendingPhotoData = null;
+                    document.getElementById('photoFormContainer').style.display = 'none';
+                    showNotification('✅ Foto guardada');
+                    renderGalleryPhotos();
+                    updateUI();
+                } catch (e) {
+                    console.error('Error saving photo:', e);
+                    showNotification('❌ Error al guardar');
+                }
             };
             img.src = pendingPhotoData.data;
         }
