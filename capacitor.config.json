@@ -1,0 +1,13 @@
+{
+  "appId": "com.primerlatido.app",
+  "appName": "Primer Latido",
+  "webDir": "docs",
+  "server": {
+    "androidScheme": "https"
+  },
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 0
+    }
+  }
+}

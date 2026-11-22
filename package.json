@@ -1,6 +1,31 @@
 {
   "dependencies": {
+    "@capacitor/android": "^8.6.2",
+    "@capacitor/cli": "^8.6.2",
+    "@capacitor/core": "^8.6.2",
     "html-pdf": "^3.0.1",
     "pdfkit": "^0.21.0"
-  }
+  },
+  "name": "marketing-con-eli",
+  "version": "1.0.0",
+  "description": "Aplicación móvil (iOS & Android) para acompañar a las mamás durante su embarazo con información semana a semana, recordatorios personalizables y acceso a 20 PDFs completos.",
+  "main": "crear-pdfs.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/marketingconelihansen-creator/marketing-con-eli.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/marketingconelihansen-creator/marketing-con-eli/issues"
+  },
+  "homepage": "https://github.com/marketingconelihansen-creator/marketing-con-eli#readme"
 }
