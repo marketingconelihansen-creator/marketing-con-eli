@@ -391,18 +391,28 @@
             document.getElementById('daysLeft').textContent = daysLeft;
             document.getElementById('weeksLeft').textContent = weeksLeft;
 
-            // Mostrar foto de la semana actual en el inicio
-            const weekPhotos = galleryData[currentWeek] || [];
-            if (weekPhotos.length > 0) {
-                const photo = weekPhotos[0];
-                const photoHtml = photo.type.startsWith('image/')
-                    ? '<img src="'+photo.data+'" style="width: 100%; height: auto; display: block;">'
-                    : '<video src="'+photo.data+'" style="width: 100%; height: auto; display: block;" controls></video>';
-                document.getElementById('mainPhoto').innerHTML = photoHtml;
-                document.getElementById('mainPhotoContainer').style.display = 'block';
-            } else {
-                document.getElementById('mainPhotoContainer').style.display = 'none';
-            }
+            // Mostrar foto de la semana actual en el inicio desde IndexedDB
+            const dbReq = indexedDB.open('PrimerLatidoDB', 1);
+            dbReq.onsuccess = (e) => {
+                const db = e.target.result;
+                const tx = db.transaction('photos', 'readonly');
+                const store = tx.objectStore('photos');
+                const getAll = store.getAll();
+
+                getAll.onsuccess = () => {
+                    const weekPhotos = getAll.result.filter(p => p.week === currentWeek);
+                    if (weekPhotos.length > 0) {
+                        const photo = weekPhotos[0];
+                        const photoHtml = photo.type.startsWith('image/')
+                            ? '<img src="'+photo.photoData+'" style="width: 100%; height: auto; display: block;">'
+                            : '<video src="'+photo.photoData+'" style="width: 100%; height: auto; display: block;" controls></video>';
+                        document.getElementById('mainPhoto').innerHTML = photoHtml;
+                        document.getElementById('mainPhotoContainer').style.display = 'block';
+                    } else {
+                        document.getElementById('mainPhotoContainer').style.display = 'none';
+                    }
+                };
+            };
             document.getElementById('mainSlider').value = currentWeek;
         }
 
@@ -697,52 +707,100 @@
         function savePhotoWithNotes() {
             if (!pendingPhotoData) return;
             const week = parseInt(document.getElementById('gallerySlider').value);
-            if (!galleryData) galleryData = {};
             if (!galleryData[week]) galleryData[week] = [];
             if (galleryData[week].length >= 2) {showNotification('⚠️ Máximo 2 fotos por semana'); return;}
 
             const babyNote = document.getElementById('babyNote').value.trim();
             const momFeeling = document.getElementById('momFeeling').value.trim();
 
-            galleryData[week].push({
-                data: pendingPhotoData.data,
-                type: pendingPhotoData.type,
-                date: new Date().toLocaleDateString('es-ES'),
-                babyNote,
-                momFeeling
-            });
+            // Comprimir imagen si es grande
+            let photoData = pendingPhotoData.data;
+            if (pendingPhotoData.type.startsWith('image/')) {
+                const img = new Image();
+                img.onload = () => {
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    canvas.width = 800;
+                    canvas.height = (img.height / img.width) * 800;
+                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                    photoData = canvas.toDataURL('image/jpeg', 0.7);
 
-            localStorage.setItem('galleryData', JSON.stringify(galleryData));
-            pendingPhotoData = null;
-            document.getElementById('photoFormContainer').style.display = 'none';
-            showNotification('✅ Foto guardada');
-            renderGalleryPhotos();
+                    const photoObj = {
+                        week, photoData, type: 'image/jpeg',
+                        date: new Date().toLocaleDateString('es-ES'),
+                        babyNote, momFeeling
+                    };
+
+                    const dbReq = indexedDB.open('PrimerLatidoDB', 1);
+                    dbReq.onsuccess = (e) => {
+                        const db = e.target.result;
+                        const tx = db.transaction('photos', 'readwrite');
+                        tx.objectStore('photos').add(photoObj);
+                        pendingPhotoData = null;
+                        document.getElementById('photoFormContainer').style.display = 'none';
+                        showNotification('✅ Foto guardada');
+                        renderGalleryPhotos();
+                        updateUI();
+                    };
+                };
+                img.src = pendingPhotoData.data;
+            } else {
+                const photoObj = {
+                    week, photoData,
+                    type: pendingPhotoData.type,
+                    date: new Date().toLocaleDateString('es-ES'),
+                    babyNote, momFeeling
+                };
+
+                const dbReq = indexedDB.open('PrimerLatidoDB', 1);
+                dbReq.onsuccess = (e) => {
+                    const db = e.target.result;
+                    const tx = db.transaction('photos', 'readwrite');
+                    tx.objectStore('photos').add(photoObj);
+                    pendingPhotoData = null;
+                    document.getElementById('photoFormContainer').style.display = 'none';
+                    showNotification('✅ Foto guardada');
+                    renderGalleryPhotos();
+                    updateUI();
+                };
+            }
         }
 
         function renderGalleryPhotos() {
             const week = parseInt(document.getElementById('gallerySlider').value);
-            const photos = galleryData[week] || [];
-            let html = '';
-            photos.forEach((p, i) => {
-                html += '<div class="info-card">';
-                if (p.type.startsWith('image/')) html += '<img src="'+p.data+'" style="width: 100%; border-radius: 8px; margin-bottom: 8px;">';
-                else html += '<video src="'+p.data+'" style="width: 100%; border-radius: 8px; margin-bottom: 8px;" controls></video>';
-                html += '<div style="font-size: 11px; color: var(--text-light); margin-bottom: 8px;">'+p.date+'</div>';
-                if (p.babyNote) html += '<div style="font-size: 12px; color: var(--primary); font-weight: 600; margin-bottom: 4px;">💬 Al bebé:</div><div style="font-size: 12px; color: var(--text); margin-bottom: 8px; white-space: pre-wrap;">'+p.babyNote+'</div>';
-                if (p.momFeeling) html += '<div style="font-size: 12px; color: var(--primary); font-weight: 600; margin-bottom: 4px;">💚 Cómo me siento:</div><div style="font-size: 12px; color: var(--text); margin-bottom: 8px; white-space: pre-wrap;">'+p.momFeeling+'</div>';
-                html += '<button class="item-delete" onclick="deleteGalleryPhoto('+i+')" style="width: 100%;">🗑️ Eliminar</button></div>';
-            });
-            document.getElementById('galleryList').innerHTML = html;
+            const dbReq = indexedDB.open('PrimerLatidoDB', 1);
+            dbReq.onsuccess = (e) => {
+                const db = e.target.result;
+                const tx = db.transaction('photos', 'readonly');
+                const store = tx.objectStore('photos');
+                const getAll = store.getAll();
+
+                getAll.onsuccess = () => {
+                    const allPhotos = getAll.result.filter(p => p.week === week);
+                    let html = '';
+                    allPhotos.forEach((p, i) => {
+                        html += '<div class="info-card">';
+                        if (p.type.startsWith('image/')) html += '<img src="'+p.photoData+'" style="width: 100%; border-radius: 8px; margin-bottom: 8px;">';
+                        else html += '<video src="'+p.photoData+'" style="width: 100%; border-radius: 8px; margin-bottom: 8px;" controls></video>';
+                        html += '<div style="font-size: 11px; color: var(--text-light); margin-bottom: 8px;">'+p.date+'</div>';
+                        if (p.babyNote) html += '<div style="font-size: 12px; color: var(--primary); font-weight: 600; margin-bottom: 4px;">💬 Al bebé:</div><div style="font-size: 12px; color: var(--text); margin-bottom: 8px; white-space: pre-wrap;">'+p.babyNote+'</div>';
+                        if (p.momFeeling) html += '<div style="font-size: 12px; color: var(--primary); font-weight: 600; margin-bottom: 4px;">💚 Cómo me siento:</div><div style="font-size: 12px; color: var(--text); margin-bottom: 8px; white-space: pre-wrap;">'+p.momFeeling+'</div>';
+                        html += '<button class="item-delete" onclick="deleteGalleryPhoto('+p.id+')" style="width: 100%;">🗑️ Eliminar</button></div>';
+                    });
+                    document.getElementById('galleryList').innerHTML = html;
+                };
+            };
         }
 
-        function deleteGalleryPhoto(i) {
-            const week = parseInt(document.getElementById('gallerySlider').value);
-            if (galleryData[week]) {
-                galleryData[week].splice(i, 1);
-                localStorage.setItem('galleryData', JSON.stringify(galleryData));
+        function deleteGalleryPhoto(photoId) {
+            const dbReq = indexedDB.open('PrimerLatidoDB', 1);
+            dbReq.onsuccess = (e) => {
+                const db = e.target.result;
+                const tx = db.transaction('photos', 'readwrite');
+                tx.objectStore('photos').delete(photoId);
                 renderGalleryPhotos();
                 showNotification('✅ Foto eliminada');
-            }
+            };
         }
 
         function showNotification(message) {
@@ -754,7 +812,16 @@
         }
 
         // Variables globales
-        let galleryData = JSON.parse(localStorage.getItem('galleryData')) || {};
+        let galleryData = {};
+
+        // Inicializar IndexedDB para fotos
+        const dbRequest = indexedDB.open('PrimerLatidoDB', 1);
+        dbRequest.onupgradeneeded = (e) => {
+            const db = e.target.result;
+            if (!db.objectStoreNames.contains('photos')) {
+                db.createObjectStore('photos', { keyPath: 'id', autoIncrement: true });
+            }
+        };
 
         // Biblioteca - PDFs desde Google Drive
         const pdfsBibles = {
