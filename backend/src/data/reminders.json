@@ -1,0 +1,161 @@
+{
+  "reminders": [
+    {
+      "id": "water",
+      "category": "health",
+      "titleEs": "Toma agua",
+      "titleEn": "Drink water",
+      "descriptionEs": "Intenta tomar 2-3 litros de agua hoy",
+      "descriptionEn": "Try to drink 2-3 liters of water today",
+      "enabled": true,
+      "time": "08:00",
+      "frequency": "daily",
+      "trimesterRelevance": [1, 2, 3]
+    },
+    {
+      "id": "vitamins",
+      "category": "health",
+      "titleEs": "Toma tus vitaminas",
+      "titleEn": "Take your vitamins",
+      "descriptionEs": "No olvides tus vitaminas prenatales",
+      "descriptionEn": "Don't forget your prenatal vitamins",
+      "enabled": true,
+      "time": "09:00",
+      "frequency": "daily",
+      "trimesterRelevance": [1, 2, 3]
+    },
+    {
+      "id": "walk",
+      "category": "exercise",
+      "titleEs": "Tiempo de caminar",
+      "titleEn": "Time to walk",
+      "descriptionEs": "Intenta caminar 30 minutos hoy",
+      "descriptionEn": "Try to walk 30 minutes today",
+      "enabled": true,
+      "time": "17:00",
+      "frequency": "daily",
+      "trimesterRelevance": [2, 3]
+    },
+    {
+      "id": "healthy_snack",
+      "category": "nutrition",
+      "titleEs": "Colación saludable",
+      "titleEn": "Healthy snack",
+      "descriptionEs": "Come algo nutritivo entre comidas",
+      "descriptionEn": "Eat something nutritious between meals",
+      "enabled": true,
+      "time": "15:00",
+      "frequency": "daily",
+      "trimesterRelevance": [1, 2, 3]
+    },
+    {
+      "id": "rest",
+      "category": "wellness",
+      "titleEs": "Tiempo de descanso",
+      "titleEn": "Rest time",
+      "descriptionEs": "Descansa un poco durante el día",
+      "descriptionEn": "Take some rest during the day",
+      "enabled": true,
+      "time": "14:00",
+      "frequency": "daily",
+      "trimesterRelevance": [1, 2, 3]
+    },
+    {
+      "id": "leg_elevation",
+      "category": "wellness",
+      "titleEs": "Eleva las piernas",
+      "titleEn": "Elevate your legs",
+      "descriptionEs": "Eleva las piernas por 30 min para reducir hinchazón",
+      "descriptionEn": "Elevate your legs for 30 min to reduce swelling",
+      "enabled": false,
+      "time": "18:00",
+      "frequency": "daily",
+      "trimesterRelevance": [2, 3]
+    },
+    {
+      "id": "fetal_movement",
+      "category": "health",
+      "titleEs": "Recuenta movimientos",
+      "titleEn": "Count movements",
+      "descriptionEs": "Monitorea los movimientos de tu bebé",
+      "descriptionEn": "Monitor your baby's movements",
+      "enabled": false,
+      "time": "20:00",
+      "frequency": "daily",
+      "trimesterRelevance": [3],
+      "startWeek": 28
+    },
+    {
+      "id": "meditation",
+      "category": "wellness",
+      "titleEs": "Meditación",
+      "titleEn": "Meditation",
+      "descriptionEs": "Dedica 10 minutos a meditación o relajación",
+      "descriptionEn": "Spend 10 minutes on meditation or relaxation",
+      "enabled": false,
+      "time": "12:00",
+      "frequency": "daily",
+      "trimesterRelevance": [1, 2, 3]
+    },
+    {
+      "id": "meal_planning",
+      "category": "nutrition",
+      "titleEs": "Planea tus comidas",
+      "titleEn": "Plan your meals",
+      "descriptionEs": "Planifica comidas balanceadas para el día",
+      "descriptionEn": "Plan balanced meals for the day",
+      "enabled": false,
+      "time": "10:00",
+      "frequency": "daily",
+      "trimesterRelevance": [1, 2, 3]
+    },
+    {
+      "id": "posture_check",
+      "category": "wellness",
+      "titleEs": "Revisa tu postura",
+      "titleEn": "Check your posture",
+      "descriptionEs": "Mantén buena postura para cuidar tu espalda",
+      "descriptionEn": "Maintain good posture to protect your back",
+      "enabled": false,
+      "time": "11:00",
+      "frequency": "daily",
+      "trimesterRelevance": [2, 3]
+    },
+    {
+      "id": "stretching",
+      "category": "exercise",
+      "titleEs": "Estiramientos",
+      "titleEn": "Stretching",
+      "descriptionEs": "Realiza suaves estiramientos para relajarte",
+      "descriptionEn": "Do gentle stretches to relax",
+      "enabled": false,
+      "time": "19:00",
+      "frequency": "daily",
+      "trimesterRelevance": [2, 3]
+    },
+    {
+      "id": "control_scheduling",
+      "category": "health",
+      "titleEs": "Agenda tu control",
+      "titleEn": "Schedule your checkup",
+      "descriptionEs": "No olvides agendar tu próximo control prenatal",
+      "descriptionEn": "Don't forget to schedule your next prenatal checkup",
+      "enabled": false,
+      "time": "13:00",
+      "frequency": "weekly",
+      "trimesterRelevance": [1, 2, 3]
+    },
+    {
+      "id": "sleep_hygiene",
+      "category": "wellness",
+      "titleEs": "Buena higiene del sueño",
+      "titleEn": "Good sleep hygiene",
+      "descriptionEs": "Duerme 7-9 horas cada noche",
+      "descriptionEn": "Sleep 7-9 hours each night",
+      "enabled": false,
+      "time": "22:00",
+      "frequency": "daily",
+      "trimesterRelevance": [1, 2, 3]
+    }
+  ]
+}

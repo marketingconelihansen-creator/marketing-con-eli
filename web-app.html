@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Primer Latido - App para Mamás</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #E8A5C4 0%, #C8956B 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 450px;
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #E8A5C4 0%, #D48BB0 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+
+        .title {
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            opacity: 0.95;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .week-selector {
+            margin-bottom: 25px;
+        }
+
+        .week-label {
+            font-size: 13px;
+            color: #999;
+            text-transform: uppercase;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .week-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #E8A5C4;
+            border-radius: 12px;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .week-input:focus {
+            outline: none;
+            border-color: #D48BB0;
+            background: #FFF5FA;
+        }
+
+        .week-display {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .stat-card {
+            background: #F5F5F5;
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #999;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #E8A5C4;
+        }
+
+        .week-info {
+            background: #FFF5FA;
+            border-left: 4px solid #E8A5C4;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .info-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .info-content {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .info-content strong {
+            color: #E8A5C4;
+        }
+
+        .navigation {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+            margin-top: 25px;
+        }
+
+        .nav-button {
+            background: linear-gradient(135deg, #E8A5C4 0%, #D48BB0 100%);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .nav-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 15px rgba(232, 165, 196, 0.3);
+        }
+
+        .nav-button:active {
+            transform: translateY(0);
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 12px;
+            color: #999;
+            border-top: 1px solid #EEE;
+        }
+
+        .footer-link {
+            color: #E8A5C4;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .emoji {
+            display: inline-block;
+            margin: 0 5px;
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                padding: 30px 20px;
+            }
+
+            .title {
+                font-size: 24px;
+            }
+
+            .content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">❤️</div>
+            <div class="title">Primer Latido</div>
+            <div class="subtitle">Tu compañero en el embarazo</div>
+        </div>
+
+        <div class="content">
+            <div class="week-selector">
+                <label class="week-label">Selecciona tu semana</label>
+                <input type="range" class="week-input" id="weekSlider" min="1" max="40" value="20">
+            </div>
+
+            <div class="week-display">
+                <div class="stat-card">
+                    <div class="stat-label">Semana</div>
+                    <div class="stat-value" id="weekNumber">20</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Días restantes</div>
+                    <div class="stat-value" id="daysLeft">140</div>
+                </div>
+            </div>
+
+            <div class="week-info">
+                <div class="info-title">📏 Tamaño del Bebé</div>
+                <div class="info-content" id="babySize">
+                    Tu bebé mide aproximadamente <strong>10 cm</strong> y pesa unos <strong>300 g</strong>
+                </div>
+            </div>
+
+            <div class="week-info">
+                <div class="info-title">👶 Desarrollo esta Semana</div>
+                <div class="info-content" id="development">
+                    Los órganos continúan desarrollándose. El bebé puede escuchar sonidos ahora.
+                </div>
+            </div>
+
+            <div class="week-info">
+                <div class="info-title">💚 Cambios en Ti</div>
+                <div class="info-content" id="motherChanges">
+                    Podrías sentir más energía. Algunos cambios en la piel son normales.
+                </div>
+            </div>
+
+            <div class="week-info">
+                <div class="info-title">⚠️ Síntomas Normales</div>
+                <div class="info-content" id="normalSymptoms">
+                    Fatiga, mareos ocasionales, hinchazón en las piernas.
+                </div>
+            </div>
+
+            <div class="navigation">
+                <button class="nav-button" onclick="previousWeek()">← Anterior</button>
+                <button class="nav-button" onclick="goHome()">📱 Inicio</button>
+                <button class="nav-button" onclick="nextWeek()">Siguiente →</button>
+            </div>
+
+            <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid #EEE;">
+                <button class="nav-button" style="width: 100%; margin-bottom: 10px;">📄 Ver PDFs</button>
+                <button class="nav-button" style="width: 100%; margin-bottom: 10px;">💊 Recordatorios</button>
+                <button class="nav-button" style="width: 100%; margin-bottom: 10px;">📸 Mi Galería</button>
+                <button class="nav-button" style="width: 100%;">⚙️ Configuración</button>
+            </div>
+        </div>
+
+        <div class="footer">
+            ❤️ Hecho con amor para las mamás <br>
+            Versión Web 1.0 • <a href="#" class="footer-link">Descargar APK</a>
+        </div>
+    </div>
+
+    <script>
+        const weekData = {
+            1: { size: "2mm", weight: "0g", comparison: "Semilla de amapola", development: "Comienza la fertilización. El óvulo se divide.", motherChanges: "Podrías no sentir nada todavía.", normal: "Cambios de humor leves." },
+            5: { size: "7mm", weight: "2g", comparison: "Semilla de girasol", development: "El corazón comenzó a latir.", motherChanges: "Sensibilidad en los pechos.", normal: "Náuseas matutinas." },
+            10: { size: "3cm", weight: "4g", comparison: "Fresa", development: "Se forman los órganos principales.", motherChanges: "Fatiga extrema.", normal: "Cambios de apetito." },
+            13: { size: "7cm", weight: "23g", comparison: "Melocotón pequeño", development: "El bebé puede mover sus brazos y piernas.", motherChanges: "Energía creciente.", normal: "Mareos ocasionales." },
+            20: { size: "10cm", weight: "300g", comparison: "Plátano", development: "El bebé puede escuchar sonidos.", motherChanges: "Más energía.", normal: "Fatiga, hinchazón." },
+            26: { size: "35cm", weight: "760g", comparison: "Lechuga", development: "Los pulmones se preparan para respirar.", motherChanges: "Movimiento más visible.", normal: "Dolor de espalda." },
+            30: { size: "39cm", weight: "1300g", comparison: "Coliflor", development: "El cerebro se desarrolla rápidamente.", motherChanges: "Dificultad para dormir.", normal: "Calambres en las piernas." },
+            36: { size: "47cm", weight: "2500g", comparison: "Melón pequeño", development: "El bebé se posiciona para el parto.", motherChanges: "Más cansancio.", normal: "Contracciones falsas." },
+            40: { size: "51cm", weight: "3400g", comparison: "Sandía pequeña", development: "El bebé está listo para nacer.", motherChanges: "Ansiedad y emoción.", normal: "Pueden comenzar las contracciones." }
+        };
+
+        const slider = document.getElementById('weekSlider');
+
+        function getWeekData(week) {
+            const weeks = Object.keys(weekData).map(Number).sort((a,b) => a-b);
+            let closest = weeks[0];
+            for (let w of weeks) {
+                if (w > week) break;
+                closest = w;
+            }
+            return weekData[closest];
+        }
+
+        function updateWeek() {
+            const week = parseInt(slider.value);
+            const data = getWeekData(week);
+            const daysLeft = (40 - week) * 7;
+
+            document.getElementById('weekNumber').textContent = week;
+            document.getElementById('daysLeft').textContent = daysLeft;
+            document.getElementById('babySize').innerHTML = `Tu bebé mide aproximadamente <strong>${data.size}</strong> y pesa unos <strong>${data.weight}</strong> (como una <strong>${data.comparison}</strong>)`;
+            document.getElementById('development').textContent = data.development;
+            document.getElementById('motherChanges').textContent = data.motherChanges;
+            document.getElementById('normalSymptoms').textContent = data.normal;
+        }
+
+        function previousWeek() {
+            slider.value = Math.max(1, parseInt(slider.value) - 1);
+            updateWeek();
+        }
+
+        function nextWeek() {
+            slider.value = Math.min(40, parseInt(slider.value) + 1);
+            updateWeek();
+        }
+
+        function goHome() {
+            slider.value = 1;
+            updateWeek();
+        }
+
+        slider.addEventListener('input', updateWeek);
+        updateWeek();
+    </script>
+</body>
+</html>

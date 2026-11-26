@@ -1,0 +1,164 @@
+{
+  "es": {
+    "app": {
+      "name": "Primer Latido",
+      "tagline": "Recursos para mamás primerizas"
+    },
+    "tabs": {
+      "home": "Inicio",
+      "week": "Mi Semana",
+      "pdfs": "Recursos",
+      "reminders": "Recordatorios",
+      "profile": "Perfil"
+    },
+    "home": {
+      "greeting": "¡Hola mamá!",
+      "currentWeek": "Semana actual",
+      "babySize": "Tamaño del bebé",
+      "daysToGo": "días por venir",
+      "startDate": "Fecha probable de parto",
+      "calculator": "Calculadora FPP",
+      "symptoms": "Síntomas comunes",
+      "normalSymptoms": "Síntomas normales",
+      "warningSymptoms": "Síntomas de alerta"
+    },
+    "week": {
+      "title": "Tu bebé esta semana",
+      "babyDevelopment": "Desarrollo del bebé",
+      "motherChanges": "Cambios en tu cuerpo",
+      "tips": "Consejos",
+      "normalization": "Síntomas comunes"
+    },
+    "pdfs": {
+      "title": "Recursos",
+      "search": "Buscar recursos...",
+      "categories": {
+        "getting-started": "Primeros pasos",
+        "medical": "Salud médica",
+        "wellness": "Bienestar",
+        "birth": "Parto",
+        "postpartum": "Posparto",
+        "admin": "Administración",
+        "community": "Comunidad"
+      }
+    },
+    "reminders": {
+      "title": "Mis Recordatorios",
+      "enabled": "Activados",
+      "disabled": "Desactivados",
+      "selectReminders": "Selecciona tus recordatorios",
+      "noReminders": "Sin recordatorios activados",
+      "setTime": "Hora"
+    },
+    "profile": {
+      "title": "Mi Perfil",
+      "dueDate": "Fecha probable de parto",
+      "weeksPregnant": "Semanas de embarazo",
+      "language": "Idioma",
+      "notifications": "Notificaciones",
+      "settings": "Configuración",
+      "about": "Acerca de Primer Latido",
+      "logout": "Cerrar sesión"
+    },
+    "calculator": {
+      "title": "Calculadora FPP",
+      "lastMenstruation": "Fecha de última menstruación",
+      "calculate": "Calcular",
+      "result": "Tu fecha probable de parto es:",
+      "weeksLeft": "Semanas por venir"
+    },
+    "common": {
+      "back": "Atrás",
+      "close": "Cerrar",
+      "save": "Guardar",
+      "cancel": "Cancelar",
+      "edit": "Editar",
+      "delete": "Eliminar",
+      "search": "Buscar",
+      "loading": "Cargando...",
+      "error": "Algo salió mal",
+      "tryAgain": "Intentar de nuevo"
+    }
+  },
+  "en": {
+    "app": {
+      "name": "First Heartbeat",
+      "tagline": "Resources for first-time moms"
+    },
+    "tabs": {
+      "home": "Home",
+      "week": "My Week",
+      "pdfs": "Resources",
+      "reminders": "Reminders",
+      "profile": "Profile"
+    },
+    "home": {
+      "greeting": "Hello mom!",
+      "currentWeek": "Current week",
+      "babySize": "Baby size",
+      "daysToGo": "days to go",
+      "startDate": "Expected due date",
+      "calculator": "Due Date Calculator",
+      "symptoms": "Common symptoms",
+      "normalSymptoms": "Normal symptoms",
+      "warningSymptoms": "Warning symptoms"
+    },
+    "week": {
+      "title": "Your baby this week",
+      "babyDevelopment": "Baby's development",
+      "motherChanges": "Changes in your body",
+      "tips": "Tips",
+      "normalization": "Common symptoms"
+    },
+    "pdfs": {
+      "title": "Resources",
+      "search": "Search resources...",
+      "categories": {
+        "getting-started": "Getting Started",
+        "medical": "Medical",
+        "wellness": "Wellness",
+        "birth": "Birth",
+        "postpartum": "Postpartum",
+        "admin": "Administration",
+        "community": "Community"
+      }
+    },
+    "reminders": {
+      "title": "My Reminders",
+      "enabled": "Active",
+      "disabled": "Inactive",
+      "selectReminders": "Select your reminders",
+      "noReminders": "No reminders active",
+      "setTime": "Time"
+    },
+    "profile": {
+      "title": "My Profile",
+      "dueDate": "Expected due date",
+      "weeksPregnant": "Weeks pregnant",
+      "language": "Language",
+      "notifications": "Notifications",
+      "settings": "Settings",
+      "about": "About First Heartbeat",
+      "logout": "Log out"
+    },
+    "calculator": {
+      "title": "Due Date Calculator",
+      "lastMenstruation": "Last menstruation date",
+      "calculate": "Calculate",
+      "result": "Your expected due date is:",
+      "weeksLeft": "Weeks to go"
+    },
+    "common": {
+      "back": "Back",
+      "close": "Close",
+      "save": "Save",
+      "cancel": "Cancel",
+      "edit": "Edit",
+      "delete": "Delete",
+      "search": "Search",
+      "loading": "Loading...",
+      "error": "Something went wrong",
+      "tryAgain": "Try again"
+    }
+  }
+}

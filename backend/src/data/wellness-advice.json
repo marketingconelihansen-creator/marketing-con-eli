@@ -1,0 +1,300 @@
+{
+  "wellnessAdvice": {
+    "es": {
+      "1": {
+        "week": 1,
+        "advice": [
+          {
+            "title": "Cómo sentirse",
+            "content": "Podrías no sentir nada todavía. Es normal. Algunas mamás reportan cambios de humor leves o cansancio."
+          },
+          {
+            "title": "Náuseas",
+            "content": "Aún es temprano. Si hay náuseas, come pequeñas porciones, evita olores fuertes y mantente hidratada."
+          },
+          {
+            "title": "Descanso",
+            "content": "Tu cuerpo está trabajando duro. Duerme 7-9 horas cada noche. La siesta está permitida."
+          },
+          {
+            "title": "Ejercicio",
+            "content": "Caminar 30 min es perfecto. No hagas ejercicios nuevos sin consultar."
+          }
+        ],
+        "relatedPDFs": [1, 4]
+      },
+      "2": {
+        "week": 2,
+        "advice": [
+          {
+            "title": "Cómo sentirte",
+            "content": "Tu cuerpo comienza cambios. Podrías sentir pechos sensibles o cambios de humor."
+          },
+          {
+            "title": "Náuseas matutinas",
+            "content": "Come galletas saladas antes de levantarte. Jengibre y limón ayudan. Come cada 2-3 horas."
+          },
+          {
+            "title": "Fatiga",
+            "content": "Es normal estar muy cansada. Tu cuerpo produce más progesterona. Descansa todo lo que puedas."
+          },
+          {
+            "title": "Nutrición",
+            "content": "Comienza a tomar ácido fólico (400-800 mcg). Come proteínas en cada comida."
+          }
+        ],
+        "relatedPDFs": [1, 4, 5]
+      },
+      "3": {
+        "week": 3,
+        "advice": [
+          {
+            "title": "Cambios emocionales",
+            "content": "Los cambios hormonales pueden hacerte llorar fácilmente. Es completamente normal."
+          },
+          {
+            "title": "Aversiones alimentarias",
+            "content": "Es normal rechazar alimentos que antes te encantaban. Come lo que te atrae."
+          },
+          {
+            "title": "Descanso",
+            "content": "Prioriza dormir. El cansancio es señal de que necesitas descanso."
+          },
+          {
+            "title": "Stress",
+            "content": "Respira profundo. Meditación de 10 min diarios ayuda mucho."
+          }
+        ],
+        "relatedPDFs": [4, 5, 6]
+      },
+      "4": {
+        "week": 4,
+        "advice": [
+          {
+            "title": "Confirma tu embarazo",
+            "content": "Haz un test casero o ve al doctor. Tu sangre contiene hCG."
+          },
+          {
+            "title": "Cuidados iniciales",
+            "content": "Evita alcohol, tabaco y medicamentos sin consultar. Vitaminas prenatales ahora."
+          },
+          {
+            "title": "Náuseas",
+            "content": "Si vomitas mucho, toma líquidos cada 15 min. Agua con electrolitos es ideal."
+          },
+          {
+            "title": "Ejercicio",
+            "content": "Camina, nada o haz yoga prenatal. 30 min 5 días a la semana."
+          }
+        ],
+        "relatedPDFs": [1, 2, 4, 5]
+      },
+      "5": {
+        "week": 5,
+        "advice": [
+          {
+            "title": "Pechos sensibles",
+            "content": "Usa sujetador cómodo y sin armadura. Aplica compresas frías si duele."
+          },
+          {
+            "title": "Fatiga extrema",
+            "content": "Es normal dormir más. Tu metabolismo cambió. Descansa sin culpa."
+          },
+          {
+            "title": "Comidas frecuentes",
+            "content": "Come cada 2-3 horas en porciones pequeñas. Mantén snacks saludables a mano."
+          },
+          {
+            "title": "Viajes",
+            "content": "Es seguro viajar. Levántate cada 2 horas si viajas en auto. Hidratación constante."
+          }
+        ],
+        "relatedPDFs": [4, 6]
+      }
+    },
+    "en": {
+      "1": {
+        "week": 1,
+        "advice": [
+          {
+            "title": "How to feel",
+            "content": "You might not feel anything yet. It's normal. Some moms report mild mood changes or fatigue."
+          },
+          {
+            "title": "Nausea",
+            "content": "It's too early. If nausea occurs, eat small portions, avoid strong smells and stay hydrated."
+          },
+          {
+            "title": "Rest",
+            "content": "Your body is working hard. Sleep 7-9 hours each night. Naps are allowed."
+          },
+          {
+            "title": "Exercise",
+            "content": "Walking 30 min is perfect. Don't start new exercises without consulting."
+          }
+        ],
+        "relatedPDFs": [1, 4]
+      }
+    }
+  },
+  "medications": {
+    "es": [
+      {
+        "id": "folate",
+        "name": "Ácido Fólico",
+        "dose": "400-800 mcg diarios",
+        "purpose": "Previene defectos del tubo neural",
+        "startWeek": 1,
+        "notes": "Tómalo antes de quedar embarazada si es posible"
+      },
+      {
+        "id": "iron",
+        "name": "Hierro",
+        "dose": "27 mg diarios",
+        "purpose": "Previene anemia",
+        "startWeek": 12,
+        "notes": "Tómalo con jugo de naranja. Puede causar estreñimiento."
+      },
+      {
+        "id": "calcium",
+        "name": "Calcio",
+        "dose": "1000 mg diarios",
+        "purpose": "Salud ósea del bebé",
+        "startWeek": 1,
+        "notes": "Lácteos, almendras o suplementos"
+      },
+      {
+        "id": "vitaminD",
+        "name": "Vitamina D",
+        "dose": "600-800 IU diarios",
+        "purpose": "Absorción de calcio",
+        "startWeek": 1,
+        "notes": "Sol 15-20 min diarios también ayuda"
+      }
+    ],
+    "en": [
+      {
+        "id": "folate",
+        "name": "Folic Acid",
+        "dose": "400-800 mcg daily",
+        "purpose": "Prevents neural tube defects",
+        "startWeek": 1,
+        "notes": "Take it before pregnancy if possible"
+      },
+      {
+        "id": "iron",
+        "name": "Iron",
+        "dose": "27 mg daily",
+        "purpose": "Prevents anemia",
+        "startWeek": 12,
+        "notes": "Take with orange juice. May cause constipation."
+      },
+      {
+        "id": "calcium",
+        "name": "Calcium",
+        "dose": "1000 mg daily",
+        "purpose": "Baby's bone health",
+        "startWeek": 1,
+        "notes": "Dairy, almonds or supplements"
+      },
+      {
+        "id": "vitaminD",
+        "name": "Vitamin D",
+        "dose": "600-800 IU daily",
+        "purpose": "Calcium absorption",
+        "startWeek": 1,
+        "notes": "Sun 15-20 min daily also helps"
+      }
+    ]
+  },
+  "symptomManagement": {
+    "es": {
+      "nausea": {
+        "title": "Náuseas",
+        "tips": [
+          "Come galletas saladas al despertar",
+          "Jengibre: té o caramelos",
+          "Limón: en agua o aromático",
+          "Comidas pequeñas cada 2-3 horas",
+          "Evita olores fuertes",
+          "Duerme más",
+          "Hielo para chupar"
+        ]
+      },
+      "fatigue": {
+        "title": "Cansancio",
+        "tips": [
+          "Duerme 7-9 horas",
+          "Siestas de 20-30 min",
+          "Hierro: consulta si está bajo",
+          "Proteínas en cada comida",
+          "Ejercicio moderado (30 min)",
+          "Reduce stress",
+          "Pide ayuda"
+        ]
+      },
+      "moodChanges": {
+        "title": "Cambios de ánimo",
+        "tips": [
+          "Es normal por hormonas",
+          "Meditación diaria",
+          "Hablá con alguien de confianza",
+          "Ejercicio: caminar, yoga",
+          "Suficiente descanso",
+          "Vitaminas (especialmente B6)",
+          "Si es severo, consulta psicólogo"
+        ]
+      },
+      "backPain": {
+        "title": "Dolor de espalda",
+        "tips": [
+          "Buena postura siempre",
+          "Almohadas de embarazo",
+          "Compresas calientes",
+          "Stretching suave",
+          "Masajes prenatal",
+          "No levantes cosas pesadas",
+          "Zapatos cómodos"
+        ]
+      },
+      "swelling": {
+        "title": "Hinchazón",
+        "tips": [
+          "Eleva las piernas 30 min",
+          "Sal moderada",
+          "Mucho agua",
+          "Camina para circulación",
+          "Compresión en tobillos",
+          "Evita estar de pie mucho",
+          "Consulta si es extrema"
+        ]
+      }
+    },
+    "en": {
+      "nausea": {
+        "title": "Nausea",
+        "tips": [
+          "Eat salty crackers upon waking",
+          "Ginger: tea or candy",
+          "Lemon: in water or aromatic",
+          "Small meals every 2-3 hours",
+          "Avoid strong smells",
+          "Sleep more",
+          "Suck on ice"
+        ]
+      },
+      "fatigue": {
+        "title": "Fatigue",
+        "tips": [
+          "Sleep 7-9 hours",
+          "Naps of 20-30 min",
+          "Iron: check if low",
+          "Protein with each meal",
+          "Moderate exercise (30 min)",
+          "Reduce stress",
+          "Ask for help"
+        ]
+      }
+    }
+  }
+}
